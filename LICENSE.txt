@@ -1,1 +1,0 @@
-Just used to learn git version control system.
