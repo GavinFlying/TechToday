@@ -33,6 +33,8 @@
 //        cell.layer.shadowColor = [[UIColor blackColor] CGColor];
 //        cell.layer.shadowOffset = CGSizeMake(1, 2);
 //        cell.layer.shadowOpacity = 0.4;
+        cell.selectedBackgroundView = [[UIView alloc] initWithFrame:cell.frame];
+        cell.selectedBackgroundView.backgroundColor = CLFRemindButtonBackgroundColor;
     }
     return cell;
 }
@@ -84,7 +86,7 @@
     
     if (article.isRead) {
         self.titleLabel.textColor = [UIColor lightGrayColor];
-        self.titleLabel.nightTextColor = CLFNightTextColor;
+        self.titleLabel.nightTextColor = CLFNightTextReadColor;
     } else {
         self.titleLabel.textColor = [UIColor blackColor];
         self.titleLabel.nightTextColor = CLFNightTextColor;

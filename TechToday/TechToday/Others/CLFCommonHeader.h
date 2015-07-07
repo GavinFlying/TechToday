@@ -15,6 +15,9 @@
 #define CLFArticleCellInnerBorder (7)
 #define CLFImageWidthToHeightRatio (0.5)
 
+#define CLFRemindButtonBackgroundColor [UIColor colorWithRed:240 / 255.0 green:240 / 255.0 blue:255 / 255.0 alpha:1.0]
+#define CLFHomeViewBackgroundColor [UIColor colorWithRed:226 / 255.0 green:226 / 255.0 blue:236 / 255.0 alpha:1.0]
+
 #define CLFArticleTitleViewHeight (120)
 
 #define CLFArticleDetailButtomViewHeight (120)
@@ -29,8 +32,10 @@
 #define CLFArticleCellToBorderMargin (7)
 
 #define CLFNightBarColor [UIColor colorWithRed:40 / 255.0 green:40 / 255.0 blue:40 / 255.0 alpha:100]
-#define CLFNightViewColor [UIColor colorWithRed:65 / 255.0 green:65 / 255.0 blue:65 / 255.0 alpha:100]
+#define CLFNightCellColor [UIColor colorWithRed:75 / 255.0 green:75 / 255.0 blue:75 / 255.0 alpha:100]
+#define CLFNightViewColor [UIColor colorWithRed:60 / 255.0 green:60 / 255.0 blue:60 / 255.0 alpha:100]
 #define CLFNightTextColor [UIColor colorWithRed:140 / 255.0 green:140 / 255.0 blue:140 / 255.0 alpha:100]
+#define CLFNightTextReadColor [UIColor colorWithRed:100 / 255.0 green:100 / 255.0 blue:100 / 255.0 alpha:100]
 
 #define CLFSettingCellHeight (60)
 #define CLFSettingHeaderHeight (50)

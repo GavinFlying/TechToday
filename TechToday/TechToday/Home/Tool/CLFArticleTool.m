@@ -28,7 +28,6 @@
         }
     } else {
         NSString *URL = [NSString stringWithFormat:@"http://jinri.info/index.php/DaiAppApi/%@", URLAppendage];
-        
         [CLFHttpTool getWithURL:URL params:params success:^(id responseObject) {
             NSDictionary *msg = responseObject[@"msg"];
             NSMutableArray *articlesArray = [NSMutableArray array];

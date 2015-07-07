@@ -125,7 +125,7 @@
     UIButton *remindButton = [[UIButton alloc] init];
     [self.navigationController.view insertSubview:remindButton belowSubview:self.navigationController.navigationBar];
     remindButton.userInteractionEnabled = NO;
-    remindButton.backgroundColor = [UIColor colorWithRed:240 / 255.0 green:240 / 255.0 blue:255 / 255.0 alpha:1.0];
+    remindButton.backgroundColor = CLFRemindButtonBackgroundColor;
     remindButton.nightBackgroundColor = CLFNightTextColor;
     remindButton.titleLabel.font = [UIFont systemFontOfSize:14];
     [remindButton setTitleColor:CLFUIMainColor forState:UIControlStateNormal];
@@ -138,7 +138,7 @@
     remindButton.frame = CGRectMake(remindButtonX, remindButtonY, remindButtonW, remindButtonH);
     self.theNewArticleRemindButton = remindButton;
     
-    self.tableView.backgroundColor = [UIColor colorWithRed:226 / 255.0 green:226 / 255.0 blue:236 / 255.0 alpha:1.0];
+    self.tableView.backgroundColor = CLFHomeViewBackgroundColor;
     self.tableView.nightBackgroundColor = CLFNightViewColor;
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.tableView.contentInset = UIEdgeInsetsMake(0, 0, CLFArticleCellToBorderMargin, 0);
@@ -264,7 +264,7 @@
         CLFArticleFrame *articleFrame = self.articleFrames[indexPath.row];
         cell.articleFrame = articleFrame;
         cell.backgroundColor = [UIColor whiteColor];
-        cell.nightBackgroundColor = CLFNightViewColor;
+        cell.nightBackgroundColor = CLFNightCellColor;
         if ([DKNightVersionManager currentThemeVersion] == DKThemeVersionNight) {
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
         } else {

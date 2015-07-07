@@ -73,7 +73,7 @@
     
     if (article.isRead) {
         self.titleLabel.textColor = [UIColor lightGrayColor];
-        self.titleLabel.nightTextColor = CLFNightTextColor;
+        self.titleLabel.nightTextColor = CLFNightTextReadColor;
     } else {
         self.titleLabel.textColor = [UIColor blackColor];
         self.titleLabel.nightTextColor = CLFNightTextColor;
