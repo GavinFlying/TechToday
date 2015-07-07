@@ -1,9 +1,9 @@
 //
 //  CLFArticleCell.m
-//  jinri
+//  TechToday
 //
 //  Created by CaiGavin on 6/24/15.
-//  Copyright (c) 2015 戴进江. All rights reserved.
+//  Copyright (c) 2015 CaiGavin. All rights reserved.
 //
 
 #import "CLFArticleCell.h"
@@ -112,7 +112,7 @@
     self.pageViewsLabel.backgroundColor = [UIColor clearColor];
     self.pageViewsLabel.nightBackgroundColor = [UIColor clearColor];
 
-    NSString *imageLocation = [NSString stringWithFormat:@"http://jinri.info/%@", article.img];
+    NSString *imageLocation = [NSString stringWithFormat:@"http://TechToday.info/%@", article.img];
     [self.articleImage sd_setImageWithURL:[NSURL URLWithString:imageLocation] placeholderImage:nil];
     
     self.articleImage.frame = articleFrame.imageViewFrame;

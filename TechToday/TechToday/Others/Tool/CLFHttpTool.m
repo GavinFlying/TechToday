@@ -1,9 +1,9 @@
 //
 //  CLFHttpTool.m
-//  jinri
+//  TechToday
 //
 //  Created by CaiGavin on 6/27/15.
-//  Copyright (c) 2015 戴进江. All rights reserved.
+//  Copyright (c) 2015 CaiGavin. All rights reserved.
 //
 
 #import "CLFHttpTool.h"

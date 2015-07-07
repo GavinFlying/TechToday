@@ -1,9 +1,9 @@
 //
 //  AppDelegate.h
-//  jinri
+//  TechToday
 //
-//  Created by 戴进江 on 15/5/14.
-//  Copyright (c) 2015年 戴进江. All rights reserved.
+//  Created by CaiGavin on 15/5/14.
+//  Copyright (c) 2015年 CaiGavin. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>

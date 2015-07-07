@@ -1,9 +1,9 @@
 //
 //  CLFArticleDetailController.m
-//  jinri
+//  TechToday
 //
 //  Created by CaiGavin on 6/25/15.
-//  Copyright (c) 2015 戴进江. All rights reserved.
+//  Copyright (c) 2015 CaiGavin. All rights reserved.
 //
 
 #import "CLFArticleDetailController.h"
@@ -68,7 +68,7 @@
 }
 
 - (void)showArticleDetail:(NSString *)str {
-    NSString *urlStr = [NSString stringWithFormat:@"http://jinri.info/index.php/DaiAppApi/showArticle/%@", str];
+    NSString *urlStr = [NSString stringWithFormat:@"http://TechToday.info/index.php/DaiAppApi/showArticle/%@", str];
     NSURL *url = [NSURL URLWithString:urlStr];
     NSURLRequest *request = [NSURLRequest requestWithURL:url cachePolicy:NSURLRequestReturnCacheDataElseLoad timeoutInterval:20.0f];
     

@@ -1,9 +1,9 @@
 //
 //  CLFArticleTool.m
-//  jinri
+//  TechToday
 //
 //  Created by CaiGavin on 6/27/15.
-//  Copyright (c) 2015 戴进江. All rights reserved.
+//  Copyright (c) 2015 CaiGavin. All rights reserved.
 //
 
 #import "CLFArticleTool.h"
@@ -28,7 +28,7 @@
             success(articlesInDatabase);
         }
     } else {
-        NSString *URL = [NSString stringWithFormat:@"http://jinri.info/index.php/DaiAppApi/%@", URLAppendage];
+        NSString *URL = [NSString stringWithFormat:@"http://TechToday.info/index.php/DaiAppApi/%@", URLAppendage];
         
         [CLFHttpTool getWithURL:URL params:params success:^(id responseObject) {
             NSDictionary *msg = responseObject[@"msg"];
