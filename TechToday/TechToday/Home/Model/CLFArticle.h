@@ -17,7 +17,7 @@
 @property (copy, nonatomic) NSString *title;
 @property (copy, nonatomic) NSString *articleID;
 @property (copy, nonatomic) NSString *url;
-@property (copy, nonatomic) NSString *ctime;
+@property (copy, nonatomic) NSString *articleCtime;
 @property (assign, nonatomic, getter=isRead) BOOL read;
 
 + (instancetype)articleWithDict:(NSDictionary *)dict;

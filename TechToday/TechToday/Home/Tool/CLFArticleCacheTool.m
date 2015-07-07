@@ -19,19 +19,21 @@ static FMDatabaseQueue *_queue;
     NSString *databasePath = [[NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) lastObject] stringByAppendingPathComponent:@"article.db"];
     _queue = [FMDatabaseQueue databaseQueueWithPath:databasePath];
     [_queue inDatabase:^(FMDatabase *db) {
-        [db executeUpdate:@"CREATE TABLE IF NOT EXISTS t_article (id INTEGER PRIMARY KEY AUTOINCREMENT, articleID TEXT NOT NULL, article BLOB NOT NULL);"];
+        [db executeUpdate:@"CREATE TABLE IF NOT EXISTS t_article (id INTEGER PRIMARY KEY AUTOINCREMENT, articleID TEXT NOT NULL, articleCtime TEXT NOT NULL, article BLOB NOT NULL);"];
     }];
+    [_queue close];
 }
 
 + (void)addArticle:(CLFArticle *)article {
     [self setupDataBase];
     [_queue inDatabase:^(FMDatabase *db) {
         NSString *articleID = article.articleID;
+        NSString *articleCtime = article.articleCtime;
         NSData *articleData = [NSKeyedArchiver archivedDataWithRootObject:article];
         
         int recordCount = [db intForQuery:@"SELECT COUNT(*) FROM t_article WHERE articleID = ?;", articleID];
         if (!recordCount) {
-            [db executeUpdate:@"INSERT INTO t_article (articleID, article) VALUES (?, ?);", articleID, articleData];
+            [db executeUpdate:@"INSERT INTO t_article (articleID, articleCtime, article) VALUES (?, ?, ?);", articleID, articleCtime, articleData];
         } else {
             [db executeUpdate:@"UPDATE t_article SET article = ? WHERE articleID = ?", articleData, articleID];
         }
@@ -67,9 +69,11 @@ static FMDatabaseQueue *_queue;
 
 + (void)deleteExpiredData {
     [self setupDataBase];
+    NSDate *currentDate = [NSDate date];
+    NSTimeInterval secondsAfter1970 = [currentDate timeIntervalSince1970];
+    NSTimeInterval expireTime = secondsAfter1970 - 24 * 60 * 60;
     [_queue inDatabase:^(FMDatabase *db) {
-        
-        
+        [db executeUpdate:@"DELETE FROM t_article WHERE articleCtime < ?", expireTime];
     }];
     [_queue close];
 }

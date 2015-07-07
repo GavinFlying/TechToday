@@ -14,6 +14,7 @@
 #import "JVFloatingDrawerViewController.h"
 #import "JVFloatingDrawerSpringAnimator.h"
 #import "CLFSettingViewController.h"
+#import "CLFArticleCacheTool.h"
 
 @interface CLFAppDelegate ()
 
@@ -29,6 +30,8 @@
     self.window.rootViewController = self.drawerViewController;
     [self configureDrawerViewController];
     [self.window makeKeyAndVisible];
+    
+//    [CLFArticleCacheTool deleteExpiredData];
 
     application.statusBarStyle = UIStatusBarStyleLightContent;
     
