@@ -114,6 +114,7 @@
 		3F92300C1B4B7029004CC85D /* libxml2.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F92300B1B4B7029004CC85D /* libxml2.2.dylib */; };
 		3F92300F1B4B7806004CC85D /* SourceHanSansCN-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = 3F92300D1B4B7806004CC85D /* SourceHanSansCN-Light.otf */; };
 		3F9230101B4B7806004CC85D /* SourceHanSansCN-Normal.otf in Resources */ = {isa = PBXBuildFile; fileRef = 3F92300E1B4B7806004CC85D /* SourceHanSansCN-Normal.otf */; };
+		3FD52DCB1B4C1A29001BB221 /* CLFListView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FD52DCA1B4C1A29001BB221 /* CLFListView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -342,6 +343,8 @@
 		3F92300B1B4B7029004CC85D /* libxml2.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.2.dylib; path = usr/lib/libxml2.2.dylib; sourceTree = SDKROOT; };
 		3F92300D1B4B7806004CC85D /* SourceHanSansCN-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SourceHanSansCN-Light.otf"; sourceTree = "<group>"; };
 		3F92300E1B4B7806004CC85D /* SourceHanSansCN-Normal.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SourceHanSansCN-Normal.otf"; sourceTree = "<group>"; };
+		3FD52DC91B4C1A29001BB221 /* CLFListView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CLFListView.h; sourceTree = "<group>"; };
+		3FD52DCA1B4C1A29001BB221 /* CLFListView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CLFListView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -454,6 +457,8 @@
 			children = (
 				3F922EAB1B4B6FA2004CC85D /* CLFWebView.h */,
 				3F922EAC1B4B6FA2004CC85D /* CLFWebView.m */,
+				3FD52DC91B4C1A29001BB221 /* CLFListView.h */,
+				3FD52DCA1B4C1A29001BB221 /* CLFListView.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1156,6 +1161,7 @@
 				3F922FB91B4B6FD4004CC85D /* UIScrollView+MJExtension.m in Sources */,
 				3F922F901B4B6FD4004CC85D /* AFNetworkReachabilityManager.m in Sources */,
 				3F922FC01B4B6FD4004CC85D /* SDWebImageDecoder.m in Sources */,
+				3FD52DCB1B4C1A29001BB221 /* CLFListView.m in Sources */,
 				3F9230011B4B6FED004CC85D /* CLFAboutController.m in Sources */,
 				3F922FC81B4B6FD4004CC85D /* UIImage+WebP.m in Sources */,
 				3F922FA01B4B6FD4004CC85D /* TFHpple.m in Sources */,

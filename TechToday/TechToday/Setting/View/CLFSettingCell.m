@@ -66,7 +66,7 @@
 
 - (void)highlightCell:(BOOL)highlight {
     UIColor *tintColor = [UIColor whiteColor];
-    if(highlight) {
+    if (highlight) {
         tintColor = [UIColor colorWithWhite:1.0 alpha:0.6];
     }
     

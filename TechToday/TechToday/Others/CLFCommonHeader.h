@@ -34,12 +34,15 @@
 #define CLFNightBarColor [UIColor colorWithRed:40 / 255.0 green:40 / 255.0 blue:40 / 255.0 alpha:100]
 #define CLFNightCellColor [UIColor colorWithRed:75 / 255.0 green:75 / 255.0 blue:75 / 255.0 alpha:100]
 #define CLFNightViewColor [UIColor colorWithRed:60 / 255.0 green:60 / 255.0 blue:60 / 255.0 alpha:100]
-#define CLFNightTextColor [UIColor colorWithRed:140 / 255.0 green:140 / 255.0 blue:140 / 255.0 alpha:100]
+#define CLFNightTextColor [UIColor colorWithRed:130 / 255.0 green:130 / 255.0 blue:130 / 255.0 alpha:100]
 #define CLFNightTextReadColor [UIColor colorWithRed:100 / 255.0 green:100 / 255.0 blue:100 / 255.0 alpha:100]
+#define CLFNightTitleColor [UIColor colorWithRed:160 / 255.0 green:160 / 255.0 blue:170 / 255.0 alpha:100]
 
 #define CLFSettingCellHeight (60)
 #define CLFSettingHeaderHeight (50)
 
 #define CLFSettingTableViewContentTopInsetToScreenHeightRatio (0.18)
+#define CLFScreenW [UIScreen mainScreen].bounds.size.width
+#define CLFScreenH [UIScreen mainScreen].bounds.size.height
 
 #endif

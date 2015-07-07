@@ -14,10 +14,12 @@
 #import "MBProgressHUD+MJ.h"
 #import "CLFAppDelegate.h"
 #import "CLFArticleCacheTool.h"
+#import "CLFListView.h"
 
 @interface CLFArticleDetailController () <UIWebViewDelegate>
 
 @property (weak, nonatomic) CLFWebView *articleDetail;
+@property (weak, nonatomic) CLFListView *moreOptionList;
 
 @end
 
@@ -36,6 +38,22 @@
         [self.view addSubview:self.articleDetail];
     }
     return self;
+}
+
+- (CLFListView *)moreOptionList {
+    if (!_moreOptionList) {
+        CLFListView *moreOptionList = [[CLFListView alloc] init];
+        CGFloat moreOptionW = CLFScreenW * 0.30;
+        CGFloat moreOptionH = CLFScreenH * 0.10;
+        CGFloat moreOptionX = CLFScreenW - moreOptionW - 5;
+        CGFloat moreOptionY = CLFScreenH - moreOptionH - CGRectGetHeight(self.navigationController.toolbar.frame) - 5;
+        moreOptionList.frame = CGRectMake(moreOptionX, moreOptionY, moreOptionW, moreOptionH);
+        [self.view addSubview:moreOptionList];
+        moreOptionList.hidden = YES;
+        moreOptionList.backgroundColor = [UIColor whiteColor];
+        _moreOptionList = moreOptionList;
+    }
+    return _moreOptionList;
 }
 
 - (void)setArticleFrame:(CLFArticleFrame *)articleFrame {
@@ -149,11 +167,11 @@
     [nextButton addTarget:self action:@selector(switchToNextArticle) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *nextItem = [[UIBarButtonItem alloc] initWithCustomView:nextButton];
     
-    UIButton *commentButton = [[UIButton alloc] init];
-    commentButton.contentMode = UIViewContentModeScaleAspectFit;
-    commentButton.frame = CGRectMake(0, 0, toolbarH * 0.6, toolbarH * 0.5);
-    [commentButton addTarget:self action:nil forControlEvents:UIControlEventTouchUpInside];
-    UIBarButtonItem *commentItem = [[UIBarButtonItem alloc] initWithCustomView:commentButton];
+//    UIButton *commentButton = [[UIButton alloc] init];
+//    commentButton.contentMode = UIViewContentModeScaleAspectFit;
+//    commentButton.frame = CGRectMake(0, 0, toolbarH * 0.6, toolbarH * 0.5);
+//    [commentButton addTarget:self action:nil forControlEvents:UIControlEventTouchUpInside];
+//    UIBarButtonItem *commentItem = [[UIBarButtonItem alloc] initWithCustomView:commentButton];
     
     UIButton *shareButton = [[UIButton alloc] init];
     shareButton.contentMode = UIViewContentModeScaleAspectFit;
@@ -161,23 +179,32 @@
     [shareButton addTarget:self action:nil forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *shareItem = [[UIBarButtonItem alloc] initWithCustomView:shareButton];
     
+    UIButton *moreButton = [[UIButton alloc] init];
+    moreButton.contentMode = UIViewContentModeScaleAspectFit;
+    moreButton.frame = CGRectMake(0, 0, toolbarH * 0.6, toolbarH * 0.5);
+    [moreButton addTarget:self action:@selector(showMoreOptions) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *moreItem = [[UIBarButtonItem alloc] initWithCustomView:moreButton];
+    
     if ([DKNightVersionManager currentThemeVersion] == DKThemeVersionNight) {
         self.navigationController.toolbar.barStyle = UIBarStyleBlack;
         [backButton setImage:[UIImage imageNamed:@"ToolbarBackArrowNight"] forState:UIControlStateNormal];
         [nextButton setImage:[UIImage imageNamed:@"ToolbarNextArrowNight"] forState:UIControlStateNormal];
-        [commentButton setImage:[UIImage imageNamed:@"ToolbarCommentNight"] forState:UIControlStateNormal];
+//        [commentButton setImage:[UIImage imageNamed:@"ToolbarCommentNight"] forState:UIControlStateNormal];
         [shareButton setImage:[UIImage imageNamed:@"ToolbarShareNight"] forState:UIControlStateNormal];
+        [moreButton setImage:[UIImage imageNamed:@"ToolbarCommentNight"] forState:UIControlStateNormal];
     } else {
         self.navigationController.toolbar.barStyle = UIBarStyleDefault;
         [backButton setImage:[UIImage imageNamed:@"ToolbarBackArrow"] forState:UIControlStateNormal];
         [nextButton setImage:[UIImage imageNamed:@"ToolbarNextArrow"] forState:UIControlStateNormal];
-        [commentButton setImage:[UIImage imageNamed:@"ToolbarComment"] forState:UIControlStateNormal];
+//        [commentButton setImage:[UIImage imageNamed:@"ToolbarComment"] forState:UIControlStateNormal];
         [shareButton setImage:[UIImage imageNamed:@"ToolbarShare"] forState:UIControlStateNormal];
+        [moreButton setImage:[UIImage imageNamed:@"ToolbarComment"] forState:UIControlStateNormal];
     }
     
     
     UIBarButtonItem *flexItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
-    [self setToolbarItems:@[flexItem, backItem, flexItem, nextItem, flexItem, commentItem, flexItem, shareItem, flexItem]];
+//    [self setToolbarItems:@[flexItem, backItem, flexItem, nextItem, flexItem, commentItem, flexItem, shareItem, flexItem]];
+    [self setToolbarItems:@[flexItem, backItem, flexItem, nextItem, flexItem, shareItem, flexItem, moreItem, flexItem]];
 }
 
 - (void)backToHome {
@@ -188,6 +215,12 @@
     if ([self.delegate respondsToSelector:@selector(articleDetailSwitchToNextArticleFromCurrentArticle)]) {
         [self.delegate articleDetailSwitchToNextArticleFromCurrentArticle];
     }
+}
+
+- (void)showMoreOptions {
+    NSLog(@"ddd");
+    self.moreOptionList.hidden = !self.moreOptionList.hidden;
+    NSLog(@"%@", NSStringFromCGRect(self.moreOptionList.frame));
 }
 
 @end

@@ -72,7 +72,7 @@
     CLFArticle *article =  articleFrame.article;
     
     if (article.isRead) {
-        self.titleLabel.textColor = [UIColor lightGrayColor];
+        self.titleLabel.textColor = CLFNightTitleColor;
         self.titleLabel.nightTextColor = CLFNightTextReadColor;
     } else {
         self.titleLabel.textColor = [UIColor blackColor];

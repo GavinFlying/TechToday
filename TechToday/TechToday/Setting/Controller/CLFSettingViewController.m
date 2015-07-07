@@ -18,7 +18,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    CGFloat topContentInset = [UIScreen mainScreen].bounds.size.height * CLFSettingTableViewContentTopInsetToScreenHeightRatio;
+    CGFloat topContentInset = CLFScreenH * CLFSettingTableViewContentTopInsetToScreenHeightRatio;
     CGFloat leftContentInset = - topContentInset * 0.125;
     self.tableView.backgroundColor = [UIColor clearColor];
     self.tableView.contentInset = UIEdgeInsetsMake(topContentInset, leftContentInset, 0.0, 0.0);
