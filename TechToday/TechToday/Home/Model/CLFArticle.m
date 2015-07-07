@@ -16,6 +16,7 @@
 #define kTitleKey     @"titleKey"
 #define kArticleKey   @"articleKey"
 #define kURLKey       @"URLKey"
+#define kCtimeKey     @"ctimeKey"
 #define kReadKey      @"readKey"
 
 @implementation CLFArticle
@@ -28,6 +29,7 @@
         self.title = dict[@"title"];
         self.articleID = dict[@"id"];
         self.url = dict[@"url"];
+        self.ctime = dict[@"ctime"];
         self.read = NO;
     }
     return self;
@@ -37,35 +39,24 @@
     return [[self alloc] initWithDict:dict];
 }
 
-//- (NSString *)date {
-//    NSDateFormatter *fmt= [[NSDateFormatter alloc] init];
-//    fmt.dateFormat = @"EEE MMM dd HH:mm:ss Z yyyy";
-////    fmt.dateFormat = @"HH:mm:ss";
-//    fmt.locale = [[NSLocale alloc] initWithLocaleIdentifier:@"en_US"];
-//    NSDate *createdDate = [fmt dateFromString:_date];
-//    NSCalendar *calendar = [NSCalendar currentCalendar];
-//    
-//    if ([calendar isDateInToday:createdDate]) {
-//        NSDateComponents *interval = [calendar deltaWithNow:createdDate];
-//        if (interval.hour >= 1) {
-//            return [NSString stringWithFormat:@"%ld小时前", (long)interval.hour];
-//        } else if (interval.minute >= 1) {
-//            return [NSString stringWithFormat:@"%ld分钟前", (long)interval.minute];
-//        } else {
-//            return @"刚刚";
-//        }
-//
-//    } else if ([calendar isDateInYesterday:createdDate]) {
-//        fmt.dateFormat = @"昨天 HH:mm";
-//        return [fmt stringFromDate:createdDate];
-//    } else  if ([calendar isDateInThisYear:createdDate]) {
-//        fmt.dateFormat = @"MM-dd HH:mm";
-//        return [fmt stringFromDate:createdDate];
-//    } else {
-//        fmt.dateFormat = @"yyyy-MM-dd HH:mm";
-//        return [fmt stringFromDate:createdDate];
-//    }
-//}
+- (NSString *)date {
+    NSDate *creatTimeInterval = [NSDate dateWithTimeIntervalSince1970:[_ctime floatValue]];
+ 
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    if ([calendar isDateInToday:creatTimeInterval]) {
+        NSDateComponents *interval = [calendar deltaWithNow:creatTimeInterval];
+        if (interval.hour >= 1) {
+            return [NSString stringWithFormat:@"%ld小时前", (long)interval.hour];
+        } else if (interval.minute >= 1) {
+            return [NSString stringWithFormat:@"%ld分钟前", (long)interval.minute];
+        } else {
+            return @"刚刚";
+        }
+
+    } else {
+        return _date;
+    }
+}
 
 - (void)encodeWithCoder:(NSCoder *)aCoder {
     [aCoder encodeObject:_date forKey:kDateKey];
@@ -75,6 +66,7 @@
     [aCoder encodeObject:_title forKey:kTitleKey];
     [aCoder encodeObject:_articleID forKey:kArticleKey];
     [aCoder encodeObject:_url forKey:kURLKey];
+    [aCoder encodeObject:_ctime forKey:kCtimeKey];
     [aCoder encodeInt:_read forKey:kReadKey];
 }
 
@@ -87,6 +79,7 @@
         _title = [aDecoder decodeObjectForKey:kTitleKey];
         _articleID = [aDecoder decodeObjectForKey:kArticleKey];
         _url = [aDecoder decodeObjectForKey:kURLKey];
+        _ctime = [aDecoder decodeObjectForKey:kCtimeKey];
         _read = [aDecoder decodeIntForKey:kReadKey];
     }
     return self;

@@ -17,8 +17,8 @@
 @property (weak, nonatomic) UIView    *titleView;
 @property (weak, nonatomic) UILabel   *titleLabel;
 @property (weak, nonatomic) UILabel   *sourceLabel;
-@property (weak, nonatomic) UILabel   *dateLabel;
-@property (weak, nonatomic) UILabel   *pageViewsLabel;
+//@property (weak, nonatomic) UILabel   *dateLabel;
+//@property (weak, nonatomic) UILabel   *pageViewsLabel;
 
 @property (weak, nonatomic) UIView    *buttomView;
 @property (weak, nonatomic) UIButton  *sourceSiteButton;
@@ -86,24 +86,24 @@
     [titleView addSubview:sourceLabel];
     self.sourceLabel = sourceLabel;
     
-    UILabel *dateLabel = [[UILabel alloc] init];
-    dateLabel.textColor = self.titleStyle ? [UIColor whiteColor] : [UIColor lightGrayColor];
-    dateLabel.nightTextColor = CLFNightTextColor;
-    dateLabel.backgroundColor = [UIColor clearColor];
-    dateLabel.font = CLFArticleOtherFont;
-    dateLabel.text = self.article.date;
-    [titleView addSubview:dateLabel];
-    self.dateLabel = dateLabel;
-    
-    UILabel *pageViewsLabel = [[UILabel alloc] init];
-    pageViewsLabel.textAlignment = NSTextAlignmentRight;
-    pageViewsLabel.textColor = self.titleStyle ? [UIColor whiteColor] : [UIColor lightGrayColor];
-    pageViewsLabel.nightTextColor = CLFNightTextColor;
-    pageViewsLabel.backgroundColor = [UIColor clearColor];
-    pageViewsLabel.font = CLFArticleOtherFont;
-    pageViewsLabel.text = self.article.pageViews;
-    [titleView addSubview:pageViewsLabel];
-    self.pageViewsLabel = pageViewsLabel;
+//    UILabel *dateLabel = [[UILabel alloc] init];
+//    dateLabel.textColor = self.titleStyle ? [UIColor whiteColor] : [UIColor lightGrayColor];
+//    dateLabel.nightTextColor = CLFNightTextColor;
+//    dateLabel.backgroundColor = [UIColor clearColor];
+//    dateLabel.font = CLFArticleOtherFont;
+//    dateLabel.text = self.article.date;
+//    [titleView addSubview:dateLabel];
+//    self.dateLabel = dateLabel;
+//    
+//    UILabel *pageViewsLabel = [[UILabel alloc] init];
+//    pageViewsLabel.textAlignment = NSTextAlignmentRight;
+//    pageViewsLabel.textColor = self.titleStyle ? [UIColor whiteColor] : [UIColor lightGrayColor];
+//    pageViewsLabel.nightTextColor = CLFNightTextColor;
+//    pageViewsLabel.backgroundColor = [UIColor clearColor];
+//    pageViewsLabel.font = CLFArticleOtherFont;
+//    pageViewsLabel.text = self.article.pageViews;
+//    [titleView addSubview:pageViewsLabel];
+//    self.pageViewsLabel = pageViewsLabel;
     
     UIView *separatorView = [[UIView alloc] init];
     separatorView.backgroundColor = CLFUIMainColor;
@@ -129,19 +129,19 @@
     CGSize sourceLabelSize = [NSString sizeOfText:self.sourceLabel.text maxSize:CGSizeMake(0.2 * titleViewContentW, 20) font:CLFArticleOtherFont];
     self.sourceLabel.frame = (CGRect){{sourceLabelX, sourceLabelY}, sourceLabelSize};
     
-    // dateLabelFrame
-    CGFloat dateLabelX = CGRectGetMaxX(self.sourceLabel.frame) + CLFArticleCellInnerBorder;
-    CGFloat dateLabelY = sourceLabelY;
-    CGSize dateLabelSize = [NSString sizeOfText:self.dateLabel.text maxSize:CGSizeMake(0.2 * titleViewContentW, 20) font:CLFArticleOtherFont];
-    self.dateLabel.frame = (CGRect){{dateLabelX, dateLabelY}, dateLabelSize};
-    
-    CGSize pageViewsLabelSize = [NSString sizeOfText:self.pageViewsLabel.text maxSize:CGSizeMake(0.45 * titleViewContentW, 20) font:CLFArticleOtherFont];
-    CGFloat pageViewsLabelX = titleViewW - pageViewsLabelSize.width - CLFArticleCellBorder;
-    CGFloat pageViewsLabelY = dateLabelY;
-    self.pageViewsLabel.frame = (CGRect){{pageViewsLabelX, pageViewsLabelY}, pageViewsLabelSize};
+//    // dateLabelFrame
+//    CGFloat dateLabelX = CGRectGetMaxX(self.sourceLabel.frame) + CLFArticleCellInnerBorder;
+//    CGFloat dateLabelY = sourceLabelY;
+//    CGSize dateLabelSize = [NSString sizeOfText:self.dateLabel.text maxSize:CGSizeMake(0.2 * titleViewContentW, 20) font:CLFArticleOtherFont];
+//    self.dateLabel.frame = (CGRect){{dateLabelX, dateLabelY}, dateLabelSize};
+//    
+//    CGSize pageViewsLabelSize = [NSString sizeOfText:self.pageViewsLabel.text maxSize:CGSizeMake(0.45 * titleViewContentW, 20) font:CLFArticleOtherFont];
+//    CGFloat pageViewsLabelX = titleViewW - pageViewsLabelSize.width - CLFArticleCellBorder;
+//    CGFloat pageViewsLabelY = dateLabelY;
+//    self.pageViewsLabel.frame = (CGRect){{pageViewsLabelX, pageViewsLabelY}, pageViewsLabelSize};
     
     CGFloat separatorViewX = titleLabelX;
-    CGFloat separatorViewY = CGRectGetMaxY(self.pageViewsLabel.frame) + CLFArticleCellInnerBorder;
+    CGFloat separatorViewY = CGRectGetMaxY(self.sourceLabel.frame) + CLFArticleCellInnerBorder;
     CGFloat separatorViewW = titleViewContentW;
     CGFloat separatorViewH = 4;
     

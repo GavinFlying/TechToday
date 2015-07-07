@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CLFCommonHeader.h"
 
 @interface CLFSettingCell : UITableViewCell
 

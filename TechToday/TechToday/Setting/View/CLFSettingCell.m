@@ -7,7 +7,6 @@
 //
 
 #import "CLFSettingCell.h"
-#import "CLFCommonHeader.h"
 
 @interface CLFSettingCell ()
 
@@ -34,7 +33,11 @@
 }
 
 - (void)setTitleText:(NSString *)titleText {
-    self.titleLabel.frame = CGRectMake(110, 16, 100, 40);
+    CGFloat titleW = 100;
+    CGFloat titleH = 25;
+    CGFloat titleX = CGRectGetMaxX(self.iconImageView.frame) + CLFArticleCellBorder;
+    CGFloat titleY = self.iconImageView.frame.origin.y;
+    self.titleLabel.frame = CGRectMake(titleX, titleY, titleW, titleH);
     self.titleLabel.text = titleText;
 }
 
@@ -43,7 +46,11 @@
 }
 
 - (void)setIconImage:(UIImage *)iconImage {
-    self.iconImageView.frame = CGRectMake(60, 16, 30, 30);
+    CGFloat iconW = 30;
+    CGFloat iconH = 25;
+    CGFloat iconX = 50;
+    CGFloat iconY = (CLFSettingCellHeight - iconH) * 0.5;
+    self.iconImageView.frame = CGRectMake(iconX, iconY, iconW, iconH);
     self.iconImageView.image = iconImage;
 }
 
@@ -73,6 +80,7 @@
         UIImageView *iconImage = [[UIImageView alloc] init];
         iconImage.contentMode = UIViewContentModeScaleAspectFill;
         iconImage.clipsToBounds = YES;
+        iconImage.contentMode = UIViewContentModeScaleAspectFit;
         [self.contentView addSubview:iconImage];
         self.iconImageView = iconImage;
         

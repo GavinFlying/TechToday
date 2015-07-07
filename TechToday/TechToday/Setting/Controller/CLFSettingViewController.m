@@ -12,16 +12,18 @@
 #import "CLFNavigationController.h"
 #import "JVFloatingDrawerViewController.h"
 #import "CLFLoginController.h"
-#import "CLFCommonHeader.h"
 
 @implementation CLFSettingViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    CGFloat topContentInset = [UIScreen mainScreen].bounds.size.height * CLFSettingTableViewContentTopInsetToScreenHeightRatio;
+    CGFloat leftContentInset = - topContentInset * 0.125;
     self.tableView.backgroundColor = [UIColor clearColor];
-    self.tableView.contentInset = UIEdgeInsetsMake(80.0, 0.0, 0.0, 0.0);
+    self.tableView.contentInset = UIEdgeInsetsMake(topContentInset, leftContentInset, 0.0, 0.0);
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    self.tableView.showsVerticalScrollIndicator = NO;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -36,21 +38,21 @@
     CLFSettingCell *cell = [CLFSettingCell cellWithTableView:tableView];
     switch (indexPath.row) {
         case 0: {
-            cell.titleText = @"登录";
-            cell.iconImage = [UIImage imageNamed:@"navigationbarTitleImage"];
+            cell.iconImage = [UIImage imageNamed:@"SettingLogin"];
+            cell.titleText = @"登录/注册";
             break;
         }
         case 1: {
+            cell.iconImage = [UIImage imageNamed:@"SettingNightMode"];
             cell.titleText = @"夜间模式";
-            cell.iconImage = [UIImage imageNamed:@"navigationbarTitleImage"];
             UISwitch *nightModeSwitch = [[UISwitch alloc] init];
             [nightModeSwitch addTarget:self action:@selector(nightModeChange) forControlEvents:UIControlEventValueChanged];
             cell.accessoryView = nightModeSwitch;
             break;
         }
         case 2: {
+            cell.iconImage = [UIImage imageNamed:@"SettingNoImageMode"];
             cell.titleText = @"无图模式";
-            cell.iconImage = [UIImage imageNamed:@"navigationbarTitleImage"];
             UISwitch *nightModeSwitch = [[UISwitch alloc] init];
             [nightModeSwitch addTarget:self action:@selector(noImageModeChange) forControlEvents:UIControlEventValueChanged];
             cell.accessoryView = nightModeSwitch;
@@ -58,18 +60,18 @@
         }
             
         case 3: {
+            cell.iconImage = [UIImage imageNamed:@"SettingSuggestions"];
             cell.titleText = @"意见反馈";
-            cell.iconImage = [UIImage imageNamed:@"navigationbarTitleImage"];
             break;
         }
         case 4: {
+            cell.iconImage = [UIImage imageNamed:@"SettingLike"];
             cell.titleText = @"给个好评";
-            cell.iconImage = [UIImage imageNamed:@"navigationbarTitleImage"];
             break;
         }
         case 5: {
+            cell.iconImage = [UIImage imageNamed:@"SettingAbout"];
             cell.titleText = @"关于我们";
-            cell.iconImage = [UIImage imageNamed:@"navigationbarTitleImage"];
             break;
         }
     }
@@ -78,11 +80,11 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 60;
+    return CLFSettingCellHeight;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    return 50;
+    return 0;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {

@@ -97,6 +97,7 @@
      "tagStyle.appendChild(document.createTextNode(\"BODY{text-align: justify}\"));"
      "tagStyle.appendChild(document.createTextNode(\"BODY{background-color: transparent}\"));"
      "tagStyle.appendChild(document.createTextNode(\"BODY{font-family:SourceHanSansCN-Light; font-size : 14pt}\"));"
+//     "tagStyle.appendChild(document.createTextNode(\"BODY{font-size : 14pt}\"));"
      "var tagHeadAdd = tagHead.appendChild(tagStyle);"];
 //         "tagStyle.appendChild(document.createTextNode(\"BODY{font-weight: bold; color: #666666}\"));"
     

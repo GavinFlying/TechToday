@@ -52,7 +52,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    NSLog(@"%@", [NSDate date]);
     [self configureAnimator];
     [self setupRefreshView];
     [self setupNavigationBar];
@@ -107,7 +106,7 @@
 - (void)setupNavigationBar {
     
     UIButton *leftButton = [[UIButton alloc] init];
-    [leftButton setImage:[UIImage imageNamed:@"SettingIcon"] forState:UIControlStateNormal];
+    [leftButton setImage:[UIImage imageNamed:@"SettingButton"] forState:UIControlStateNormal];
     [leftButton addTarget:self action:@selector(showSettingView) forControlEvents:UIControlEventTouchUpInside];
     leftButton.frame = CGRectMake(0, 0, 24, 20);
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:leftButton];
