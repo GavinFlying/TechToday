@@ -1,16 +1,16 @@
 //
 //  main.m
-//  TechToday
+//  jinri
 //
-//  Created by CaiGavin on 7/7/15.
-//  Copyright (c) 2015 CaiGavin. All rights reserved.
+//  Created by 戴进江 on 15/5/14.
+//  Copyright (c) 2015年 戴进江. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
-#import "AppDelegate.h"
+#import "CLFAppDelegate.h"
 
 int main(int argc, char * argv[]) {
     @autoreleasepool {
-        return UIApplicationMain(argc, argv, nil, NSStringFromClass([AppDelegate class]));
+        return UIApplicationMain(argc, argv, nil, NSStringFromClass([CLFAppDelegate class]));
     }
 }
