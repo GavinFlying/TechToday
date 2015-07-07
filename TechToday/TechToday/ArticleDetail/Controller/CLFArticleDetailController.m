@@ -68,7 +68,7 @@
 }
 
 - (void)showArticleDetail:(NSString *)str {
-    NSString *urlStr = [NSString stringWithFormat:@"http://TechToday.info/index.php/DaiAppApi/showArticle/%@", str];
+    NSString *urlStr = [NSString stringWithFormat:@"http://jinri.info/index.php/DaiAppApi/showArticle/%@", str];
     NSURL *url = [NSURL URLWithString:urlStr];
     NSURLRequest *request = [NSURLRequest requestWithURL:url cachePolicy:NSURLRequestReturnCacheDataElseLoad timeoutInterval:20.0f];
     

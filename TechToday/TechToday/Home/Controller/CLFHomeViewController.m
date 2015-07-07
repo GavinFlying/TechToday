@@ -168,7 +168,6 @@
         NSMutableArray *articleFrameArray = [NSMutableArray array];
         for (CLFArticle *article in articlesArray) {
             CLFArticleFrame *articleFrame = [[CLFArticleFrame alloc] init];
-                        NSLog(@"kkk%@", article);
             articleFrame.article = article;
             [articleFrameArray addObject:articleFrame];
         }

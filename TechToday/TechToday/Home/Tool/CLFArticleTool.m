@@ -22,13 +22,12 @@
         URLAppendage = @"getArticle";
     }
 #warning 下拉刷新/缓存/有网络/没网络 TODO
-    NSLog(@"%ld", articlesInDatabase.count);
     if ([URLAppendage containsString:@"getArticle"] && articlesInDatabase.count) { // 可加个判断给上拉加载用.缓存中存在且加载形式为上拉加载的话,调用缓存中的东西.(没网络的情况下).有网络的情况下可能会出现因为加载了缓存导致中间的部分此前未缓存的article无法显示的情况
         if (success) {
             success(articlesInDatabase);
         }
     } else {
-        NSString *URL = [NSString stringWithFormat:@"http://TechToday.info/index.php/DaiAppApi/%@", URLAppendage];
+        NSString *URL = [NSString stringWithFormat:@"http://jinri.info/index.php/DaiAppApi/%@", URLAppendage];
         
         [CLFHttpTool getWithURL:URL params:params success:^(id responseObject) {
             NSDictionary *msg = responseObject[@"msg"];

@@ -98,7 +98,6 @@ static FMDatabaseQueue *_queue;
         while (resultSet.next) {
             NSData *articleData = [resultSet dataForColumn:@"article"];
             CLFArticle *article = [NSKeyedUnarchiver unarchiveObjectWithData:articleData];
-            NSLog(@"%@", article.articleID);
             [articleArray addObject:article];
         }
     }];

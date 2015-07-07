@@ -112,7 +112,7 @@
     self.pageViewsLabel.backgroundColor = [UIColor clearColor];
     self.pageViewsLabel.nightBackgroundColor = [UIColor clearColor];
 
-    NSString *imageLocation = [NSString stringWithFormat:@"http://TechToday.info/%@", article.img];
+    NSString *imageLocation = [NSString stringWithFormat:@"http://jinri.info/%@", article.img];
     [self.articleImage sd_setImageWithURL:[NSURL URLWithString:imageLocation] placeholderImage:nil];
     
     self.articleImage.frame = articleFrame.imageViewFrame;
