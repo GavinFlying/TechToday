@@ -31,7 +31,7 @@
     [self configureDrawerViewController];
     [self.window makeKeyAndVisible];
     
-//    [CLFArticleCacheTool deleteExpiredData];
+    [CLFArticleCacheTool deleteExpiredData];
 
     application.statusBarStyle = UIStatusBarStyleLightContent;
     

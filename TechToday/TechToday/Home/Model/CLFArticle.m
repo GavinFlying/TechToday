@@ -29,7 +29,7 @@
         self.title = dict[@"title"];
         self.articleID = dict[@"id"];
         self.url = dict[@"url"];
-        self.articleCtime = dict[@"ctime"];
+        self.articleCtime = [dict[@"ctime"] integerValue];
         self.read = NO;
     }
     return self;
@@ -45,7 +45,7 @@
 //    NSTimeInterval expireTime = secondsAfter1970 - 24 * 60 * 60;
 //    NSLog(@"articleCtime : %@", _articleCtime);
 //    NSLog(@"expiredTime : %@", [NSString stringWithFormat:@"%f", expireTime]);
-    NSDate *creatTimeInterval = [NSDate dateWithTimeIntervalSince1970:[_articleCtime floatValue]];
+    NSDate *creatTimeInterval = [NSDate dateWithTimeIntervalSince1970:_articleCtime];
  
     NSCalendar *calendar = [NSCalendar currentCalendar];
     if ([calendar isDateInToday:creatTimeInterval]) {
@@ -71,7 +71,7 @@
     [aCoder encodeObject:_title forKey:kTitleKey];
     [aCoder encodeObject:_articleID forKey:kArticleKey];
     [aCoder encodeObject:_url forKey:kURLKey];
-    [aCoder encodeObject:_articleCtime forKey:kArticleCtimeKey];
+    [aCoder encodeInteger:_articleCtime forKey:kArticleCtimeKey];
     [aCoder encodeInt:_read forKey:kReadKey];
 }
 
@@ -84,7 +84,7 @@
         _title = [aDecoder decodeObjectForKey:kTitleKey];
         _articleID = [aDecoder decodeObjectForKey:kArticleKey];
         _url = [aDecoder decodeObjectForKey:kURLKey];
-        _articleCtime = [aDecoder decodeObjectForKey:kArticleCtimeKey];
+        _articleCtime = [aDecoder decodeIntegerForKey:kArticleCtimeKey];
         _read = [aDecoder decodeIntForKey:kReadKey];
     }
     return self;

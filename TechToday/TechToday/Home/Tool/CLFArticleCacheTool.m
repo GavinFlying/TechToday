@@ -19,7 +19,7 @@ static FMDatabaseQueue *_queue;
     NSString *databasePath = [[NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) lastObject] stringByAppendingPathComponent:@"article.db"];
     _queue = [FMDatabaseQueue databaseQueueWithPath:databasePath];
     [_queue inDatabase:^(FMDatabase *db) {
-        [db executeUpdate:@"CREATE TABLE IF NOT EXISTS t_article (id INTEGER PRIMARY KEY AUTOINCREMENT, articleID TEXT NOT NULL, articleCtime TEXT NOT NULL, article BLOB NOT NULL);"];
+        [db executeUpdate:@"CREATE TABLE IF NOT EXISTS t_article (id INTEGER PRIMARY KEY AUTOINCREMENT, articleID TEXT NOT NULL, articleCtime INTEGER, articleRead INTEGER, article BLOB NOT NULL);"];
     }];
     [_queue close];
 }
@@ -28,14 +28,15 @@ static FMDatabaseQueue *_queue;
     [self setupDataBase];
     [_queue inDatabase:^(FMDatabase *db) {
         NSString *articleID = article.articleID;
-        NSString *articleCtime = article.articleCtime;
+        NSInteger articleCtime = article.articleCtime;
+        BOOL articleRead = article.isRead;
         NSData *articleData = [NSKeyedArchiver archivedDataWithRootObject:article];
         
         int recordCount = [db intForQuery:@"SELECT COUNT(*) FROM t_article WHERE articleID = ?;", articleID];
         if (!recordCount) {
-            [db executeUpdate:@"INSERT INTO t_article (articleID, articleCtime, article) VALUES (?, ?, ?);", articleID, articleCtime, articleData];
+            [db executeUpdate:@"INSERT INTO t_article (articleID, articleCtime, articleRead, article) VALUES (?, ?, ?, ?);", articleID, [NSNumber numberWithInteger:articleCtime], [NSNumber numberWithBool:articleRead], articleData];
         } else {
-            [db executeUpdate:@"UPDATE t_article SET article = ? WHERE articleID = ?", articleData, articleID];
+            [db executeUpdate:@"UPDATE t_article SET articleRead = ? WHERE articleID = ?", [NSNumber numberWithBool:articleRead], articleID];
         }
     }];
     
@@ -73,7 +74,7 @@ static FMDatabaseQueue *_queue;
     NSTimeInterval secondsAfter1970 = [currentDate timeIntervalSince1970];
     NSTimeInterval expireTime = secondsAfter1970 - 24 * 60 * 60;
     [_queue inDatabase:^(FMDatabase *db) {
-        [db executeUpdate:@"DELETE FROM t_article WHERE articleCtime < ?", expireTime];
+        [db executeUpdate:@"DELETE FROM t_article WHERE articleCtime < ?", [NSNumber numberWithDouble:expireTime]];
     }];
     [_queue close];
 }
