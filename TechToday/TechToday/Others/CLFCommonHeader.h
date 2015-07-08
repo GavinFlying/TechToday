@@ -45,4 +45,10 @@
 #define CLFScreenW [UIScreen mainScreen].bounds.size.width
 #define CLFScreenH [UIScreen mainScreen].bounds.size.height
 
+#define CLFMoreOptionListNumberOfSections (1)
+#define CLFMoreOptionListNumberOfRowsInSection (2)
+
+#define CLFFontListNumberOfSections (1)
+#define CLFFontListNumberOfRowsInSection (5)
+
 #endif

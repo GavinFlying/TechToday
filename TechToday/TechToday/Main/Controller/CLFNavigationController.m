@@ -16,7 +16,7 @@
 #import "CLFSettingViewController.h"
 #import "UIImage+CLF.h"
 
-@interface CLFNavigationController ()
+@interface CLFNavigationController () <UIGestureRecognizerDelegate>
 
 @property (strong, nonatomic) NSMutableArray *viewControllerScreenshots;
 @property (strong, nonatomic) UIImageView    *lastViewControllerScreenshot;
@@ -97,11 +97,24 @@
     [super viewDidLoad];
     UIPanGestureRecognizer *panRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(dragging:)];
     [self.view addGestureRecognizer:panRecognizer];
+//    UITapGestureRecognizer *singleTapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(singleTap:)];
+//    [self.view addGestureRecognizer:singleTapRecognizer];
+
+    
     self.view.layer.shadowOpacity = 0.4;
     self.view.layer.shadowOffset = CGSizeMake(-2, 0);
     self.view.layer.shadowColor = [[UIColor blackColor] CGColor];
     [self changeNavigationBarMode];
 }
+
+//- (void)singleTap:(UITapGestureRecognizer *)singleTapRecognizer {
+//    if (1 >= self.viewControllers.count) {
+//        return;
+//    }
+//
+//    [self.view endEditing:YES];
+//    NSLog(@"endEditing");
+//}
 
 - (void)dragging:(UIPanGestureRecognizer *)panRecognizer {
     if (1 >= self.viewControllers.count) {
@@ -190,6 +203,10 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
 }
+
+//- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
+//    return YES;
+//}
 
 @end
 

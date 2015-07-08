@@ -14,12 +14,12 @@
 #import "MBProgressHUD+MJ.h"
 #import "CLFAppDelegate.h"
 #import "CLFArticleCacheTool.h"
-#import "CLFListView.h"
 
-@interface CLFArticleDetailController () <UIWebViewDelegate>
+@interface CLFArticleDetailController () <UIWebViewDelegate, UITableViewDelegate, UITableViewDataSource, UIGestureRecognizerDelegate>
 
 @property (weak, nonatomic) CLFWebView *articleDetail;
-@property (weak, nonatomic) CLFListView *moreOptionList;
+@property (weak, nonatomic) UITableView *moreOptionList;
+@property (weak, nonatomic) UITableView *fontList;
 
 @end
 
@@ -35,25 +35,100 @@
         self.articleDetail.opaque = NO;
         self.articleDetail.scalesPageToFit = YES;
         self.articleDetail.delegate = self;
+        self.articleDetail.scrollView.delegate = self;
         [self.view addSubview:self.articleDetail];
+        
+        UITapGestureRecognizer *singleTapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(singleTap:)];
+        singleTapRecognizer.delegate = self;
+        [self.articleDetail addGestureRecognizer:singleTapRecognizer];
     }
     return self;
 }
 
-- (CLFListView *)moreOptionList {
+- (void)singleTap:(UITapGestureRecognizer *)singleTapRecognizer {
+    if (!self.fontList.hidden) {
+        self.fontList.hidden = YES;
+    }
+    if (!self.moreOptionList.hidden) {
+        self.moreOptionList.hidden = YES;
+    }
+}
+
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
+    if (!self.fontList.hidden) {
+        self.fontList.hidden = YES;
+    }
+    if (!self.moreOptionList.hidden) {
+        self.moreOptionList.hidden = YES;
+    }
+
+}
+
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
+    return YES;
+}
+
+
+- (UITableView *)moreOptionList {
     if (!_moreOptionList) {
-        CLFListView *moreOptionList = [[CLFListView alloc] init];
+        UITableView *moreOptionList = [[UITableView alloc] init];
+        [self.view addSubview:moreOptionList];
+        
+        moreOptionList.backgroundColor = [UIColor whiteColor];
+        moreOptionList.nightBackgroundColor = CLFNightViewColor;
+        
+        moreOptionList.separatorStyle = UITableViewCellSeparatorStyleNone;
+
         CGFloat moreOptionW = CLFScreenW * 0.30;
         CGFloat moreOptionH = CLFScreenH * 0.10;
         CGFloat moreOptionX = CLFScreenW - moreOptionW - 5;
         CGFloat moreOptionY = CLFScreenH - moreOptionH - CGRectGetHeight(self.navigationController.toolbar.frame) - 5;
         moreOptionList.frame = CGRectMake(moreOptionX, moreOptionY, moreOptionW, moreOptionH);
-        [self.view addSubview:moreOptionList];
+        
+        moreOptionList.layer.shadowColor = [[UIColor blackColor] CGColor];
+        moreOptionList.layer.shadowOffset = CGSizeMake(1, 2);
+        moreOptionList.layer.shadowOpacity = 0.6;
+        moreOptionList.clipsToBounds = NO;
+        
         moreOptionList.hidden = YES;
-        moreOptionList.backgroundColor = [UIColor whiteColor];
+        moreOptionList.delegate = self;
+        moreOptionList.dataSource = self;
+        moreOptionList.tag = 1;
+        
         _moreOptionList = moreOptionList;
     }
     return _moreOptionList;
+}
+
+- (UITableView *)fontList {
+    if (!_fontList) {
+        UITableView *fontList = [[UITableView alloc] init];
+        [self.view addSubview:fontList];
+        
+        fontList.backgroundColor = [UIColor whiteColor];
+        fontList.nightBackgroundColor= CLFNightViewColor;
+        
+        fontList.separatorStyle = UITableViewCellSeparatorStyleNone;
+        
+        CGFloat fontListW = CLFScreenW * 0.60;
+        CGFloat fontListH = CLFScreenH * 0.30;
+        CGFloat fontListX = (CLFScreenW - fontListW) * 0.5;
+        CGFloat fontListY = (CLFScreenH - fontListH - CGRectGetHeight(self.navigationController.toolbar.frame)) * 0.5;
+        fontList.frame = CGRectMake(fontListX, fontListY, fontListW, fontListH);
+        
+        fontList.layer.shadowColor = [[UIColor blackColor] CGColor];
+        fontList.layer.shadowOffset = CGSizeMake(1, 2);
+        fontList.layer.shadowOpacity = 0.6;
+        fontList.clipsToBounds = NO;
+        
+        fontList.hidden = YES;
+        fontList.delegate = self;
+        fontList.dataSource = self;
+        fontList.tag = 2;
+        
+        _fontList = fontList;
+    }
+    return _fontList;
 }
 
 - (void)setArticleFrame:(CLFArticleFrame *)articleFrame {
@@ -61,6 +136,7 @@
     self.articleDetail.scrollView.hidden = YES;
     [self setupWebView];
 }
+
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
@@ -218,9 +294,114 @@
 }
 
 - (void)showMoreOptions {
-    NSLog(@"ddd");
     self.moreOptionList.hidden = !self.moreOptionList.hidden;
-    NSLog(@"%@", NSStringFromCGRect(self.moreOptionList.frame));
 }
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    if (1 == tableView.tag) {
+        return CLFMoreOptionListNumberOfSections;
+    }
+    return CLFFontListNumberOfSections;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    if (1 == tableView.tag) {
+        return CLFMoreOptionListNumberOfRowsInSection;
+    }
+    return CLFFontListNumberOfRowsInSection;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (1 == tableView.tag) {
+        static NSString *ID = @"moreOptions";
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:ID];
+        if (nil == cell) {
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:ID];
+            cell.backgroundColor = [UIColor clearColor];
+            cell.textLabel.textAlignment = NSTextAlignmentCenter;
+            //        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        }
+        switch (indexPath.row) {
+            case 0: {
+                cell.textLabel.text = @"字号调整";
+                break;
+            }
+            case 1: {
+                cell.textLabel.text = @"回到顶部";
+                break;
+            }
+        }
+        cell.textLabel.textColor = [UIColor blackColor];
+        cell.textLabel.nightTextColor = CLFNightTextColor;
+        return cell;
+    } else {
+        static NSString *ID = @"font";
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:ID];
+        if (nil == cell) {
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:ID];
+            cell.backgroundColor = [UIColor clearColor];
+            cell.textLabel.textAlignment = NSTextAlignmentCenter;
+            //        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        }
+        switch (indexPath.row) {
+            case 0: {
+                cell.textLabel.text = @"最小";
+                break;
+            }
+            case 1: {
+                cell.textLabel.text = @"略小";
+                break;
+            }
+            case 2: {
+                cell.textLabel.text = @"一般";
+                break;
+            }
+            case 3: {
+                cell.textLabel.text = @"略大";
+                break;
+            }
+            case 4: {
+                cell.textLabel.text = @"最大";
+                break;
+            }
+        }
+        cell.textLabel.textColor = [UIColor blackColor];
+        cell.textLabel.nightTextColor = CLFNightTextColor;
+        return cell;
+    }
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (1 == tableView.tag) {
+        return CGRectGetHeight(self.moreOptionList.frame) / CLFMoreOptionListNumberOfRowsInSection;
+    }
+    return CGRectGetHeight(self.fontList.frame) / CLFFontListNumberOfRowsInSection;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (1 == tableView.tag) {
+        switch (indexPath.row) {
+            case 0: {
+                [self showFontList];
+                tableView.hidden = YES;
+                break;
+            }
+            case 1: {
+                
+                break;
+            }
+        }
+    }
+}
+
+- (void)showFontList {
+    self.fontList.hidden = NO;
+}
+
+- (void)backgroundTap {
+    NSLog(@"backgroundTap");
+}
+
+
 
 @end
