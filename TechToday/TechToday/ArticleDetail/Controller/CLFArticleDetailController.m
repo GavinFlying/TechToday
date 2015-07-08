@@ -20,6 +20,7 @@
 @property (weak, nonatomic) CLFWebView *articleDetail;
 @property (weak, nonatomic) UITableView *moreOptionList;
 @property (weak, nonatomic) UITableView *fontList;
+@property (assign, nonatomic) NSInteger fontSize;
 
 @end
 
@@ -41,6 +42,8 @@
         UITapGestureRecognizer *singleTapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(singleTap:)];
         singleTapRecognizer.delegate = self;
         [self.articleDetail addGestureRecognizer:singleTapRecognizer];
+#warning 要用存档的数据替换
+        self.fontSize = 13;
     }
     return self;
 }
@@ -61,7 +64,6 @@
     if (!self.moreOptionList.hidden) {
         self.moreOptionList.hidden = YES;
     }
-
 }
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
@@ -183,16 +185,16 @@
 }
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
-    [webView stringByEvaluatingJavaScriptFromString:
+    [webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:
      @"var tagHead =document.documentElement.firstChild;"
      "var tagStyle = document.createElement(\"style\");"
      "tagStyle.setAttribute(\"type\", \"text/css\");"
      "tagStyle.appendChild(document.createTextNode(\"BODY{padding: 10pt 15pt}\"));"
      "tagStyle.appendChild(document.createTextNode(\"BODY{text-align: justify}\"));"
      "tagStyle.appendChild(document.createTextNode(\"BODY{background-color: transparent}\"));"
-     "tagStyle.appendChild(document.createTextNode(\"BODY{font-family:SourceHanSansCN-Light; font-size : 14pt}\"));"
+     "tagStyle.appendChild(document.createTextNode(\"BODY{font-family:SourceHanSansCN-Light; font-size : %ldpt}\"));"
 //     "tagStyle.appendChild(document.createTextNode(\"BODY{font-size : 14pt}\"));"
-     "var tagHeadAdd = tagHead.appendChild(tagStyle);"];
+     "var tagHeadAdd = tagHead.appendChild(tagStyle);", (long)self.fontSize]];
 //         "tagStyle.appendChild(document.createTextNode(\"BODY{font-weight: bold; color: #666666}\"));"
     
     [[NSUserDefaults standardUserDefaults] setInteger:0 forKey:@"WebKitCacheModelPreferenceKey"];
@@ -383,25 +385,51 @@
         switch (indexPath.row) {
             case 0: {
                 [self showFontList];
-                tableView.hidden = YES;
                 break;
             }
             case 1: {
-                
+                [self scrollToTop];
                 break;
             }
         }
+    } else {
+        switch (indexPath.row) {
+            case 0: {
+                self.fontSize = 11;
+
+                break;
+            }
+            case 1: {
+                self.fontSize = 12;
+                break;
+            }
+            case 2: {
+                self.fontSize = 13;
+                break;
+            }
+            case 3: {
+                self.fontSize = 14;
+                break;
+            }
+            case 4: {
+                self.fontSize = 15;
+                break;
+            }
+        }
+        self.articleFrame = self.articleFrame;
+        [self.articleDetail reload];
     }
+    [tableView deselectRowAtIndexPath:indexPath animated:NO];
+    tableView.hidden = YES;
 }
 
 - (void)showFontList {
     self.fontList.hidden = NO;
 }
 
-- (void)backgroundTap {
-    NSLog(@"backgroundTap");
+- (void)scrollToTop {
+    [self.articleDetail.scrollView setContentOffset:CGPointMake(0, - self.articleFrame.noImageViewCellHeight - 20) animated:NO];
 }
-
 
 
 @end
