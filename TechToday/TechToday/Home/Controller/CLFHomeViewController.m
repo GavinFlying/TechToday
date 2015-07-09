@@ -210,7 +210,9 @@
             articleFrame.article = article;
             [articleFrameArray addObject:articleFrame];
         }
-    
+        if (!articleFrameArray.count) {
+            [MBProgressHUD showError:@"没有更多文章了"];
+        }
         [self.articleFrames addObjectsFromArray:articleFrameArray];
         
         [self.tableView reloadData];
@@ -252,7 +254,7 @@
         CLFArticleFrame *articleFrame = self.articleFrames[indexPath.row];
         cell.articleFrame = articleFrame;
         cell.backgroundColor = [UIColor whiteColor];
-        cell.nightBackgroundColor = CLFNightViewColor;
+        cell.nightBackgroundColor = CLFNightCellColor;
         if ([DKNightVersionManager currentThemeVersion] == DKThemeVersionNight) {
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
         } else {

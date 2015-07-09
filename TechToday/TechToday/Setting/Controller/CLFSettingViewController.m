@@ -58,7 +58,6 @@
             cell.accessoryView = nightModeSwitch;
             break;
         }
-            
         case 3: {
             cell.iconImage = [UIImage imageNamed:@"SettingSuggestions"];
             cell.titleText = @"意见反馈";
@@ -105,11 +104,9 @@
             break;
         }
         case 2: {
-
             break;
         }
         case 3: {
-
             break;
         }
         case 4: {

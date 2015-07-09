@@ -24,6 +24,7 @@
 
 #define CLFArticleTitleFont [UIFont fontWithName:@"SourceHanSansCN-Normal" size:21]
 #define CLFArticleOtherFont [UIFont fontWithName:@"SourceHanSansCN-Light" size:13]
+#define CLFArticleDetailSourceFont [UIFont fontWithName:@"SourceHanSansCN-Light" size:15]
 //#define CLFArticleTitleFont [UIFont systemFontOfSize:21]
 //#define CLFArticleOtherFont [UIFont systemFontOfSize:13]
 

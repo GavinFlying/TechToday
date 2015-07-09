@@ -81,7 +81,7 @@
     sourceLabel.textColor = self.titleStyle ? [UIColor whiteColor] : [UIColor lightGrayColor];
     sourceLabel.nightTextColor = CLFNightTextColor;
     sourceLabel.backgroundColor = [UIColor clearColor];
-    sourceLabel.font = CLFArticleOtherFont;
+    sourceLabel.font = CLFArticleDetailSourceFont;
     sourceLabel.text = self.article.source;
     [titleView addSubview:sourceLabel];
     self.sourceLabel = sourceLabel;
@@ -126,7 +126,7 @@
     // sourceLabelFrame
     CGFloat sourceLabelX = titleLabelX;
     CGFloat sourceLabelY = CGRectGetMaxY(self.titleLabel.frame) + CLFArticleCellInnerBorder;
-    CGSize sourceLabelSize = [NSString sizeOfText:self.sourceLabel.text maxSize:CGSizeMake(0.2 * titleViewContentW, 20) font:CLFArticleOtherFont];
+    CGSize sourceLabelSize = [NSString sizeOfText:self.sourceLabel.text maxSize:CGSizeMake(titleViewContentW, 30) font:CLFArticleDetailSourceFont];
     self.sourceLabel.frame = (CGRect){{sourceLabelX, sourceLabelY}, sourceLabelSize};
     
 //    // dateLabelFrame

@@ -70,7 +70,6 @@
     return YES;
 }
 
-
 - (UITableView *)moreOptionList {
     if (!_moreOptionList) {
         UITableView *moreOptionList = [[UITableView alloc] init];
@@ -396,7 +395,6 @@
         switch (indexPath.row) {
             case 0: {
                 self.fontSize = 11;
-
                 break;
             }
             case 1: {
@@ -417,7 +415,6 @@
             }
         }
         self.articleFrame = self.articleFrame;
-        [self.articleDetail reload];
     }
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
     tableView.hidden = YES;
