@@ -253,7 +253,7 @@
     UIButton *shareButton = [[UIButton alloc] init];
     shareButton.contentMode = UIViewContentModeScaleAspectFit;
     shareButton.frame = CGRectMake(0, 0, toolbarH * 0.4, toolbarH * 0.6);
-    [shareButton addTarget:self action:nil forControlEvents:UIControlEventTouchUpInside];
+    [shareButton addTarget:self action:@selector(showShareView) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *shareItem = [[UIBarButtonItem alloc] initWithCustomView:shareButton];
     
     UIButton *moreButton = [[UIButton alloc] init];
@@ -297,6 +297,48 @@
 - (void)showMoreOptions {
     self.moreOptionList.hidden = !self.moreOptionList.hidden;
 }
+
+- (void)showShareView {
+    NSString *imagePath = [[NSBundle mainBundle] pathForResource:@"TechToday" ofType:@"png"];
+    CLFArticle *article = self.articleFrame.article;
+    
+    UIImage *image = [UIImage imageWithContentsOfFile:imagePath];
+    NSLog(@"%@ \n %@", image, imagePath);
+    
+    //构造分享内容
+    id<ISSContent> publishContent = [ShareSDK content:[NSString stringWithFormat:@"推荐jinri.info上的一篇文章:\n%@ http://jinri.info/index.php/DaiArticle/index/%@", article.title, article.articleID]
+                                       defaultContent:nil
+                                                image:[ShareSDK imageWithPath:imagePath]
+                                                title:@"TechToday"
+                                                  url:@"http://jinri.info"
+                                          description:nil
+                                            mediaType:SSPublishContentMediaTypeNews];
+    //创建弹出菜单容器
+    id<ISSContainer> container = [ShareSDK container];
+    [container setIPadContainerWithView:nil arrowDirect:UIPopoverArrowDirectionUp];
+    
+    //弹出分享菜单
+    [ShareSDK showShareActionSheet:container
+                         shareList:nil
+                           content:publishContent
+                     statusBarTips:YES
+                       authOptions:nil
+                      shareOptions:nil
+                            result:^(ShareType type, SSResponseState state, id<ISSPlatformShareInfo> statusInfo, id<ICMErrorInfo> error, BOOL end) {
+                                
+                                if (state == SSResponseStateSuccess)
+                                {
+                                    NSLog(NSLocalizedString(@"TEXT_ShARE_SUC", @"分享成功"));
+                                }
+                                else if (state == SSResponseStateFail)
+                                {
+                                    NSLog(NSLocalizedString(@"TEXT_ShARE_FAI", @"分享失败,错误码:%d,错误描述:%@"), [error errorCode], [error errorDescription]);
+                                }
+                            }];
+}
+
+
+
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     if (1 == tableView.tag) {

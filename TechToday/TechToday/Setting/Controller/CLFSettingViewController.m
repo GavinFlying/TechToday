@@ -37,12 +37,12 @@
 - (CLFSettingCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     CLFSettingCell *cell = [CLFSettingCell cellWithTableView:tableView];
     switch (indexPath.row) {
+//        case 0: {
+////            cell.iconImage = [UIImage imageNamed:@"SettingLogin"];
+////            cell.titleText = @"登录/注册";
+//            break;
+//        }
         case 0: {
-            cell.iconImage = [UIImage imageNamed:@"SettingLogin"];
-            cell.titleText = @"登录/注册";
-            break;
-        }
-        case 1: {
             cell.iconImage = [UIImage imageNamed:@"SettingNightMode"];
             cell.titleText = @"夜间模式";
             UISwitch *nightModeSwitch = [[UISwitch alloc] init];
@@ -50,12 +50,17 @@
             cell.accessoryView = nightModeSwitch;
             break;
         }
-        case 2: {
+        case 1: {
             cell.iconImage = [UIImage imageNamed:@"SettingNoImageMode"];
             cell.titleText = @"无图模式";
             UISwitch *nightModeSwitch = [[UISwitch alloc] init];
             [nightModeSwitch addTarget:self action:@selector(noImageModeChange) forControlEvents:UIControlEventValueChanged];
             cell.accessoryView = nightModeSwitch;
+            break;
+        }
+        case 2: {
+            cell.iconImage = [UIImage imageNamed:@"SettingLogin"];
+            cell.titleText = @"清理缓存";
             break;
         }
         case 3: {
@@ -74,7 +79,6 @@
             break;
         }
     }
-
     return cell;
 }
 
@@ -96,8 +100,8 @@
     CLFNavigationController *destinationViewController = [[CLFAppDelegate globalDelegate] centerNavigationController];
     switch (indexPath.row) {
         case 0: {
-            [[CLFAppDelegate globalDelegate] toggleLeftDrawer:self animated:YES];
-            [destinationViewController goToLoginController];
+//            [[CLFAppDelegate globalDelegate] toggleLeftDrawer:self animated:YES];
+//            [destinationViewController goToLoginController];
             break;
         }
         case 1: {
@@ -110,6 +114,13 @@
             break;
         }
         case 4: {
+//            NSString *str = [NSString stringWithFormat:
+//                             @"itms-apps://ax.itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?type=Purple+Software&id=%d",
+//                             myAppID ];
+//            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:str]];
+            
+            NSString *str = @"itms://itunes.com/apps/wechat";
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:str]];
             break;
         }
         case 5: {
@@ -118,6 +129,7 @@
             break;
         }
     }
+    [tableView deselectRowAtIndexPath:indexPath animated:NO];
 }
 
 - (void)nightModeChange {

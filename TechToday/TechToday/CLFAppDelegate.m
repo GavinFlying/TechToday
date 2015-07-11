@@ -16,6 +16,10 @@
 #import "CLFSettingViewController.h"
 #import "CLFArticleCacheTool.h"
 
+#import <ShareSDK/ShareSDK.h>
+#import "WeiboSDK.h"
+#import "WXApi.h"
+
 @interface CLFAppDelegate ()
 
 @property CLFReachability *internetReachable;
@@ -26,6 +30,17 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    [ShareSDK registerApp:@"8b803b4051a6"];
+    
+    [ShareSDK  connectSinaWeiboWithAppKey:@"2329308416"
+                                appSecret:@"f6d10661b4e122963abbea4cc0905a93"
+                              redirectUri:@"http://jinri.info"];
+//
+//    [ShareSDK connectWeChatWithAppId:@"wx4868b35061f87885"
+//                           appSecret:@"64020361b8ec4c99936c0e3999a9f249"
+//                           wechatCls:[WXApi class]];
+    
+    
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.rootViewController = self.drawerViewController;
     [self configureDrawerViewController];

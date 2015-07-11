@@ -10,6 +10,9 @@
 #define TechToday_CLFCommonHeader_h
 
 #import "DKNightVersion.h"
+#import <ShareSDK/ShareSDK.h>
+#import "WeiboSDK.h"
+#import "WXApi.h"
 
 #define CLFArticleCellBorder (16)
 #define CLFArticleCellInnerBorder (7)
