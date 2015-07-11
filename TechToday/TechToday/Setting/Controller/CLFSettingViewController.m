@@ -12,6 +12,7 @@
 #import "CLFNavigationController.h"
 #import "JVFloatingDrawerViewController.h"
 #import "CLFLoginController.h"
+#import "MBProgressHUD+MJ.h"
 
 @implementation CLFSettingViewController
 
@@ -111,6 +112,9 @@
             break;
         }
         case 3: {
+//            [[CLFAppDelegate globalDelegate] toggleLeftDrawer:self animated:YES];
+//            [destinationViewController goToAboutController];
+            [self sendSuggestionsEmail];
             break;
         }
         case 4: {
@@ -150,5 +154,83 @@
         [self.delegate noImageModeChanged];
     }
 }
+//
+- (void)sendSuggestionsEmail {
+    Class mailClass = (NSClassFromString(@"MFMailComposeViewController"));
+    
+    if (mailClass != nil) {
+        if ([mailClass canSendMail]) {
+            [self displayComposerSheet];
+        } else {
+            [self launchMailAppOnDevice];
+        }
+    } else {
+        [self launchMailAppOnDevice];
+    }
+}
+
+- (void)displayComposerSheet {
+    MFMailComposeViewController *mailPicker = [[MFMailComposeViewController alloc] init];
+    mailPicker.navigationBar.tintColor = [UIColor whiteColor];
+    
+    
+    mailPicker.mailComposeDelegate = self;
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [mailPicker setSubject:@"TechToday意见反馈"];
+        
+        NSArray *toRecipients = [NSArray arrayWithObject:@"gavinflying@126.com"];
+        [mailPicker setToRecipients:toRecipients];
+        
+        NSString *emailBody =@"请留下您的宝贵建议和意见：\n\n\n";
+        [mailPicker setMessageBody:emailBody isHTML:NO];
+
+        [self presentViewController:mailPicker animated:YES completion:^{
+            [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+        }];
+    });
+}
+
+- (void)launchMailAppOnDevice {
+    NSString *recipients = @"mailto:gavinflying@126.com&subject=意见反馈";
+    NSString *body = @"&body=请留下您的宝贵建议和意见：\n\n\n";
+    
+    NSString *email = [NSString stringWithFormat:@"%@%@", recipients, body];
+    email = [email stringByAddingPercentEscapesUsingEncoding: NSUTF8StringEncoding];
+    
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:email]];
+}
+
+
+- (void)mailComposeController:(MFMailComposeViewController *)controller
+          didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error {
+    switch (result) {
+        case MFMailComposeResultCancelled: {
+            [MBProgressHUD showError:@"邮件发送取消"];
+            break;
+        }
+        case MFMailComposeResultSaved: {
+            [MBProgressHUD showSuccess:@"邮件保存成功"];
+            break;
+        }
+        case MFMailComposeResultSent: {
+            [MBProgressHUD showSuccess:@"邮件发送成功"];
+            break;
+        }
+        case MFMailComposeResultFailed: {
+            [MBProgressHUD showError:@"邮件发送失败"];
+            break;
+        }
+    }
+//    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:msg
+//                                                    message:@""
+//                                                   delegate:self
+//                                          cancelButtonTitle:@"OK"
+//                                          otherButtonTitles:nil];
+//    [alert show];
+    
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
 
 @end

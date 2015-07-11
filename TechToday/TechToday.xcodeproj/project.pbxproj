@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		3F3293591B501E4200793CE3 /* TechToday.png in Resources */ = {isa = PBXBuildFile; fileRef = 3F3293581B501E4200793CE3 /* TechToday.png */; };
-		3F9015561B50EA8D00A242E2 /* CLFSuggestionController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F9015551B50EA8D00A242E2 /* CLFSuggestionController.m */; };
 		3F9015581B50EAB300A242E2 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F9015571B50EAB300A242E2 /* MessageUI.framework */; };
 		3F922E9D1B4B6960004CC85D /* TechTodayTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F922E9C1B4B6960004CC85D /* TechTodayTests.m */; };
 		3F922EAD1B4B6FA2004CC85D /* CLFArticleDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F922EA91B4B6FA2004CC85D /* CLFArticleDetailController.m */; };
@@ -146,8 +145,6 @@
 
 /* Begin PBXFileReference section */
 		3F3293581B501E4200793CE3 /* TechToday.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = TechToday.png; sourceTree = "<group>"; };
-		3F9015541B50EA8D00A242E2 /* CLFSuggestionController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CLFSuggestionController.h; sourceTree = "<group>"; };
-		3F9015551B50EA8D00A242E2 /* CLFSuggestionController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CLFSuggestionController.m; sourceTree = "<group>"; };
 		3F9015571B50EAB300A242E2 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		3F922E7D1B4B6960004CC85D /* TechToday.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TechToday.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3F922E811B4B6960004CC85D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -876,8 +873,6 @@
 				3F922FF41B4B6FED004CC85D /* CLFLoginController.m */,
 				3F922FF51B4B6FED004CC85D /* CLFSettingViewController.h */,
 				3F922FF61B4B6FED004CC85D /* CLFSettingViewController.m */,
-				3F9015541B50EA8D00A242E2 /* CLFSuggestionController.h */,
-				3F9015551B50EA8D00A242E2 /* CLFSuggestionController.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -1291,7 +1286,6 @@
 				3FA665BD1B4E882900F8A0EA /* UINavigationBar+BarTintColor.m in Sources */,
 				3F9230011B4B6FED004CC85D /* CLFAboutController.m in Sources */,
 				3F922FC81B4B6FD4004CC85D /* UIImage+WebP.m in Sources */,
-				3F9015561B50EA8D00A242E2 /* CLFSuggestionController.m in Sources */,
 				3F922EC51B4B6FBB004CC85D /* CLFHomeViewController.m in Sources */,
 				3F922FC31B4B6FD4004CC85D /* SDWebImageManager.m in Sources */,
 				3F922FB31B4B6FD4004CC85D /* MJRefreshBackStateFooter.m in Sources */,

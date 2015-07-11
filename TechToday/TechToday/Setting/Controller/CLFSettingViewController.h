@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <MessageUI/MFMailComposeViewController.h>
 
 @protocol CLFSettingViewControllerDelegate <NSObject>
 
@@ -17,7 +18,7 @@
 
 @end
 
-@interface CLFSettingViewController : UITableViewController
+@interface CLFSettingViewController : UITableViewController <MFMailComposeViewControllerDelegate>
 
 @property (weak, nonatomic) id<CLFSettingViewControllerDelegate> delegate;
 
