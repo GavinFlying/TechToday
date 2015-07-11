@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		3F3293591B501E4200793CE3 /* TechToday.png in Resources */ = {isa = PBXBuildFile; fileRef = 3F3293581B501E4200793CE3 /* TechToday.png */; };
+		3F34292B1B5134AF006B4656 /* CLFCacheClearTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F34292A1B5134AF006B4656 /* CLFCacheClearTool.m */; };
 		3F9015581B50EAB300A242E2 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F9015571B50EAB300A242E2 /* MessageUI.framework */; };
 		3F922E9D1B4B6960004CC85D /* TechTodayTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F922E9C1B4B6960004CC85D /* TechTodayTests.m */; };
 		3F922EAD1B4B6FA2004CC85D /* CLFArticleDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F922EA91B4B6FA2004CC85D /* CLFArticleDetailController.m */; };
@@ -145,6 +146,8 @@
 
 /* Begin PBXFileReference section */
 		3F3293581B501E4200793CE3 /* TechToday.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = TechToday.png; sourceTree = "<group>"; };
+		3F3429291B5134AF006B4656 /* CLFCacheClearTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CLFCacheClearTool.h; sourceTree = "<group>"; };
+		3F34292A1B5134AF006B4656 /* CLFCacheClearTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CLFCacheClearTool.m; sourceTree = "<group>"; };
 		3F9015571B50EAB300A242E2 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		3F922E7D1B4B6960004CC85D /* TechToday.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TechToday.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3F922E811B4B6960004CC85D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -851,6 +854,8 @@
 			children = (
 				3F922FEC1B4B6FED004CC85D /* CLFHttpTool.h */,
 				3F922FED1B4B6FED004CC85D /* CLFHttpTool.m */,
+				3F3429291B5134AF006B4656 /* CLFCacheClearTool.h */,
+				3F34292A1B5134AF006B4656 /* CLFCacheClearTool.m */,
 			);
 			path = Tool;
 			sourceTree = "<group>";
@@ -1261,6 +1266,7 @@
 				3F922EC81B4B6FBB004CC85D /* CLFArticleCacheTool.m in Sources */,
 				3F922FAE1B4B6FD4004CC85D /* MJRefreshAutoGifFooter.m in Sources */,
 				3F922FA81B4B6FD4004CC85D /* MBProgressHUD.m in Sources */,
+				3F34292B1B5134AF006B4656 /* CLFCacheClearTool.m in Sources */,
 				3F922FBB1B4B6FD4004CC85D /* UIView+MJExtension.m in Sources */,
 				3F922FBA1B4B6FD4004CC85D /* UIScrollView+MJRefresh.m in Sources */,
 				3F922F9A1B4B6FD4004CC85D /* FMDatabasePool.m in Sources */,

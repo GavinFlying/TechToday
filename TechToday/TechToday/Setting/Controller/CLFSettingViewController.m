@@ -13,6 +13,11 @@
 #import "JVFloatingDrawerViewController.h"
 #import "CLFLoginController.h"
 #import "MBProgressHUD+MJ.h"
+#import "CLFCacheClearTool.h"
+
+@interface CLFSettingViewController () <UIAlertViewDelegate>
+
+@end
 
 @implementation CLFSettingViewController
 
@@ -109,6 +114,16 @@
             break;
         }
         case 2: {
+            NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
+            NSString *cachesDir = [paths objectAtIndex:0];
+            CGFloat cacheSize = [CLFCacheClearTool DirectorySizeAtPath:cachesDir];
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"缓存清理"
+                                                            message:[NSString stringWithFormat:@"目前共有 %.2fM 缓存,确定要清理吗?", cacheSize]
+                                                           delegate:self
+                                                  cancelButtonTitle:@"取消"
+                                                  otherButtonTitles:@"确定", nil];
+            [alert show];
+            
             break;
         }
         case 3: {
@@ -231,6 +246,22 @@
     
     [self dismissViewControllerAnimated:YES completion:nil];
 }
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    switch (buttonIndex) {
+        case 0: {
+            break;
+        }
+        case 1: {
+//            [MBProgressHUD showMessage:@"清除中"];
+            NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
+            NSString *cachesDir = [paths objectAtIndex:0];
+            [CLFCacheClearTool clearCacheAtPath:cachesDir completion:nil];
+            break;
+        }
+    }
+}
+
 
 
 @end
