@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		3F3293591B501E4200793CE3 /* TechToday.png in Resources */ = {isa = PBXBuildFile; fileRef = 3F3293581B501E4200793CE3 /* TechToday.png */; };
 		3F34292B1B5134AF006B4656 /* CLFCacheClearTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F34292A1B5134AF006B4656 /* CLFCacheClearTool.m */; };
+		3F34292D1B51532F006B4656 /* AboutTechToday.html in Resources */ = {isa = PBXBuildFile; fileRef = 3F34292C1B51532F006B4656 /* AboutTechToday.html */; };
 		3F9015581B50EAB300A242E2 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F9015571B50EAB300A242E2 /* MessageUI.framework */; };
 		3F922E9D1B4B6960004CC85D /* TechTodayTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F922E9C1B4B6960004CC85D /* TechTodayTests.m */; };
 		3F922EAD1B4B6FA2004CC85D /* CLFArticleDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F922EA91B4B6FA2004CC85D /* CLFArticleDetailController.m */; };
@@ -148,6 +149,7 @@
 		3F3293581B501E4200793CE3 /* TechToday.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = TechToday.png; sourceTree = "<group>"; };
 		3F3429291B5134AF006B4656 /* CLFCacheClearTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CLFCacheClearTool.h; sourceTree = "<group>"; };
 		3F34292A1B5134AF006B4656 /* CLFCacheClearTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CLFCacheClearTool.m; sourceTree = "<group>"; };
+		3F34292C1B51532F006B4656 /* AboutTechToday.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = AboutTechToday.html; sourceTree = "<group>"; };
 		3F9015571B50EAB300A242E2 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		3F922E7D1B4B6960004CC85D /* TechToday.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TechToday.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3F922E811B4B6960004CC85D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -463,6 +465,7 @@
 			isa = PBXGroup;
 			children = (
 				3F3293581B501E4200793CE3 /* TechToday.png */,
+				3F34292C1B51532F006B4656 /* AboutTechToday.html */,
 				3F92300D1B4B7806004CC85D /* SourceHanSansCN-Light.otf */,
 				3F92300E1B4B7806004CC85D /* SourceHanSansCN-Normal.otf */,
 				3F922FDC1B4B6FDE004CC85D /* main.m */,
@@ -1180,6 +1183,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3F933C281B4FEAEE00E11186 /* ShareSDKLocalizable.strings in Resources */,
+				3F34292D1B51532F006B4656 /* AboutTechToday.html in Resources */,
 				3F922ECD1B4B6FC7004CC85D /* Images.xcassets in Resources */,
 				3F9230101B4B7806004CC85D /* SourceHanSansCN-Normal.otf in Resources */,
 				3F922FA71B4B6FD4004CC85D /* MBProgressHUD.bundle in Resources */,

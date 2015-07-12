@@ -14,10 +14,11 @@
 #import "CLFNavigationController.h"
 #import "NSString+CLF.h"
 
-@interface CLFAboutController ()
+@interface CLFAboutController () <UIWebViewDelegate>
 
 @property (weak, nonatomic) UIView *appIconView;
 @property (weak, nonatomic) UIView *appIntroView;
+@property (weak, nonatomic) UIWebView *IntroView;
 
 @end
 
@@ -39,7 +40,7 @@
         CGFloat appIconViewX = 0;
         CGFloat appIconViewY = 0;
         CGFloat appIconViewW = CGRectGetWidth(self.view.frame);
-        CGFloat appIconViewH = 138;
+        CGFloat appIconViewH = 142;
         appIconView.frame = CGRectMake(appIconViewX, appIconViewY, appIconViewW, appIconViewH);
         [self.view addSubview:appIconView];
         
@@ -49,13 +50,13 @@
 }
 
 - (void)setupAppIconView {
-    self.appIconView.backgroundColor = [UIColor blueColor];
+    self.appIconView.backgroundColor = [UIColor whiteColor];
     
     UIImageView *iconView = [[UIImageView alloc] init];
-    CGFloat iconViewX = 30;
-    CGFloat iconViewY = 15;
     CGFloat iconViewW = 108;
     CGFloat iconViewH = 108;
+    CGFloat iconViewX = CGRectGetWidth(self.view.frame) * 0.5 - iconViewW - 5;;
+    CGFloat iconViewY = 15;
     iconView.frame = CGRectMake(iconViewX, iconViewY, iconViewW, iconViewH);
     iconView.image = [UIImage imageNamed:@"TechToday"];
     [self.appIconView addSubview:iconView];
@@ -64,10 +65,11 @@
     titleLabel.text = @"TechToday";
     titleLabel.font = CLFArticleTitleFont;
     titleLabel.textColor = [UIColor blackColor];
+    titleLabel.nightTextColor = CLFNightTextColor;
     
     CGSize titleSize = [NSString sizeOfText:titleLabel.text maxSize:CGSizeMake(200, MAXFLOAT) font:CLFArticleTitleFont];
-    CGFloat titleX = CGRectGetMaxX(iconView.frame) + 15;
-    CGFloat titleY = iconView.frame.origin.y + 5;
+    CGFloat titleX = CGRectGetMaxX(iconView.frame) + 10;
+    CGFloat titleY = iconView.frame.origin.y;
     titleLabel.frame = (CGRect){{titleX, titleY}, titleSize};
     [self.appIconView addSubview:titleLabel];
     
@@ -75,10 +77,11 @@
     slogan1Label.text = @"聚焦今日";
     slogan1Label.font = CLFArticleTitleFont;
     slogan1Label.textColor = [UIColor blackColor];
+    slogan1Label.nightTextColor = CLFNightTextColor;
     
     CGSize slogan1Size = [NSString sizeOfText:titleLabel.text maxSize:CGSizeMake(200, MAXFLOAT) font:CLFArticleTitleFont];
-    CGFloat slogan1X = CGRectGetMaxX(iconView.frame) + 15;
-    CGFloat slogan1Y = CGRectGetMaxY(titleLabel.frame) + 5;
+    CGFloat slogan1X = CGRectGetMaxX(iconView.frame) + 10;
+    CGFloat slogan1Y = CGRectGetMaxY(titleLabel.frame) + 4;
     slogan1Label.frame = (CGRect){{slogan1X, slogan1Y}, slogan1Size};
     [self.appIconView addSubview:slogan1Label];
     
@@ -86,23 +89,49 @@
     slogan2Label.text = @"拒绝昨日";
     slogan2Label.font = CLFArticleTitleFont;
     slogan2Label.textColor = [UIColor blackColor];
+    slogan2Label.nightTextColor = CLFNightTextColor;
     
     CGSize slogan2Size = [NSString sizeOfText:titleLabel.text maxSize:CGSizeMake(200, MAXFLOAT) font:CLFArticleTitleFont];
-    CGFloat slogan2X = CGRectGetMaxX(iconView.frame) + 15;
-    CGFloat slogan2Y = CGRectGetMaxY(slogan1Label.frame) + 5;
+    CGFloat slogan2X = CGRectGetMaxX(iconView.frame) + 10;
+    CGFloat slogan2Y = CGRectGetMaxY(slogan1Label.frame) + 2;
     slogan2Label.frame = (CGRect){{slogan2X, slogan2Y}, slogan2Size};
     [self.appIconView addSubview:slogan2Label];
+    
+    UILabel *versionLabel = [[UILabel alloc] init];
+    versionLabel.text = @"版本号: v 1.0.0";
+    versionLabel.textAlignment = NSTextAlignmentLeft;
+    versionLabel.font = CLFArticleOtherFont;
+    versionLabel.textColor = [UIColor blackColor];
+    versionLabel.nightTextColor = CLFNightTextColor;
+    CGFloat versionLabelW = iconViewW;
+    CGFloat versionLabelH = 15;
+    CGFloat versionLabelX = CGRectGetMaxX(iconView.frame) + 10;
+    CGFloat versionLabelY = CGRectGetMaxY(slogan2Label.frame) + 4;
+    versionLabel.frame = CGRectMake(versionLabelX, versionLabelY, versionLabelW, versionLabelH);
+    [self.appIconView addSubview:versionLabel];
+    
+    UIView *seperatorView = [[UIView alloc] init];
+    seperatorView.backgroundColor = CLFUIMainColor;
+    seperatorView.nightBackgroundColor = CLFNightBarColor;
+    CGFloat seperatorViewX = 5;
+    CGFloat seperatorViewY = CGRectGetMaxY(iconView.frame) + 15;
+    CGFloat seperatorViewW = CGRectGetWidth(self.view.frame) - 2 * seperatorViewX;
+    CGFloat seperatorViewH = 4;
+    seperatorView.frame = CGRectMake(seperatorViewX, seperatorViewY, seperatorViewW, seperatorViewH);
+    [self.appIconView addSubview:seperatorView];
 }
 
 - (UIView *)appIntroView {
     if (!_appIntroView) {
         UITextField *appIntroView = [[UITextField alloc] init];
         
-        CGFloat appIntroViewX = 0;
-        CGFloat appIntroViewY = CGRectGetMaxY(self.appIconView.frame);
-        CGFloat appIntroViewW = CGRectGetWidth(self.view.frame);
+        CGFloat appIntroViewX = 15;
+        CGFloat appIntroViewY = CGRectGetMaxY(self.appIconView.frame) + 15;
+        CGFloat appIntroViewW = CGRectGetWidth(self.view.frame) - 30;
         CGFloat appIntroViewH = CGRectGetHeight(self.view.frame) - CGRectGetHeight(self.appIconView.frame);
         appIntroView.frame = CGRectMake(appIntroViewX, appIntroViewY, appIntroViewW, appIntroViewH);
+        appIntroView.backgroundColor = [UIColor clearColor];
+        appIntroView.nightBackgroundColor = CLFNightViewColor;
         [self.view addSubview:appIntroView];
         
         _appIntroView = appIntroView;
@@ -113,27 +142,27 @@
 - (void)setupAppIntroView {
     self.appIntroView.backgroundColor = [UIColor whiteColor];
     
-//    UITextField *appIntro = [[UITextField alloc] init];
-//    appIntro.frame = self.appIntroView.bounds;
-//    appIntro.text =
-//    appIntro.font = CLFArticleDetailSourceFont;
-//    appIntro.textColor = [UIColor blackColor];
-//    [self.appIntroView addSubview:appIntro];
+    UIWebView *introView = [[UIWebView alloc] init];
     
-    UILabel *introLabel = [[UILabel alloc] init];
+    introView.frame = self.appIntroView.bounds;
     
-    NSString *titleText = @"TechToday是jinri.info的一款iOS客户端.TechToday是jinri.info的一款iOS客户端.TechToday是jinri.info的一款iOS客户端.TechToday是jinri.info的一款iOS客户端.TechToday是jinri.info的一款iOS客户端";
-    NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithString:titleText];
-    NSMutableParagraphStyle *style = [[NSMutableParagraphStyle alloc] init];
-    style.lineHeightMultiple = 1.3;
-    [attrString addAttribute:NSParagraphStyleAttributeName value:style range:NSMakeRange(0, titleText.length)];
-    introLabel.attributedText = attrString;
-    introLabel.frame = self.appIntroView.bounds;
-    introLabel.numberOfLines = 0;
-    introLabel.font = CLFArticleDetailSourceFont;
-    introLabel.textColor = [UIColor blackColor];
+    NSString *mainBundleDirectory = [[NSBundle mainBundle] bundlePath];
+    NSString *path = [mainBundleDirectory  stringByAppendingPathComponent:@"AboutTechToday.html"];
+    NSURL *url = [NSURL fileURLWithPath:path];
+    NSURLRequest *request = [NSURLRequest requestWithURL:url];
+    introView.scalesPageToFit = YES;
+    [introView loadRequest:request];
+    introView.delegate = self;
     
-    [self.appIntroView addSubview:introLabel];
+    introView.scrollView.backgroundColor = [UIColor clearColor];
+    introView.scrollView.nightBackgroundColor = CLFNightViewColor;
+    introView.backgroundColor = [UIColor clearColor];
+    introView.nightBackgroundColor = CLFNightViewColor;
+    
+    introView.scrollView.contentInset = UIEdgeInsetsMake(10, 0, 100, 0);
+    introView.scrollView.showsVerticalScrollIndicator = NO;
+    introView.opaque = NO;
+    [self.appIntroView addSubview:introView];
 }
 
 - (void)setupNavigationBar {
@@ -164,5 +193,29 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
+-(BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType;
+{
+    NSURL *requestURL =[request URL];
+    if (([[requestURL scheme] isEqualToString:@"http"] || [[requestURL scheme] isEqualToString:@"https"] || [[requestURL scheme] isEqualToString:@"mailto" ]) && (navigationType == UIWebViewNavigationTypeLinkClicked)) {
+        return ![[UIApplication sharedApplication] openURL:requestURL];
+    }
+    return YES;
+}
+
+- (void)webViewDidFinishLoad:(UIWebView *)webView {
+    NSString *fontColor = nil;
+    if ([DKNightVersionManager currentThemeVersion] == DKThemeVersionNight) {
+        fontColor = @"#828282";
+    } else {
+        fontColor = @"#000000";
+    }
+    
+    [webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:
+    @"var tagHead =document.documentElement.firstChild;"
+     "var tagStyle = document.createElement(\"style\");"
+     "tagStyle.setAttribute(\"type\", \"text/css\");"
+     "tagStyle.appendChild(document.createTextNode(\"BODY{color: %@}\"));"
+     "var tagHeadAdd = tagHead.appendChild(tagStyle);", fontColor]];
+}
 
 @end

@@ -184,6 +184,13 @@
 }
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
+    NSString *fontColor = nil;
+    if ([DKNightVersionManager currentThemeVersion] == DKThemeVersionNight) {
+        fontColor = @"#828282";
+    } else {
+        fontColor = @"#000000";
+    }
+    
     [webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:
      @"var tagHead =document.documentElement.firstChild;"
      "var tagStyle = document.createElement(\"style\");"
@@ -191,9 +198,9 @@
      "tagStyle.appendChild(document.createTextNode(\"BODY{padding: 10pt 15pt}\"));"
      "tagStyle.appendChild(document.createTextNode(\"BODY{text-align: justify}\"));"
      "tagStyle.appendChild(document.createTextNode(\"BODY{background-color: transparent}\"));"
-     "tagStyle.appendChild(document.createTextNode(\"BODY{font-family:SourceHanSansCN-Light; font-size : %ldpt}\"));"
+     "tagStyle.appendChild(document.createTextNode(\"BODY{font-family: SourceHanSansCN-Light; font-size: %ldpt; color: %@}\"));"
 //     "tagStyle.appendChild(document.createTextNode(\"BODY{font-size : 14pt}\"));"
-     "var tagHeadAdd = tagHead.appendChild(tagStyle);", (long)self.fontSize]];
+     "var tagHeadAdd = tagHead.appendChild(tagStyle);", (long)self.fontSize, fontColor]];
 //         "tagStyle.appendChild(document.createTextNode(\"BODY{font-weight: bold; color: #666666}\"));"
     
     [[NSUserDefaults standardUserDefaults] setInteger:0 forKey:@"WebKitCacheModelPreferenceKey"];
