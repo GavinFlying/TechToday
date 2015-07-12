@@ -15,7 +15,11 @@
 #import "MBProgressHUD+MJ.h"
 #import "CLFCacheClearTool.h"
 
+
 @interface CLFSettingViewController () <UIAlertViewDelegate>
+
+@property (strong, nonatomic) UISwitch *nightModeSwitch;
+@property (strong, nonatomic) UISwitch *noImageModeSwitch;
 
 @end
 
@@ -40,6 +44,26 @@
     return 6;
 }
 
+- (UISwitch *)noImageModeSwitch {
+    if (!_noImageModeSwitch) {
+        UISwitch *noImageModeSwitch = [[UISwitch alloc] init];
+        noImageModeSwitch.onTintColor = CLFUIMainColor;
+        [noImageModeSwitch addTarget:self action:@selector(noImageModeChange) forControlEvents:UIControlEventValueChanged];
+        _noImageModeSwitch = noImageModeSwitch;
+    }
+    return _noImageModeSwitch;
+}
+
+- (UISwitch *)nightModeSwitch {
+    if (!_nightModeSwitch) {
+        UISwitch *nightModeSwitch = [[UISwitch alloc] init];
+        nightModeSwitch.onTintColor = CLFUIMainColor;
+        [nightModeSwitch addTarget:self action:@selector(nightModeChange) forControlEvents:UIControlEventValueChanged];
+        _nightModeSwitch = nightModeSwitch;
+    }
+    return _nightModeSwitch;
+}
+
 - (CLFSettingCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     CLFSettingCell *cell = [CLFSettingCell cellWithTableView:tableView];
     switch (indexPath.row) {
@@ -51,17 +75,20 @@
         case 0: {
             cell.iconImage = [UIImage imageNamed:@"SettingNightMode"];
             cell.titleText = @"夜间模式";
-            UISwitch *nightModeSwitch = [[UISwitch alloc] init];
-            [nightModeSwitch addTarget:self action:@selector(nightModeChange) forControlEvents:UIControlEventValueChanged];
-            cell.accessoryView = nightModeSwitch;
+            cell.accessoryView = self.nightModeSwitch;
+            NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+            self.nightModeSwitch.on = [defaults boolForKey:@"nightModeStatus"];
+            [self nightModeChange];
             break;
         }
         case 1: {
             cell.iconImage = [UIImage imageNamed:@"SettingNoImageMode"];
             cell.titleText = @"无图模式";
-            UISwitch *nightModeSwitch = [[UISwitch alloc] init];
-            [nightModeSwitch addTarget:self action:@selector(noImageModeChange) forControlEvents:UIControlEventValueChanged];
-            cell.accessoryView = nightModeSwitch;
+            cell.accessoryView = self.noImageModeSwitch;
+            NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+            self.noImageModeSwitch.on = [defaults boolForKey:@"noImageModeStatus"];
+            [CLFAppDelegate globalDelegate].noImageModeOn = !self.noImageModeSwitch.isOn;
+            [self noImageModeChange];
             break;
         }
         case 2: {
@@ -133,13 +160,15 @@
             break;
         }
         case 4: {
-//            NSString *str = [NSString stringWithFormat:
-//                             @"itms-apps://ax.itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?type=Purple+Software&id=%d",
-//                             myAppID ];
-//            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:str]];
+            NSString *appid = @"725296055";
+            NSString *str = [NSString stringWithFormat:@"itms-apps://itunes.apple.com/cn/app/id%@?mt=8", appid];
+            NSURL *url = [NSURL URLWithString:str];
+            [[UIApplication sharedApplication] openURL:url];
+            NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+            NSInteger launchTime = [defaults integerForKey:@"launchTime"];
+            launchTime = -666666;
+            [defaults setInteger:launchTime forKey:@"launchTime"];
             
-            NSString *str = @"itms://itunes.com/apps/wechat";
-            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:str]];
             break;
         }
         case 5: {
@@ -152,10 +181,14 @@
 }
 
 - (void)nightModeChange {
-    if ([DKNightVersionManager currentThemeVersion] == DKThemeVersionNight) {
-        [DKNightVersionManager dawnComing];
-    } else {
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults setBool:self.nightModeSwitch.isOn forKey:@"nightModeStatus"];
+    [defaults synchronize];
+    
+    if (self.nightModeSwitch.isOn) {
         [DKNightVersionManager nightFalling];
+    } else {
+        [DKNightVersionManager dawnComing];
     }
     if ([self.delegate respondsToSelector:@selector(reloadViewData)]) {
         [self.delegate reloadViewData];
@@ -165,6 +198,10 @@
 }
 
 - (void)noImageModeChange {
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults setBool:self.noImageModeSwitch.isOn forKey:@"noImageModeStatus"];
+    [defaults synchronize];
+    
     if ([self.delegate respondsToSelector:@selector(reloadViewData)]) {
         [self.delegate noImageModeChanged];
     }
@@ -219,31 +256,26 @@
 
 - (void)mailComposeController:(MFMailComposeViewController *)controller
           didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error {
+    
+    JVFloatingDrawerViewController *draw = [CLFAppDelegate globalDelegate].drawerViewController;
     switch (result) {
         case MFMailComposeResultCancelled: {
-            [MBProgressHUD showError:@"邮件发送取消"];
+            [MBProgressHUD showError:@"邮件发送取消" toView:draw.view];
             break;
         }
         case MFMailComposeResultSaved: {
-            [MBProgressHUD showSuccess:@"邮件保存成功"];
+            [MBProgressHUD showSuccess:@"邮件保存成功" toView:draw.view];
             break;
         }
         case MFMailComposeResultSent: {
-            [MBProgressHUD showSuccess:@"邮件发送成功"];
+            [MBProgressHUD  showSuccess:@"邮件发送成功" toView:draw.view];
             break;
         }
         case MFMailComposeResultFailed: {
-            [MBProgressHUD showError:@"邮件发送失败"];
+            [MBProgressHUD showError:@"邮件发送失败" toView:draw.view];
             break;
         }
     }
-//    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:msg
-//                                                    message:@""
-//                                                   delegate:self
-//                                          cancelButtonTitle:@"OK"
-//                                          otherButtonTitles:nil];
-//    [alert show];
-    
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 

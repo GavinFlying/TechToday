@@ -58,51 +58,53 @@
     CLFSettingViewController *setting = (CLFSettingViewController *)[CLFAppDelegate globalDelegate].drawerViewController.leftViewController;
     setting.delegate = self;
     [CLFAppDelegate globalDelegate].noImageModeOn = NO;
-//    [self loadNewData];
 }
 
-- (JVFloatingDrawerSpringAnimator *)drawerAnimator {
-    return [[CLFAppDelegate globalDelegate] drawerAnimator];
-}
-
-- (void)configureAnimator {
-    self.drawerAnimator.animationDuration = 0.7;
-    self.drawerAnimator.animationDelay = 0;
-    self.drawerAnimator.initialSpringVelocity = 9;
-    self.drawerAnimator.springDamping = 0.8;
-}
-
-- (void)setupRefreshView {
-    __weak typeof(self) weakSelf = self;
-    self.tableView.header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
-        [weakSelf loadNewData];
-    }];
-    [self.tableView.header beginRefreshing];
-    
-    self.tableView.footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
-        [weakSelf loadMoreData];
-    }];
-    
-}
-
-- (NSMutableArray *)articleFrames {
-    if (!_articleFrames) {
-        _articleFrames = [NSMutableArray array];
+#pragma mark - UI : theNewArticleRemindButton && NavigationBar
+- (UIButton *)theNewArticleRemindButton {
+    if (!_theNewArticleRemindButton) {
+        UIButton *remindButton = [[UIButton alloc] init];
+        [self.navigationController.view insertSubview:remindButton belowSubview:self.navigationController.navigationBar];
+        remindButton.userInteractionEnabled = NO;
+        remindButton.backgroundColor = CLFRemindButtonBackgroundColor;
+        remindButton.nightBackgroundColor = CLFNightTextColor;
+        remindButton.titleLabel.font = [UIFont systemFontOfSize:14];
+        [remindButton setTitleColor:CLFUIMainColor forState:UIControlStateNormal];
+        remindButton.nightTitleColor = CLFNightBarColor;
+        remindButton.hidden = YES;
+        
+        CGFloat remindButtonH = 30;
+        CGFloat remindButtonY = 64 - remindButtonH;
+        CGFloat remindButtonX = 0;
+        CGFloat remindButtonW = CGRectGetWidth(self.view.frame);
+        remindButton.frame = CGRectMake(remindButtonX, remindButtonY, remindButtonW, remindButtonH);
+        _theNewArticleRemindButton = remindButton;
     }
-    return _articleFrames;
+    return _theNewArticleRemindButton;
 }
 
-- (CLFArticleDetailController *)articleDetailController {
-    if (!_articleDetailController) {
-        CLFArticleDetailController *articelDetailController = [[CLFArticleDetailController alloc] init];
-        _articleDetailController = articelDetailController;
+- (void)showNewArticleCount:(long)count {
+    
+    self.theNewArticleRemindButton.hidden = NO;
+    
+    if (count) {
+        [self.theNewArticleRemindButton setTitle:[NSString stringWithFormat:@"更新了%ld篇文章", count] forState:UIControlStateNormal];
+    } else {
+        [self.theNewArticleRemindButton setTitle:@"没有新的文章" forState:UIControlStateNormal];
     }
-    return _articleDetailController;
+    
+    [UIView animateWithDuration:0.5 animations:^{
+        self.theNewArticleRemindButton.transform = CGAffineTransformMakeTranslation(0, CGRectGetHeight(self.theNewArticleRemindButton.frame));
+    } completion:^(BOOL finished) {
+        [UIView animateWithDuration:0.5 delay:0.5 options:UIViewAnimationOptionCurveLinear animations:^{
+            self.theNewArticleRemindButton.transform = CGAffineTransformIdentity;
+        } completion:^(BOOL finished) {
+            self.theNewArticleRemindButton.hidden = YES;
+        }];
+    }];
 }
 
-/**
- *  设置导航栏样式.背景/Title/leftBarButton后期用图片替换
- */
+
 - (void)setupNavigationBar {
     
     UIButton *leftButton = [[UIButton alloc] init];
@@ -122,35 +124,25 @@
     titleView.contentMode = UIViewContentModeScaleAspectFit;
     self.navigationItem.titleView = titleView;
     
-    UIButton *remindButton = [[UIButton alloc] init];
-    [self.navigationController.view insertSubview:remindButton belowSubview:self.navigationController.navigationBar];
-    remindButton.userInteractionEnabled = NO;
-    remindButton.backgroundColor = CLFRemindButtonBackgroundColor;
-    remindButton.nightBackgroundColor = CLFNightTextColor;
-    remindButton.titleLabel.font = [UIFont systemFontOfSize:14];
-    [remindButton setTitleColor:CLFUIMainColor forState:UIControlStateNormal];
-    remindButton.nightTitleColor = CLFNightBarColor;
-    remindButton.hidden = YES;
-    CGFloat remindButtonH = 30;
-    CGFloat remindButtonY = 64 - remindButtonH;
-    CGFloat remindButtonX = 0;
-    CGFloat remindButtonW = CGRectGetWidth(self.view.frame);
-    remindButton.frame = CGRectMake(remindButtonX, remindButtonY, remindButtonW, remindButtonH);
-    self.theNewArticleRemindButton = remindButton;
-    
     self.tableView.backgroundColor = CLFHomeViewBackgroundColor;
     self.tableView.nightBackgroundColor = CLFNightViewColor;
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.tableView.contentInset = UIEdgeInsetsMake(0, 0, CLFArticleCellToBorderMargin, 0);
 }
 
-- (void)showSettingView {
-    [[CLFAppDelegate globalDelegate] toggleLeftDrawer:self animated:YES];
+#pragma mark - refresh data in homeViewController
+- (void)setupRefreshView {
+    __weak typeof(self) weakSelf = self;
+    self.tableView.header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+        [weakSelf loadNewData];
+    }];
+    [self.tableView.header beginRefreshing];
+    
+    self.tableView.footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
+        [weakSelf loadMoreData];
+    }];
 }
 
-/**
- *  加载更多数据(下拉刷新)
- */
 - (void)loadNewData {
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     NSString *URLAppendage = nil;
@@ -160,10 +152,8 @@
     } else {
         URLAppendage = @"getArticle";
     }
-//    URLAppendage = @"getArticle";
     
     [CLFArticleTool articleWithURLAppendage:URLAppendage params:params success:^(NSArray *articlesArray) {
-        // 可封装进去
         NSMutableArray *articleFrameArray = [NSMutableArray array];
         for (CLFArticle *article in articlesArray) {
             CLFArticleFrame *articleFrame = [[CLFArticleFrame alloc] init];
@@ -224,28 +214,57 @@
     }];
 }
 
-- (void)showNewArticleCount:(long)count {
-    
-    self.theNewArticleRemindButton.hidden = NO;
-    if (count) {
-        [self.theNewArticleRemindButton setTitle:[NSString stringWithFormat:@"更新了%ld篇文章", count] forState:UIControlStateNormal];
-    } else {
-        [self.theNewArticleRemindButton setTitle:@"没有新的文章" forState:UIControlStateNormal];
+#pragma mark - about the articleDetailPage
+- (NSMutableArray *)articleFrames {
+    if (!_articleFrames) {
+        _articleFrames = [NSMutableArray array];
     }
-
-    [UIView animateWithDuration:0.5 animations:^{
-        self.theNewArticleRemindButton.transform = CGAffineTransformMakeTranslation(0, CGRectGetHeight(self.theNewArticleRemindButton.frame));
-    } completion:^(BOOL finished) {
-        [UIView animateWithDuration:0.5 delay:0.5 options:UIViewAnimationOptionCurveLinear animations:^{
-            self.theNewArticleRemindButton.transform = CGAffineTransformIdentity;
-        } completion:^(BOOL finished) {
-            self.theNewArticleRemindButton.hidden = YES;
-        }];
-    }];    
+    return _articleFrames;
 }
 
+- (CLFArticleDetailController *)articleDetailController {
+    if (!_articleDetailController) {
+        CLFArticleDetailController *articelDetailController = [[CLFArticleDetailController alloc] init];
+        _articleDetailController = articelDetailController;
+    }
+    return _articleDetailController;
+}
+
+
+- (void)articleDetailSwitchToNextArticleFromCurrentArticle {
+    self.firstDetailPage += 1;
+    
+    NSIndexPath *nextIndexPath = [NSIndexPath indexPathForRow:self.firstDetailPage inSection:0];
+    
+    if (self.articleFrames.count - 1 == self.firstDetailPage) {
+        dispatch_queue_t queue = dispatch_queue_create("loadThread", DISPATCH_QUEUE_CONCURRENT);
+        dispatch_sync(queue, ^{
+            [self loadMoreData];
+        });
+        dispatch_sync(queue, ^{
+            CLFArticleFrame *articleFrame = self.articleFrames[nextIndexPath.row];
+            self.articleDetailController.articleFrame = articleFrame;
+        });
+    } else if (self.articleFrames.count == self.firstDetailPage) {
+        [MBProgressHUD showError:@"已经看完所有文章"];
+        self.firstDetailPage -= 1;
+    } else {
+        CLFArticleFrame *articleFrame = self.articleFrames[nextIndexPath.row];
+        self.articleDetailController.articleFrame = articleFrame;
+    }
+}
+
+#pragma mark - tableView dataSource methods && delegate methods
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return self.articleFrames.count;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    CLFArticleFrame *articleFrame = self.articleFrames[indexPath.row];
+    if ([CLFAppDelegate globalDelegate].isNoImageModeOn) {
+        return articleFrame.noImageViewCellHeight;
+    }
+    return articleFrame.cellHeight;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -276,14 +295,6 @@
     }
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    CLFArticleFrame *articleFrame = self.articleFrames[indexPath.row];
-    if ([CLFAppDelegate globalDelegate].isNoImageModeOn) {
-        return articleFrame.noImageViewCellHeight;
-    }
-    return articleFrame.cellHeight;
-}
-
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     self.firstDetailPage = indexPath.row;
     self.theNewArticleRemindButton.hidden = YES;
@@ -296,29 +307,23 @@
 }
 
 
-- (void)articleDetailSwitchToNextArticleFromCurrentArticle {
-    self.firstDetailPage += 1;
-    
-    NSIndexPath *nextIndexPath = [NSIndexPath indexPathForRow:self.firstDetailPage inSection:0];
-
-    if (self.articleFrames.count - 1 == self.firstDetailPage) {
-        dispatch_queue_t queue = dispatch_queue_create("loadThread", DISPATCH_QUEUE_CONCURRENT);
-        dispatch_sync(queue, ^{
-            [self loadMoreData];
-        });
-        dispatch_sync(queue, ^{
-            CLFArticleFrame *articleFrame = self.articleFrames[nextIndexPath.row];
-            self.articleDetailController.articleFrame = articleFrame;
-        });
-    } else if (self.articleFrames.count == self.firstDetailPage) {
-        [MBProgressHUD showError:@"已经看完所有文章"];
-        self.firstDetailPage -= 1;
-    } else {
-        CLFArticleFrame *articleFrame = self.articleFrames[nextIndexPath.row];
-        self.articleDetailController.articleFrame = articleFrame;
-    }
+#pragma mark - about settingViewController
+- (JVFloatingDrawerSpringAnimator *)drawerAnimator {
+    return [[CLFAppDelegate globalDelegate] drawerAnimator];
 }
 
+- (void)configureAnimator {
+    self.drawerAnimator.animationDuration = 0.7;
+    self.drawerAnimator.animationDelay = 0;
+    self.drawerAnimator.initialSpringVelocity = 9;
+    self.drawerAnimator.springDamping = 0.8;
+}
+
+- (void)showSettingView {
+    [[CLFAppDelegate globalDelegate] toggleLeftDrawer:self animated:YES];
+}
+
+#pragma mark others
 - (void)reloadViewData {
     [self.tableView reloadData];
 }

@@ -64,7 +64,13 @@
 }
 
 - (UIColor *)normalTextColor {
-    return objc_getAssociatedObject(self, @selector(normalTextColor));
+    if (objc_getAssociatedObject(self, @selector(normalTextColor))) {
+        return objc_getAssociatedObject(self, @selector(normalTextColor));
+    } else {
+        return [UIColor whiteColor];
+    }
+    
+//    return objc_getAssociatedObject(self, @selector(normalTextColor));
 }
 
 - (void)setNormalTextColor:(UIColor *)normalTextColor {

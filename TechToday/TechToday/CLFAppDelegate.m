@@ -20,7 +20,7 @@
 #import "WeiboSDK.h"
 #import "WXApi.h"
 
-@interface CLFAppDelegate ()
+@interface CLFAppDelegate () <UIAlertViewDelegate>
 
 @property CLFReachability *internetReachable;
 
@@ -35,16 +35,13 @@
     [ShareSDK  connectSinaWeiboWithAppKey:@"2329308416"
                                 appSecret:@"f6d10661b4e122963abbea4cc0905a93"
                               redirectUri:@"http://jinri.info"];
-//
-//    [ShareSDK connectWeChatWithAppId:@"wx4868b35061f87885"
-//                           appSecret:@"64020361b8ec4c99936c0e3999a9f249"
-//                           wechatCls:[WXApi class]];
-    
-    
+
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.rootViewController = self.drawerViewController;
     [self configureDrawerViewController];
     [self.window makeKeyAndVisible];
+    
+    [self appLaunchTimes];
     
     [CLFArticleCacheTool deleteExpiredData];
 
@@ -124,6 +121,48 @@
     [self.drawerViewController toggleDrawerWithSide:JVFloatingDrawerSideLeft animated:animated completion:nil];
 }
 
+- (void)appLaunchTimes {
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSInteger launchTime = [defaults integerForKey:@"launchTime"];
+    
+    if (launchTime) {
+        launchTime ++;
+    } else {
+        launchTime = 1;
+    }
+    
+    if (30 == launchTime) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"喜欢TechToday吗?"
+                                                        message:@"亲~赏个好评吧~O(∩_∩)O~~"
+                                                       delegate:self
+                                              cancelButtonTitle:@"取消"
+                                              otherButtonTitles:@"准了!", nil];
+        [alert show];
+        launchTime = 0;
+    }
+    [defaults setInteger:launchTime forKey:@"launchTime"];
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    switch (buttonIndex) {
+        case 0: {
+            break;
+        }
+        case 1: {
+            NSString *appid = @"725296055";
+            NSString *str = [NSString stringWithFormat:@"itms-apps://itunes.apple.com/cn/app/id%@?mt=8", appid];
+            NSURL *url = [NSURL URLWithString:str];
+            [[UIApplication sharedApplication] openURL:url];
+            
+            NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+            NSInteger launchTime = [defaults integerForKey:@"launchTime"];
+            launchTime = -666666;
+            [defaults setInteger:launchTime forKey:@"launchTime"];
+            break;
+        }
+    }
+}
+
 - (void)applicationWillResignActive:(UIApplication *)application {
 }
 
@@ -131,6 +170,7 @@
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {
+    [self appLaunchTimes];
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {

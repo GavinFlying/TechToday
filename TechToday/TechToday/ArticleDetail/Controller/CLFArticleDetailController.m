@@ -42,8 +42,14 @@
         UITapGestureRecognizer *singleTapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(singleTap:)];
         singleTapRecognizer.delegate = self;
         [self.articleDetail addGestureRecognizer:singleTapRecognizer];
-#warning 要用存档的数据替换
-        self.fontSize = 13;
+
+        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        if ([defaults integerForKey:@"articleFontSize"]) {
+            self.fontSize = [defaults integerForKey:@"articleFontSize"];
+        } else {
+            self.fontSize = 13;
+        }
+
     }
     return self;
 }
@@ -80,8 +86,8 @@
         
         moreOptionList.separatorStyle = UITableViewCellSeparatorStyleNone;
 
-        CGFloat moreOptionW = CLFScreenW * 0.30;
-        CGFloat moreOptionH = CLFScreenH * 0.10;
+        CGFloat moreOptionW = 100;
+        CGFloat moreOptionH = 60;
         CGFloat moreOptionX = CLFScreenW - moreOptionW - 5;
         CGFloat moreOptionY = CLFScreenH - moreOptionH - CGRectGetHeight(self.navigationController.toolbar.frame) - 5;
         moreOptionList.frame = CGRectMake(moreOptionX, moreOptionY, moreOptionW, moreOptionH);
@@ -309,9 +315,6 @@
     NSString *imagePath = [[NSBundle mainBundle] pathForResource:@"TechToday" ofType:@"png"];
     CLFArticle *article = self.articleFrame.article;
     
-    UIImage *image = [UIImage imageWithContentsOfFile:imagePath];
-    NSLog(@"%@ \n %@", image, imagePath);
-    
     //构造分享内容
     id<ISSContent> publishContent = [ShareSDK content:[NSString stringWithFormat:@"推荐jinri.info上的一篇文章:\n%@ http://jinri.info/index.php/DaiArticle/index/%@", article.title, article.articleID]
                                        defaultContent:nil
@@ -464,6 +467,10 @@
             }
         }
         self.articleFrame = self.articleFrame;
+        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        [defaults setInteger:self.fontSize forKey:@"articleFontSize"];
+        [defaults synchronize];
+        
     }
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
     tableView.hidden = YES;

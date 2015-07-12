@@ -60,11 +60,18 @@
 
 - (void)setNightBackgroundColor:(UIColor *)nightBackgroundColor {
     if ([DKNightVersionManager currentThemeVersion] == DKThemeVersionNight) [self setBackgroundColor:nightBackgroundColor];
+//    if ([DKNightVersionManager currentThemeVersion] == DKThemeVersionNight) [self setBackgroundColor:[UIColor clearColor]];
+
     objc_setAssociatedObject(self, @selector(nightBackgroundColor), nightBackgroundColor, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
 - (UIColor *)normalBackgroundColor {
-    return objc_getAssociatedObject(self, @selector(normalBackgroundColor));
+    if (objc_getAssociatedObject(self, @selector(normalBackgroundColor))) {
+        return objc_getAssociatedObject(self, @selector(normalBackgroundColor));
+    } else {
+        return [UIColor clearColor];
+    }
+//    return objc_getAssociatedObject(self, @selector(normalBackgroundColor));
 }
 
 - (void)setNormalBackgroundColor:(UIColor *)normalBackgroundColor {

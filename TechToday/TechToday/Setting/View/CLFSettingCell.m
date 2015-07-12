@@ -22,6 +22,7 @@
     CLFSettingCell *cell = [tableView dequeueReusableCellWithIdentifier:ID];
     if (nil == cell) {
         cell = [[CLFSettingCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:ID];
+        cell.nightBackgroundColor = [UIColor clearColor];
         cell.backgroundColor = [UIColor clearColor];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
@@ -71,7 +72,6 @@
     }
     
     self.titleLabel.textColor = tintColor;
-    self.iconImageView.tintColor = tintColor;
 }
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
@@ -85,6 +85,9 @@
         self.iconImageView = iconImage;
         
         UILabel *titleLabel = [[UILabel alloc] init];
+        titleLabel.nightBackgroundColor = [UIColor clearColor];
+        titleLabel.backgroundColor = [UIColor clearColor];
+        titleLabel.nightTextColor = [UIColor whiteColor];
         titleLabel.textColor = [UIColor whiteColor];
         titleLabel.font = CLFArticleTitleFont;
         titleLabel.numberOfLines = 0;
