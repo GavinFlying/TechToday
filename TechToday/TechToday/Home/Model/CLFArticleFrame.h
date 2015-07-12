@@ -13,6 +13,7 @@
 
 @property (strong, nonatomic) CLFArticle *article;
 
+// 普通模式cell中的各个要素的 frame
 @property (assign, readonly, nonatomic) CGRect imageViewFrame;
 @property (assign, readonly, nonatomic) CGRect titleLabelFrame;
 @property (assign, readonly, nonatomic) CGRect sourceLabelFrame;
@@ -21,13 +22,12 @@
 
 @property (assign, readonly, nonatomic) CGFloat cellHeight;
 
+// 无图模式cell中各个要素的 frame
 @property (assign, readonly, nonatomic) CGRect noImageViewTitleLabelFrame;
 @property (assign, readonly, nonatomic) CGRect noImageViewSourceLabelFrame;
 @property (assign, readonly, nonatomic) CGRect noImageViewDateLabelFrame;
 @property (assign, readonly, nonatomic) CGRect noImageViewPageViewsLabelFrame;
 
 @property (assign, readonly, nonatomic) CGFloat noImageViewCellHeight;
-
-@property (assign, nonatomic, getter=isRead) BOOL read;
 
 @end

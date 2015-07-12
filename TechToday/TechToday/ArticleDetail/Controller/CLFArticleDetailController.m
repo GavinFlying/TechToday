@@ -16,11 +16,14 @@
 #import "CLFArticleCacheTool.h"
 
 @interface CLFArticleDetailController () <UIWebViewDelegate, UITableViewDelegate, UITableViewDataSource, UIGestureRecognizerDelegate>
-
-@property (weak, nonatomic) CLFWebView *articleDetail;
-@property (weak, nonatomic) UITableView *moreOptionList;
-@property (weak, nonatomic) UITableView *fontList;
-@property (assign, nonatomic) NSInteger fontSize;
+// 显示文章的webView
+@property (weak, nonatomic)   CLFWebView  *articleDetail;
+// 点击更多选项出现的tableView
+@property (weak, nonatomic)   UITableView *moreOptionList;
+// 点击更多选项中的字体调整后出现的tableView
+@property (weak, nonatomic)   UITableView *fontList;
+// 文章字体大小
+@property (assign, nonatomic) NSInteger   fontSize;
 
 @end
 
@@ -52,6 +55,13 @@
 
     }
     return self;
+}
+
+- (CLFWebView *)articleDetail {
+    if (!_articleDetail) {
+        <#statements#>
+    }
+    return _articleDetail;
 }
 
 - (void)singleTap:(UITapGestureRecognizer *)singleTapRecognizer {

@@ -28,53 +28,70 @@
 
 @implementation CLFAppDelegate
 
++ (CLFAppDelegate *)globalDelegate {
+    return (CLFAppDelegate *)[UIApplication sharedApplication].delegate;
+}
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    // 设置 shareSDK 分享模块
     [ShareSDK registerApp:@"8b803b4051a6"];
     
     [ShareSDK  connectSinaWeiboWithAppKey:@"2329308416"
                                 appSecret:@"f6d10661b4e122963abbea4cc0905a93"
                               redirectUri:@"http://jinri.info"];
 
+    // 设置 drawerViewController
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.rootViewController = self.drawerViewController;
     [self configureDrawerViewController];
     [self.window makeKeyAndVisible];
     
+    // 统计应用打开次数
     [self appLaunchTimes];
     
+    // 删除过期数据 --> 契合 TechToday
     [CLFArticleCacheTool deleteExpiredData];
-
-    application.statusBarStyle = UIStatusBarStyleLightContent;
     
+    
+    // 检查网络情况
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityChanged:) name:kReachabilityChangedNotification object:nil];
-
     _internetReachable = [CLFReachability reachabilityForInternetConnection];
     [self reachabilityChanged:(NSNotification *)kReachabilityChangedNotification];
     [_internetReachable startNotifier];
     
+    // 分配缓存
     NSURLCache *sharedCache = [[NSURLCache alloc] initWithMemoryCapacity:0 diskCapacity:50 * 1024 * 1024 diskPath:@"WebViewCache"];
     [NSURLCache setSharedURLCache:sharedCache];
+    
+    application.statusBarStyle = UIStatusBarStyleLightContent;
     return YES;
 }
 
+#pragma mark - about network reachability
+
+/**
+ *  当网络连接中断时提醒用户
+ */
 - (void)reachabilityChanged:(NSNotification *)notice {
     NetworkStatus internetStatus = [[CLFReachability sharedCLFReachability] currentReachabilityStatus];
     switch (internetStatus) {
         case NotReachable: {
-            [MBProgressHUD showError:@"网络连接异常"];
+            [MBProgressHUD showError:@"网络连接异常" toView:self.drawerViewController.view];
             break;
         }
         case ReachableViaWiFi: {
-//            NSLog(@"The internet is working via WIFI");
+//            [MBProgressHUD showMessage:@"正通过WiFi访问网络" toView:self.drawerViewController.view];
             break;
         }
         case ReachableViaWWAN: {
-//            NSLog(@"The internet is working via WWAN");
+//            [MBProgressHUD showMessage:@"正通过移动数据流量访问网络" toView:self.drawerViewController.view];
             break;
         }
     }
+//    [MBProgressHUD hideHUDForView:self.drawerViewController.view];
 }
+
+#pragma mark - setup drawerViewController
 
 - (JVFloatingDrawerViewController *)drawerViewController {
     if (!_drawerViewController) {
@@ -105,7 +122,6 @@
     return _drawerAnimator;
 }
 
-
 - (void)configureDrawerViewController {
     self.drawerViewController.leftViewController = self.leftDrawerViewController;
     self.drawerViewController.centerViewController = self.centerNavigationController;
@@ -113,14 +129,14 @@
     self.drawerViewController.backgroundImage = [UIImage imageNamed:@"sky"];
 }
 
-+ (CLFAppDelegate *)globalDelegate {
-    return (CLFAppDelegate *)[UIApplication sharedApplication].delegate;
-}
-
 - (void)toggleLeftDrawer:(id)sender animated:(BOOL)animated {
     [self.drawerViewController toggleDrawerWithSide:JVFloatingDrawerSideLeft animated:animated completion:nil];
 }
 
+#pragma mark - lauch times && ask for rating
+/**
+ *  若用户累计启动程序达到30次,则弹窗请求用户前往 App Store 评分
+ */
 - (void)appLaunchTimes {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSInteger launchTime = [defaults integerForKey:@"launchTime"];
@@ -163,14 +179,16 @@
     }
 }
 
+- (void)applicationWillEnterForeground:(UIApplication *)application {
+    [self appLaunchTimes];
+}
+
+#pragma mark - others
+
 - (void)applicationWillResignActive:(UIApplication *)application {
 }
 
 - (void)applicationDidEnterBackground:(UIApplication *)application {
-}
-
-- (void)applicationWillEnterForeground:(UIApplication *)application {
-    [self appLaunchTimes];
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {

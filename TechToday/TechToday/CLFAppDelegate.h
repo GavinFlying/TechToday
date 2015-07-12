@@ -15,16 +15,15 @@
 
 @interface CLFAppDelegate : UIResponder <UIApplicationDelegate>
 
-@property (strong, nonatomic) UIWindow *window;
+@property (strong, nonatomic) UIWindow                       *window;
 
 @property (strong, nonatomic) JVFloatingDrawerViewController *drawerViewController;
 @property (strong, nonatomic) JVFloatingDrawerSpringAnimator *drawerAnimator;
+@property (strong, nonatomic) UITableViewController          *leftDrawerViewController;
+@property (strong, nonatomic) CLFNavigationController        *centerNavigationController;
 
-@property (strong, nonatomic) UITableViewController *leftDrawerViewController;
-
-@property (strong, nonatomic) CLFNavigationController *centerNavigationController;
-
-@property (assign, nonatomic, getter=isNoImageModeOn) BOOL noImageModeOn;
+// 是否开启无图模式
+@property (assign, nonatomic, getter=isNoImageModeOn) BOOL   noImageModeOn;
 
 + (CLFAppDelegate *)globalDelegate;
 

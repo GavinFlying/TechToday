@@ -25,17 +25,16 @@
 
 @interface CLFHomeViewController () <CLFArticleDetailDelegate, CLFSettingViewControllerDelegate>
 
+// 切换到 settingViewController 时动画用
 @property (strong, nonatomic, readonly) JVFloatingDrawerSpringAnimator *drawerAnimator;
-
-@property (strong, nonatomic) NSMutableArray *articleFrames;
-
-@property (weak, nonatomic) UIButton *theNewArticleRemindButton;
-
-@property (weak, nonatomic) UIView *navigationBarView;
-
-@property (assign, nonatomic) NSInteger firstDetailPage;
-
-@property (weak, nonatomic) CLFArticleDetailController *articleDetailController;
+// 文章及其frame
+@property (strong, nonatomic)           NSMutableArray                 *articleFrames;
+// 新文章数提示栏
+@property (weak, nonatomic)             UIButton                       *theNewArticleRemindButton;
+// 从哪篇文章进入详情页的 用于详情页内部切换文章功能的实现
+@property (assign, nonatomic)           NSInteger                      firstDetailPage;
+// 文章详情页控制器
+@property (weak, nonatomic)             CLFArticleDetailController     *articleDetailController;
 
 @end
 
@@ -61,6 +60,10 @@
 }
 
 #pragma mark - UI : theNewArticleRemindButton && NavigationBar
+
+/**
+ *  theNewArticleRemindButton : 在用户下拉刷新时,提醒用户一共更新了多少篇新文章
+ */
 - (UIButton *)theNewArticleRemindButton {
     if (!_theNewArticleRemindButton) {
         UIButton *remindButton = [[UIButton alloc] init];
@@ -84,7 +87,6 @@
 }
 
 - (void)showNewArticleCount:(long)count {
-    
     self.theNewArticleRemindButton.hidden = NO;
     
     if (count) {
@@ -104,9 +106,7 @@
     }];
 }
 
-
 - (void)setupNavigationBar {
-    
     UIButton *leftButton = [[UIButton alloc] init];
     [leftButton setImage:[UIImage imageNamed:@"SettingButton"] forState:UIControlStateNormal];
     [leftButton addTarget:self action:@selector(showSettingView) forControlEvents:UIControlEventTouchUpInside];
@@ -131,6 +131,7 @@
 }
 
 #pragma mark - refresh data in homeViewController
+
 - (void)setupRefreshView {
     __weak typeof(self) weakSelf = self;
     self.tableView.header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
@@ -143,6 +144,11 @@
     }];
 }
 
+/**
+ *  当前 api 规则是: 
+ *  下拉刷新 getArticle 返回最新15篇文章
+ *  上拉加载 getMoreArticle/articleID 返回 articleID 及之前的15篇文章
+ */
 - (void)loadNewData {
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     NSString *URLAppendage = nil;
@@ -153,14 +159,7 @@
         URLAppendage = @"getArticle";
     }
     
-    [CLFArticleTool articleWithURLAppendage:URLAppendage params:params success:^(NSArray *articlesArray) {
-        NSMutableArray *articleFrameArray = [NSMutableArray array];
-        for (CLFArticle *article in articlesArray) {
-            CLFArticleFrame *articleFrame = [[CLFArticleFrame alloc] init];
-            articleFrame.article = article;
-            [articleFrameArray addObject:articleFrame];
-        }
-        
+    [CLFArticleTool articleWithURLAppendage:URLAppendage params:params success:^(NSMutableArray *articleFrameArray) {
         if (self.articleFrames.count) {
             CLFArticleFrame *latestArticleFrame = articleFrameArray[0];
             CLFArticle *latestArticle = latestArticleFrame.article;
@@ -193,13 +192,7 @@
     CLFArticleFrame *articleFrame = [self.articleFrames lastObject];
     NSString *URLAppendage = [NSString stringWithFormat:@"getMoreArticle/%@", articleFrame.article.articleID];
     
-    [CLFArticleTool articleWithURLAppendage:URLAppendage params:params success:^(NSArray *articlesArray) {
-        NSMutableArray *articleFrameArray = [NSMutableArray array];
-        for (CLFArticle *article in articlesArray) {
-            CLFArticleFrame *articleFrame = [[CLFArticleFrame alloc] init];
-            articleFrame.article = article;
-            [articleFrameArray addObject:articleFrame];
-        }
+    [CLFArticleTool articleWithURLAppendage:URLAppendage params:params success:^(NSMutableArray *articleFrameArray) {
         if (!articleFrameArray.count) {
             [MBProgressHUD showError:@"没有更多文章了"];
         }
@@ -215,6 +208,12 @@
 }
 
 #pragma mark - about the articleDetailPage
+
+/**
+ *  用于转入文章详情页.当文章详情页内通过点击向下按钮直接访问下面的文章时,
+ *  实现代理方法(articleDetailSwitchToNextArticleFromCurrentArticle)
+ *  传入新的articleFrame以达到切换到下一篇文章的目的.
+ */
 - (NSMutableArray *)articleFrames {
     if (!_articleFrames) {
         _articleFrames = [NSMutableArray array];
@@ -229,7 +228,6 @@
     }
     return _articleDetailController;
 }
-
 
 - (void)articleDetailSwitchToNextArticleFromCurrentArticle {
     self.firstDetailPage += 1;
@@ -255,6 +253,10 @@
 }
 
 #pragma mark - tableView dataSource methods && delegate methods
+
+/**
+ *  根据当前是普通模式还是无图模式,显示不同的cell
+ */
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return self.articleFrames.count;
 }
@@ -308,6 +310,7 @@
 
 
 #pragma mark - about settingViewController
+
 - (JVFloatingDrawerSpringAnimator *)drawerAnimator {
     return [[CLFAppDelegate globalDelegate] drawerAnimator];
 }

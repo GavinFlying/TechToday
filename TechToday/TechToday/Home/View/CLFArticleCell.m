@@ -23,6 +23,9 @@
 
 @end
 
+/**
+ *  普通模式 ArticleCell
+ */
 @implementation CLFArticleCell
 
 + (instancetype)cellWithTableView:(UITableView *)tableView {
@@ -40,7 +43,7 @@
 }
 
 /**
- *  添加Cell中的子控件
+ *  添加 cell 中的子控件
  */
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
@@ -53,8 +56,6 @@
         self.articleImage = articleImage;
         
         UILabel *titleLabel = [[UILabel alloc] init];
-//        titleLabel.textColor = [UIColor blackColor];
-//        titleLabel.nightTextColor = CLFNightTextColor;
         titleLabel.font = CLFArticleTitleFont;
         titleLabel.numberOfLines = 0;
         [self.contentView addSubview:titleLabel];
@@ -79,6 +80,9 @@
     return self;
 }
 
+/**
+ *  设置 cell 中的数据及 frame 及一些样式
+ */
 - (void)setArticleFrame:(CLFArticleFrame *)articleFrame {
     _articleFrame = articleFrame;
     

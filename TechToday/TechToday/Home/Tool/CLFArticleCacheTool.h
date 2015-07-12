@@ -13,7 +13,7 @@
 
 + (void)addArticle:(CLFArticle *)article;
 + (void)addArticles:(NSArray *)articlesArray;
-+ (NSArray *)artilcesWithURLAppendage:(NSString *)URLAppendage params:(NSDictionary *)params;
++ (NSMutableArray *)artilcesWithURLAppendage:(NSString *)URLAppendage params:(NSDictionary *)params;
 + (CLFArticle *)searchArticle:(CLFArticle *)article;
 + (void)deleteExpiredData;
 

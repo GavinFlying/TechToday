@@ -9,17 +9,18 @@
 #import "CLFArticle.h"
 #import "NSCalendar+CLF.h"
 
-#define kDateKey      @"dateKey"
-#define kSourceKey    @"sourceKey"
-#define kImgKey       @"imgKey"
-#define kPageViewsKey @"pageViewsKey"
-#define kTitleKey     @"titleKey"
-#define kArticleKey   @"articleKey"
-#define kURLKey       @"URLKey"
-#define kArticleCtimeKey     @"ArticleCtimeKey"
-#define kReadKey      @"readKey"
+#define kDateKey         @"dateKey"
+#define kSourceKey       @"sourceKey"
+#define kImgKey          @"imgKey"
+#define kPageViewsKey    @"pageViewsKey"
+#define kTitleKey        @"titleKey"
+#define kArticleKey      @"articleKey"
+#define kURLKey          @"URLKey"
+#define kArticleCtimeKey @"ArticleCtimeKey"
+#define kReadKey         @"readKey"
 
 @implementation CLFArticle
+
 - (instancetype)initWithDict:(NSDictionary *)dict {
     if (self = [super init]) {
         self.date = dict[@"date"];
@@ -39,12 +40,10 @@
     return [[self alloc] initWithDict:dict];
 }
 
+/**
+ *  结合时间戳和date, 显示文章发布时间与当前时间的时间差
+ */
 - (NSString *)date {
-//    NSDate *currentDate = [NSDate date];
-//    NSTimeInterval secondsAfter1970 = [currentDate timeIntervalSince1970];
-//    NSTimeInterval expireTime = secondsAfter1970 - 24 * 60 * 60;
-//    NSLog(@"articleCtime : %@", _articleCtime);
-//    NSLog(@"expiredTime : %@", [NSString stringWithFormat:@"%f", expireTime]);
     NSDate *creatTimeInterval = [NSDate dateWithTimeIntervalSince1970:_articleCtime];
  
     NSCalendar *calendar = [NSCalendar currentCalendar];
@@ -63,6 +62,7 @@
     }
 }
 
+#pragma mark - encode && decode
 - (void)encodeWithCoder:(NSCoder *)aCoder {
     [aCoder encodeObject:_date forKey:kDateKey];
     [aCoder encodeObject:_source forKey:kSourceKey];

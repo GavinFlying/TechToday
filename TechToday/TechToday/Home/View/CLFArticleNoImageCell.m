@@ -22,6 +22,9 @@
 
 @end
 
+/**
+ *  无图模式 ArticleCell
+ */
 @implementation CLFArticleNoImageCell
 
 + (instancetype)cellWithTableView:(UITableView *)tableView {
@@ -29,9 +32,8 @@
     CLFArticleNoImageCell *cell = [tableView dequeueReusableCellWithIdentifier:ID];
     if (nil == cell) {
         cell = [[CLFArticleNoImageCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:ID];
-//        cell.layer.shadowColor = [[UIColor blackColor] CGColor];
-//        cell.layer.shadowOffset = CGSizeMake(1, 1);
-//        cell.layer.shadowOpacity = 0.2;
+        cell.selectedBackgroundView = [[UIView alloc] initWithFrame:cell.frame];
+        cell.selectedBackgroundView.backgroundColor = CLFRemindButtonBackgroundColor;
     }
     return cell;
 }
@@ -44,8 +46,6 @@
     
     if (self) {
         UILabel *titleLabel = [[UILabel alloc] init];
-//        titleLabel.textColor = [UIColor blackColor];
-//        titleLabel.nightTextColor = CLFNightTextColor;
         [self.contentView addSubview:titleLabel];
         self.titleLabel = titleLabel;
         
@@ -66,6 +66,9 @@
     return self;
 }
 
+/**
+ *  设置 cell 中的数据及 frame 及一些样式
+ */
 - (void)setArticleFrame:(CLFArticleFrame *)articleFrame {
     _articleFrame = articleFrame;
     

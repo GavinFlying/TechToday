@@ -15,6 +15,9 @@
 
 static FMDatabaseQueue *_queue;
 
+/**
+ *  设置数据库,表内存储文章编号,文章发布时间戳及文章具体数据
+ */
 + (void)setupDataBase {
     NSString *databasePath = [[NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) lastObject] stringByAppendingPathComponent:@"article.db"];
     _queue = [FMDatabaseQueue databaseQueueWithPath:databasePath];
@@ -24,6 +27,9 @@ static FMDatabaseQueue *_queue;
     [_queue close];
 }
 
+/**
+ *  在表中加入文章.如果文章不存在,则加入新纪录,否则更新文章数据(主要为了更新文章 read 与否的状态)
+ */
 + (void)addArticle:(CLFArticle *)article {
     [self setupDataBase];
     [_queue inDatabase:^(FMDatabase *db) {
@@ -37,7 +43,6 @@ static FMDatabaseQueue *_queue;
             [db executeUpdate:@"UPDATE t_article SET article = ? WHERE articleID = ?", articleData, articleID];
         }
     }];
-    
     [_queue close];
 }
 
@@ -47,6 +52,9 @@ static FMDatabaseQueue *_queue;
     }
 }
 
+/**
+ *  搜索文章是否已经存在于表中.若存在,返回表中的文章
+ */
 + (CLFArticle *)searchArticle:(CLFArticle *)article {
     [self setupDataBase];
     __block CLFArticle *aimArticle = nil;
@@ -66,6 +74,9 @@ static FMDatabaseQueue *_queue;
     return article;
 }
 
+/**
+ *  删除数据库中时间戳距离当前超过24小时的文章
+ */
 + (void)deleteExpiredData {
     [self setupDataBase];
     NSDate *currentDate = [NSDate date];
@@ -77,7 +88,10 @@ static FMDatabaseQueue *_queue;
     [_queue close];
 }
 
-+ (NSArray *)artilcesWithURLAppendage:(NSString *)URLAppendage params:(NSDictionary *)params {
+/**
+ *  根据是 上拉加载 还是 下拉刷新 来从数据库中加载 articles
+ */
++ (NSMutableArray *)artilcesWithURLAppendage:(NSString *)URLAppendage params:(NSDictionary *)params {
     [self setupDataBase];
 
     NSString *URLCacheParam = nil;
@@ -92,11 +106,11 @@ static FMDatabaseQueue *_queue;
         
         FMResultSet *resultSet = nil;
         if ([URLAppendage containsString:@"getArticle"]) {
+            // 这一句用于避免第一次加载去网络上拿数据 及 在没有网络的情况下加载数据
             resultSet = [db executeQuery:@"SELECT * FROM t_article WHERE articleID > ? ORDER BY articleID DESC LIMIT 0, 15;", URLCacheParam];
         } else if ([URLAppendage containsString:@"getMoreArticle"]) {
             resultSet = [db executeQuery:@"SELECT * FROM t_article WHERE articleID < ? ORDER BY articleID DESC LIMIT 0, 15;", URLCacheParam];
         }
-        
         while (resultSet.next) {
             NSData *articleData = [resultSet dataForColumn:@"article"];
             CLFArticle *article = [NSKeyedUnarchiver unarchiveObjectWithData:articleData];

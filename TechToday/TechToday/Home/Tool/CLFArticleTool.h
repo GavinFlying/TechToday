@@ -10,6 +10,6 @@
 
 @interface CLFArticleTool : NSObject
 
-+ (void)articleWithURLAppendage:(NSString *)URLAppendage params:(NSDictionary *)params success:(void (^)(NSArray *))success failure:(void (^)(NSError *))failure;
++ (void)articleWithURLAppendage:(NSString *)URLAppendage params:(NSDictionary *)params success:(void (^)(NSMutableArray *))success failure:(void (^)(NSError *))failure;
 
 @end

@@ -13,6 +13,10 @@
 
 @implementation CLFArticleFrame
 
+/**
+ *  根据传入的 Article 计算两种cell中各个要素的frame
+ */
+
 - (void)setArticle:(CLFArticle *)article {
     _article = article;
     
@@ -32,6 +36,7 @@
     CGFloat noImageTitleLabelY = CLFArticleCellInnerBorder;
     _titleLabelFrame = (CGRect){{titleLabelX, titleLabelY}, titleLabelSize};
     _noImageViewTitleLabelFrame = (CGRect){{titleLabelX, noImageTitleLabelY}, titleLabelSize};
+    
     // sourceLabelFrame
     CGFloat sourceLabelX = titleLabelX;
     CGFloat sourceLabelY = CGRectGetMaxY(_titleLabelFrame) + CLFArticleCellInnerBorder;
@@ -48,6 +53,7 @@
     _dateLabelFrame = (CGRect){{dateLabelX, dateLabelY}, dateLabelSize};
     _noImageViewDateLabelFrame = (CGRect){{dateLabelX, noImageDateLabelY}, dateLabelSize};
     
+    // pageViewLabelFrame
     CGSize pageViewsLabelSize = [NSString sizeOfText:article.pageViews maxSize:CGSizeMake(0.45 * cellW, 20) font:CLFArticleOtherFont];
     CGFloat pageViewsLabelX = CGRectGetMaxX(_imageViewFrame) - pageViewsLabelSize.width;
     CGFloat pageViewsLabelY = dateLabelY;
