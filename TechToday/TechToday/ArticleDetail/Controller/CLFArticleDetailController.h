@@ -17,7 +17,7 @@
 @class CLFArticleFrame;
 @interface CLFArticleDetailController : UIViewController
 
-@property (strong, nonatomic) CLFArticleFrame *articleFrame;
-@property (weak, nonatomic) id<CLFArticleDetailDelegate> delegate;
+@property (strong, nonatomic) CLFArticleFrame              *articleFrame;
+@property (weak, nonatomic)   id<CLFArticleDetailDelegate> delegate;
 
 @end

@@ -77,6 +77,9 @@
     switch (internetStatus) {
         case NotReachable: {
             [MBProgressHUD showError:@"网络连接异常" toView:self.drawerViewController.view];
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(10 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                [MBProgressHUD hideHUDForView:self.drawerViewController.view];
+            });
             break;
         }
         case ReachableViaWiFi: {

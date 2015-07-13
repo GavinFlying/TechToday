@@ -14,17 +14,19 @@
 
 @interface CLFWebView ()
 
-@property (weak, nonatomic) UIView    *titleView;
-@property (weak, nonatomic) UILabel   *titleLabel;
-@property (weak, nonatomic) UILabel   *sourceLabel;
+// 标题部分
+@property (weak, nonatomic)   UIView    *titleView;
+@property (weak, nonatomic)   UILabel   *titleLabel;
+@property (weak, nonatomic)   UILabel   *sourceLabel;
+@property (weak, nonatomic)   UIView    *separatorView;
 //@property (weak, nonatomic) UILabel   *dateLabel;
 //@property (weak, nonatomic) UILabel   *pageViewsLabel;
 
-@property (weak, nonatomic) UIView    *buttomView;
-@property (weak, nonatomic) UIButton  *sourceSiteButton;
+// 底部显示原文部分
+@property (weak, nonatomic)   UIView    *buttomView;
+@property (weak, nonatomic)   UIButton  *sourceSiteButton;
 
-@property (weak, nonatomic) UIView    *separatorView;
-
+// titleView的样式
 @property (assign, nonatomic) u_int32_t	titleStyle;
 
 @end
@@ -55,27 +57,39 @@
     [self setupButtomViewSubviewsFrame:buttomHeight];
 }
 
+- (UIView *)titleView {
+    if (!_titleView) {
+        UIView *titleView = [[UIView alloc] init];
+        titleView.backgroundColor = self.titleStyle ? CLFUIMainColor : [UIColor whiteColor];
+        titleView.nightBackgroundColor = self.titleStyle ? CLFNightBarColor : CLFNightViewColor;
+        [self.scrollView addSubview:titleView];
+        _titleView = titleView;
+    }
+    return _titleView;
+}
+
+- (UILabel *)titleLabel {
+    if (!_titleLabel) {
+        UILabel *titleLabel = [[UILabel alloc] init];
+        titleLabel.textColor = self.titleStyle ? [UIColor whiteColor] : [UIColor blackColor];
+        titleLabel.nightTextColor = CLFNightTextColor;
+        titleLabel.backgroundColor = [UIColor clearColor];
+        titleLabel.font = CLFArticleTitleFont;
+        titleLabel.numberOfLines = 0;
+        NSString *titleText = self.article.title;
+        NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithString:titleText];
+        NSMutableParagraphStyle *style = [[NSMutableParagraphStyle alloc] init];
+        style.lineHeightMultiple = 1.3;
+        [attrString addAttribute:NSParagraphStyleAttributeName value:style range:NSMakeRange(0, titleText.length)];
+        titleLabel.attributedText = attrString;
+        [self.titleView addSubview:titleLabel];
+        _titleLabel = titleLabel;
+    }
+    return _titleLabel;
+}
+
 - (void)setupTitleViewSubviewsData {
-    UIView *titleView = [[UIView alloc] init];
-    titleView.backgroundColor = self.titleStyle ? CLFUIMainColor : [UIColor whiteColor];
-    titleView.nightBackgroundColor = self.titleStyle ? CLFNightBarColor : CLFNightViewColor;
-    
-    [self.scrollView addSubview:titleView];
-    self.titleView = titleView;
-    UILabel *titleLabel = [[UILabel alloc] init];
-    titleLabel.textColor = self.titleStyle ? [UIColor whiteColor] : [UIColor blackColor];
-    titleLabel.nightTextColor = CLFNightTextColor;
-    titleLabel.backgroundColor = [UIColor clearColor];
-    titleLabel.font = CLFArticleTitleFont;
-    titleLabel.numberOfLines = 0;
-    NSString *titleText = self.article.title;
-    NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithString:titleText];
-    NSMutableParagraphStyle *style = [[NSMutableParagraphStyle alloc] init];
-    style.lineHeightMultiple = 1.3;
-    [attrString addAttribute:NSParagraphStyleAttributeName value:style range:NSMakeRange(0, titleText.length)];
-    titleLabel.attributedText = attrString;
-    [titleView addSubview:titleLabel];
-    self.titleLabel = titleLabel;
+
     
     UILabel *sourceLabel = [[UILabel alloc] init];
     sourceLabel.textColor = self.titleStyle ? [UIColor whiteColor] : [UIColor lightGrayColor];
@@ -83,7 +97,7 @@
     sourceLabel.backgroundColor = [UIColor clearColor];
     sourceLabel.font = CLFArticleDetailSourceFont;
     sourceLabel.text = self.article.source;
-    [titleView addSubview:sourceLabel];
+    [self.titleView addSubview:sourceLabel];
     self.sourceLabel = sourceLabel;
     
 //    UILabel *dateLabel = [[UILabel alloc] init];
