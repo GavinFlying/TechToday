@@ -36,32 +36,14 @@
     self.tableView.showsVerticalScrollIndicator = NO;
 }
 
+#pragma mark - delegate methods and dataSource methods of tableView
+
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return 6;
-}
-
-- (UISwitch *)noImageModeSwitch {
-    if (!_noImageModeSwitch) {
-        UISwitch *noImageModeSwitch = [[UISwitch alloc] init];
-        noImageModeSwitch.onTintColor = CLFUIMainColor;
-        [noImageModeSwitch addTarget:self action:@selector(noImageModeChange) forControlEvents:UIControlEventValueChanged];
-        _noImageModeSwitch = noImageModeSwitch;
-    }
-    return _noImageModeSwitch;
-}
-
-- (UISwitch *)nightModeSwitch {
-    if (!_nightModeSwitch) {
-        UISwitch *nightModeSwitch = [[UISwitch alloc] init];
-        nightModeSwitch.onTintColor = CLFUIMainColor;
-        [nightModeSwitch addTarget:self action:@selector(nightModeChange) forControlEvents:UIControlEventValueChanged];
-        _nightModeSwitch = nightModeSwitch;
-    }
-    return _nightModeSwitch;
 }
 
 - (CLFSettingCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -119,10 +101,6 @@
     return CLFSettingCellHeight;
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    return 0;
-}
-
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
     UIView *headerView = [[UIView alloc] init];
     headerView.backgroundColor = [UIColor clearColor];
@@ -154,8 +132,6 @@
             break;
         }
         case 3: {
-//            [[CLFAppDelegate globalDelegate] toggleLeftDrawer:self animated:YES];
-//            [destinationViewController goToAboutController];
             [self sendSuggestionsEmail];
             break;
         }
@@ -168,7 +144,6 @@
             NSInteger launchTime = [defaults integerForKey:@"launchTime"];
             launchTime = -666666;
             [defaults setInteger:launchTime forKey:@"launchTime"];
-            
             break;
         }
         case 5: {
@@ -180,6 +155,11 @@
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
 }
 
+#pragma mark - mode switch : dawn/night && withImage/noImage
+
+/**
+ *  切换普通模式与夜间模式并归档
+ */
 - (void)nightModeChange {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     [defaults setBool:self.nightModeSwitch.isOn forKey:@"nightModeStatus"];
@@ -197,6 +177,19 @@
     [centerController changeNavigationBarMode];
 }
 
+- (UISwitch *)nightModeSwitch {
+    if (!_nightModeSwitch) {
+        UISwitch *nightModeSwitch = [[UISwitch alloc] init];
+        nightModeSwitch.onTintColor = CLFUIMainColor;
+        [nightModeSwitch addTarget:self action:@selector(nightModeChange) forControlEvents:UIControlEventValueChanged];
+        _nightModeSwitch = nightModeSwitch;
+    }
+    return _nightModeSwitch;
+}
+
+/**
+ *  切换有图模式与无图模式并归档
+ */
 - (void)noImageModeChange {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     [defaults setBool:self.noImageModeSwitch.isOn forKey:@"noImageModeStatus"];
@@ -206,7 +199,23 @@
         [self.delegate noImageModeChanged];
     }
 }
-//
+
+- (UISwitch *)noImageModeSwitch {
+    if (!_noImageModeSwitch) {
+        UISwitch *noImageModeSwitch = [[UISwitch alloc] init];
+        noImageModeSwitch.onTintColor = CLFUIMainColor;
+        [noImageModeSwitch addTarget:self action:@selector(noImageModeChange) forControlEvents:UIControlEventValueChanged];
+        _noImageModeSwitch = noImageModeSwitch;
+    }
+    return _noImageModeSwitch;
+}
+
+
+#pragma mark - send E-mail to developer
+
+/**
+ *  发送反馈邮件
+ */
 - (void)sendSuggestionsEmail {
     Class mailClass = (NSClassFromString(@"MFMailComposeViewController"));
     
@@ -244,7 +253,7 @@
 }
 
 - (void)launchMailAppOnDevice {
-    NSString *recipients = @"mailto:gavinflying@126.com&subject=意见反馈";
+    NSString *recipients = @"mailto:gavinflying@126.com&subject=TechToday意见反馈";
     NSString *body = @"&body=请留下您的宝贵建议和意见：\n\n\n";
     
     NSString *email = [NSString stringWithFormat:@"%@%@", recipients, body];
@@ -252,7 +261,6 @@
     
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:email]];
 }
-
 
 - (void)mailComposeController:(MFMailComposeViewController *)controller
           didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error {
@@ -279,13 +287,17 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
+#pragma mark - clearing cache
+
+/**
+ *  clearing cache
+ */
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     switch (buttonIndex) {
         case 0: {
             break;
         }
         case 1: {
-//            [MBProgressHUD showMessage:@"清除中"];
             NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
             NSString *cachesDir = [paths objectAtIndex:0];
             [CLFCacheClearTool clearCacheAtPath:cachesDir completion:nil];

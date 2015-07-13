@@ -10,6 +10,9 @@
 
 @implementation CLFCacheClearTool
 
+/**
+ *  计算单个文件的大小
+ */
 + (CGFloat)fileSizeAtPath:(NSString *)path {
     NSFileManager *fileManager = [NSFileManager defaultManager];
     if ([fileManager fileExistsAtPath:path]) {
@@ -19,6 +22,10 @@
     return 0;
 }
 
+/**
+ *  计算文件夹的大小
+ */
+#warning 似乎只能计算一层?
 + (CGFloat)DirectorySizeAtPath:(NSString *)path {
     NSFileManager *fileManager = [NSFileManager defaultManager];
     CGFloat directorySize = 0.0;
@@ -33,8 +40,10 @@
     return 0.0;
 }
 
+/**
+ *  清楚指定路径的文件
+ */
 + (void)clearCacheAtPath:(NSString *)path completion:(completionBlock)completion {
-    
     NSFileManager *fileManager = [NSFileManager defaultManager];
     if ([fileManager fileExistsAtPath:path]) {
         NSArray *containedFiles = [fileManager subpathsAtPath:path];

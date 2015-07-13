@@ -16,9 +16,11 @@
 
 @interface CLFAboutController () <UIWebViewDelegate>
 
-@property (weak, nonatomic) UIView *appIconView;
-@property (weak, nonatomic) UIView *appIntroView;
-@property (weak, nonatomic) UIWebView *IntroView;
+// 显示应用图标/slogan/版本号等
+@property (weak, nonatomic) UIView    *appIconView;
+// 对应用的介绍 内置一个WebView
+@property (weak, nonatomic) UIWebView    *appIntroView;
+//@property (weak, nonatomic) UIWebView *IntroView;
 
 @end
 
@@ -33,6 +35,37 @@
     [self setupAppIntroView];
 }
 
+#pragma mark - set up navigationBar
+
+- (void)setupNavigationBar {
+    UIButton *leftButton = [[UIButton alloc] init];
+    [leftButton setImage:[UIImage imageNamed:@"NavigationbarBackArrow"] forState:UIControlStateNormal];
+    [leftButton addTarget:self action:@selector(backToHomeView) forControlEvents:UIControlEventTouchUpInside];
+    leftButton.frame = CGRectMake(0, 0, 20, 24);
+    leftButton.nightBackgroundColor = CLFNightBarColor;
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:leftButton];
+    
+    UIButton *rightButton = [[UIButton alloc] init];
+    rightButton.frame = CGRectMake(0, 0, 20, 24);
+    rightButton.nightBackgroundColor = CLFNightBarColor;
+    [rightButton addTarget:self action:nil forControlEvents:UIControlEventTouchUpInside];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:rightButton];
+    
+    UILabel *titleLabel = [[UILabel alloc] init];
+    titleLabel.text = @"关于我们";
+    titleLabel.nightTextColor = CLFNightTextColor;
+    titleLabel.textAlignment = NSTextAlignmentCenter;
+    titleLabel.font = CLFArticleTitleFont;
+    titleLabel.textColor = [UIColor whiteColor];
+    titleLabel.frame = CGRectMake(0, 0, 80, 20);
+    self.navigationItem.titleView = titleLabel;
+}
+
+- (void)backToHomeView {
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+#pragma mark - set up appIconView
 - (UIView *)appIconView {
     if (!_appIconView) {
         UIView *appIconView = [[UIView alloc] init];
@@ -121,16 +154,62 @@
     [self.appIconView addSubview:seperatorView];
 }
 
-- (UIView *)appIntroView {
+#pragma mark - set up appIntroView
+
+//- (UIView *)appIntroView {
+//    if (!_appIntroView) {
+//        UIView *appIntroView = [[UIView alloc] init];
+//        
+//        CGFloat appIntroViewX = 15;
+//        CGFloat appIntroViewY = CGRectGetMaxY(self.appIconView.frame) + 15;
+//        CGFloat appIntroViewW = CGRectGetWidth(self.view.frame) - 30;
+//        CGFloat appIntroViewH = CGRectGetHeight(self.view.frame) - CGRectGetHeight(self.appIconView.frame);
+//        appIntroView.frame = CGRectMake(appIntroViewX, appIntroViewY, appIntroViewW, appIntroViewH);
+//        appIntroView.backgroundColor = [UIColor clearColor];
+//        appIntroView.nightBackgroundColor = CLFNightViewColor;
+//        [self.view addSubview:appIntroView];
+//        
+//        _appIntroView = appIntroView;
+//    }
+//    return _appIntroView;
+//}
+//
+//- (void)setupAppIntroView {
+//    self.appIntroView.backgroundColor = [UIColor whiteColor];
+//    
+//    UIWebView *introView = [[UIWebView alloc] init];
+//    
+//    introView.frame = self.appIntroView.bounds;
+//    
+//    NSString *mainBundleDirectory = [[NSBundle mainBundle] bundlePath];
+//    NSString *path = [mainBundleDirectory  stringByAppendingPathComponent:@"AboutTechToday.html"];
+//    NSURL *url = [NSURL fileURLWithPath:path];
+//    NSURLRequest *request = [NSURLRequest requestWithURL:url];
+//    introView.scalesPageToFit = YES;
+//    [introView loadRequest:request];
+//    introView.delegate = self;
+//    
+//    introView.scrollView.backgroundColor = [UIColor clearColor];
+//    introView.scrollView.nightBackgroundColor = CLFNightViewColor;
+//    introView.backgroundColor = [UIColor clearColor];
+//    introView.nightBackgroundColor = CLFNightViewColor;
+//    
+//    introView.scrollView.contentInset = UIEdgeInsetsMake(10, 0, 100, 0);
+//    introView.scrollView.showsVerticalScrollIndicator = NO;
+//    introView.opaque = NO;
+//    [self.appIntroView addSubview:introView];
+//}
+
+- (UIWebView *)appIntroView {
     if (!_appIntroView) {
-        UITextField *appIntroView = [[UITextField alloc] init];
+        UIWebView *appIntroView = [[UIWebView alloc] init];
         
         CGFloat appIntroViewX = 15;
         CGFloat appIntroViewY = CGRectGetMaxY(self.appIconView.frame) + 15;
         CGFloat appIntroViewW = CGRectGetWidth(self.view.frame) - 30;
         CGFloat appIntroViewH = CGRectGetHeight(self.view.frame) - CGRectGetHeight(self.appIconView.frame);
         appIntroView.frame = CGRectMake(appIntroViewX, appIntroViewY, appIntroViewW, appIntroViewH);
-        appIntroView.backgroundColor = [UIColor clearColor];
+        appIntroView.backgroundColor = [UIColor whiteColor];
         appIntroView.nightBackgroundColor = CLFNightViewColor;
         [self.view addSubview:appIntroView];
         
@@ -142,56 +221,26 @@
 - (void)setupAppIntroView {
     self.appIntroView.backgroundColor = [UIColor whiteColor];
     
-    UIWebView *introView = [[UIWebView alloc] init];
-    
-    introView.frame = self.appIntroView.bounds;
-    
     NSString *mainBundleDirectory = [[NSBundle mainBundle] bundlePath];
     NSString *path = [mainBundleDirectory  stringByAppendingPathComponent:@"AboutTechToday.html"];
     NSURL *url = [NSURL fileURLWithPath:path];
     NSURLRequest *request = [NSURLRequest requestWithURL:url];
-    introView.scalesPageToFit = YES;
-    [introView loadRequest:request];
-    introView.delegate = self;
+    self.appIntroView.scalesPageToFit = YES;
+    [self.appIntroView loadRequest:request];
+    self.appIntroView.delegate = self;
     
-    introView.scrollView.backgroundColor = [UIColor clearColor];
-    introView.scrollView.nightBackgroundColor = CLFNightViewColor;
-    introView.backgroundColor = [UIColor clearColor];
-    introView.nightBackgroundColor = CLFNightViewColor;
+    self.appIntroView.scrollView.backgroundColor = [UIColor clearColor];
+    self.appIntroView.scrollView.nightBackgroundColor = CLFNightViewColor;
+    self.appIntroView.backgroundColor = [UIColor clearColor];
+    self.appIntroView.nightBackgroundColor = CLFNightViewColor;
     
-    introView.scrollView.contentInset = UIEdgeInsetsMake(10, 0, 100, 0);
-    introView.scrollView.showsVerticalScrollIndicator = NO;
-    introView.opaque = NO;
-    [self.appIntroView addSubview:introView];
+    self.appIntroView.scrollView.contentInset = UIEdgeInsetsMake(10, 0, 100, 0);
+    self.appIntroView.scrollView.showsVerticalScrollIndicator = NO;
+    self.appIntroView.opaque = NO;
 }
 
-- (void)setupNavigationBar {
-    UIButton *leftButton = [[UIButton alloc] init];
-    [leftButton setImage:[UIImage imageNamed:@"NavigationbarBackArrow"] forState:UIControlStateNormal];
-    [leftButton addTarget:self action:@selector(backToHomeView) forControlEvents:UIControlEventTouchUpInside];
-    leftButton.frame = CGRectMake(0, 0, 20, 24);
-    leftButton.nightBackgroundColor = CLFNightBarColor;
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:leftButton];
-    
-    UIButton *rightButton = [[UIButton alloc] init];
-    rightButton.frame = CGRectMake(0, 0, 20, 24);
-    rightButton.nightBackgroundColor = CLFNightBarColor;
-    [rightButton addTarget:self action:nil forControlEvents:UIControlEventTouchUpInside];
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:rightButton];
-    
-    UILabel *titleLabel = [[UILabel alloc] init];
-    titleLabel.text = @"关于我们";
-    titleLabel.nightTextColor = CLFNightTextColor;
-    titleLabel.textAlignment = NSTextAlignmentCenter;
-    titleLabel.font = CLFArticleTitleFont;
-    titleLabel.textColor = [UIColor whiteColor];
-    titleLabel.frame = CGRectMake(0, 0, 80, 20);
-    self.navigationItem.titleView = titleLabel;
-}
 
-- (void)backToHomeView {
-    [self dismissViewControllerAnimated:YES completion:nil];
-}
+#pragma mark - webView delegate methods
 
 -(BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType;
 {

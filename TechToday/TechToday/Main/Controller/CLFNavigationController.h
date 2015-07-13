@@ -10,8 +10,8 @@
 
 @interface CLFNavigationController : UINavigationController
 
-- (void)changeNavigationBarMode;
-- (void)goToLoginController;
+//- (void)goToLoginController;
 - (void)goToAboutController;
+- (void)changeNavigationBarMode;
 
 @end

@@ -9,6 +9,9 @@
 #import "CLFHttpTool.h"
 #import "AFNetworking.h"
 
+/**
+ *  网络请求工具
+ */
 @implementation CLFHttpTool
 
 + (void)getWithURL:(NSString *)URL params:(NSDictionary *)params success:(void (^)(id))success failure:(void (^)(NSError *))failure {

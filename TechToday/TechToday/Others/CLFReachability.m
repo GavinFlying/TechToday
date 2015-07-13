@@ -10,6 +10,10 @@
 
 @implementation CLFReachability
 
+/**
+ *  创建一个Reachability的单例,用于全局判断网络连接情况
+ */
+
 + (id)allocWithZone:(struct _NSZone *)zone {
     static CLFReachability *instance;
     static dispatch_once_t onceToken;

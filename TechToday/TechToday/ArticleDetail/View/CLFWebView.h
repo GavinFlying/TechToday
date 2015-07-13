@@ -11,8 +11,11 @@
 @class CLFArticle;
 @interface CLFWebView : UIWebView
 
+// article would show in this webView
 @property (strong, nonatomic) CLFArticle  *article;
+// height of buttomView
 @property (assign, nonatomic) CGFloat     buttomHeight;
+// height of titleView
 @property (assign, nonatomic) CGFloat     titleHeight;
 
 @end

@@ -11,8 +11,8 @@
 
 @interface CLFSettingCell : UITableViewCell
 
-@property (copy, nonatomic) NSString *titleText;
-@property (strong, nonatomic) UIImage *iconImage;
+@property (copy, nonatomic)   NSString *titleText;
+@property (strong, nonatomic) UIImage  *iconImage;
 
 + (instancetype)cellWithTableView:(UITableView *)tableView;
 

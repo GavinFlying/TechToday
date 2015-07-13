@@ -43,7 +43,6 @@
 #define CLFNightTitleColor [UIColor colorWithRed:160 / 255.0 green:160 / 255.0 blue:170 / 255.0 alpha:100]
 
 #define CLFSettingCellHeight (60)
-#define CLFSettingHeaderHeight (50)
 
 #define CLFSettingTableViewContentTopInsetToScreenHeightRatio (0.18)
 #define CLFScreenW [UIScreen mainScreen].bounds.size.width
