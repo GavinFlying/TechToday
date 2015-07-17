@@ -52,7 +52,7 @@
             [fileManager removeItemAtPath:absolutePath error:nil];
         }
     }
-    completion();
+//    completion();
 }
 
 @end

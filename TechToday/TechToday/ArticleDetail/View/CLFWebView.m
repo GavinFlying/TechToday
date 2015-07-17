@@ -72,7 +72,6 @@
         UILabel *titleLabel = [[UILabel alloc] init];
         titleLabel.numberOfLines = 0;
         titleLabel.font = CLFArticleTitleFont;
-        titleLabel.nightTextColor = CLFNightTextColor;
         titleLabel.backgroundColor = [UIColor clearColor];
         titleLabel.nightBackgroundColor = [UIColor clearColor];
         [self.titleView addSubview:titleLabel];
@@ -85,7 +84,6 @@
     if (!_sourceLabel) {
         UILabel *sourceLabel = [[UILabel alloc] init];
         sourceLabel.font = CLFArticleDetailSourceFont;
-        sourceLabel.nightTextColor = CLFNightTextColor;
         sourceLabel.backgroundColor = [UIColor clearColor];
         sourceLabel.nightBackgroundColor = [UIColor clearColor];
         [self.titleView addSubview:sourceLabel];
@@ -116,6 +114,7 @@
     
     // titleLabel
     self.titleLabel.textColor = self.titleStyle ? [UIColor whiteColor] : [UIColor blackColor];
+    self.titleLabel.nightTextColor = CLFNightTextColor;
     NSString *titleText = self.article.title;
     NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithString:titleText];
     NSMutableParagraphStyle *style = [[NSMutableParagraphStyle alloc] init];
@@ -130,6 +129,7 @@
     
     // sourceLabel
     self.sourceLabel.textColor = self.titleStyle ? [UIColor whiteColor] : [UIColor lightGrayColor];
+    self.sourceLabel.nightTextColor = CLFNightTextColor;
     self.sourceLabel.text = self.article.source;
     
     CGFloat sourceLabelX = titleLabelX;

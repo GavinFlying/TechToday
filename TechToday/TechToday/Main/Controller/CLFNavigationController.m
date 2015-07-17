@@ -150,7 +150,7 @@
     if ([viewController isKindOfClass:[CLFArticleDetailController class]]) {
         self.statusBarView.hidden = NO;
     } else {
-//        self.statusBarView.hidden = YES; // 其实可以不用.当备用吧
+        self.statusBarView.hidden = YES;
     }
     [super pushViewController:viewController animated:animated];
 }

@@ -10,6 +10,7 @@
 		3F3293591B501E4200793CE3 /* TechToday.png in Resources */ = {isa = PBXBuildFile; fileRef = 3F3293581B501E4200793CE3 /* TechToday.png */; };
 		3F34292B1B5134AF006B4656 /* CLFCacheClearTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F34292A1B5134AF006B4656 /* CLFCacheClearTool.m */; };
 		3F34292D1B51532F006B4656 /* AboutTechToday.html in Resources */ = {isa = PBXBuildFile; fileRef = 3F34292C1B51532F006B4656 /* AboutTechToday.html */; };
+		3F494F811B58E3780034E6E4 /* CLFShareView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F494F801B58E3780034E6E4 /* CLFShareView.m */; };
 		3F9015581B50EAB300A242E2 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F9015571B50EAB300A242E2 /* MessageUI.framework */; };
 		3F922E9D1B4B6960004CC85D /* TechTodayTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F922E9C1B4B6960004CC85D /* TechTodayTests.m */; };
 		3F922EAD1B4B6FA2004CC85D /* CLFArticleDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F922EA91B4B6FA2004CC85D /* CLFArticleDetailController.m */; };
@@ -150,6 +151,8 @@
 		3F3429291B5134AF006B4656 /* CLFCacheClearTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CLFCacheClearTool.h; sourceTree = "<group>"; };
 		3F34292A1B5134AF006B4656 /* CLFCacheClearTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CLFCacheClearTool.m; sourceTree = "<group>"; };
 		3F34292C1B51532F006B4656 /* AboutTechToday.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = AboutTechToday.html; sourceTree = "<group>"; };
+		3F494F7F1B58E3780034E6E4 /* CLFShareView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CLFShareView.h; sourceTree = "<group>"; };
+		3F494F801B58E3780034E6E4 /* CLFShareView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CLFShareView.m; sourceTree = "<group>"; };
 		3F9015571B50EAB300A242E2 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		3F922E7D1B4B6960004CC85D /* TechToday.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TechToday.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3F922E811B4B6960004CC85D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -517,6 +520,8 @@
 			children = (
 				3F922EAB1B4B6FA2004CC85D /* CLFWebView.h */,
 				3F922EAC1B4B6FA2004CC85D /* CLFWebView.m */,
+				3F494F7F1B58E3780034E6E4 /* CLFShareView.h */,
+				3F494F801B58E3780034E6E4 /* CLFShareView.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1252,6 +1257,7 @@
 				3F922FC51B4B6FD4004CC85D /* UIButton+WebCache.m in Sources */,
 				3F922FDB1B4B6FD4004CC85D /* CLFNavigationController.m in Sources */,
 				3F922FCB1B4B6FD4004CC85D /* UIView+WebCacheOperation.m in Sources */,
+				3F494F811B58E3780034E6E4 /* CLFShareView.m in Sources */,
 				3FA665B71B4E882900F8A0EA /* UIBarButtonItem+NightVersion.m in Sources */,
 				3F922ECB1B4B6FBB004CC85D /* CLFArticleNoImageCell.m in Sources */,
 				3F922EC71B4B6FBB004CC85D /* CLFArticleFrame.m in Sources */,

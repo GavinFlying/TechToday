@@ -64,7 +64,7 @@
 }
 
 - (UIColor *)normalTintColor {
-    return objc_getAssociatedObject(self, @selector(normalTintColor))?: [UIColor blueColor];
+    return objc_getAssociatedObject(self, @selector(normalTintColor))?: [UIColor whiteColor];
 }
 
 - (void)setNormalTintColor:(UIColor *)normalTintColor {

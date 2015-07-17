@@ -14,8 +14,9 @@
 #import "MBProgressHUD+MJ.h"
 #import "CLFAppDelegate.h"
 #import "CLFArticleCacheTool.h"
+#import "CLFShareView.h"
 
-@interface CLFArticleDetailController () <UIWebViewDelegate, UITableViewDelegate, UITableViewDataSource, UIGestureRecognizerDelegate>
+@interface CLFArticleDetailController () <UIWebViewDelegate, UITableViewDelegate, UITableViewDataSource, UIGestureRecognizerDelegate, ISSShareViewDelegate>
 // 显示文章的webView
 @property (weak, nonatomic)   CLFWebView  *articleDetail;
 // 点击更多选项出现的tableView
@@ -260,32 +261,43 @@
                                        defaultContent:nil
                                                 image:[ShareSDK imageWithPath:imagePath]
                                                 title:@"TechToday"
-                                                  url:@"http://jinri.info"
+                                                  url:[NSString stringWithFormat:@"http://jinri.info/index.php/DaiArticle/index/%@", article.articleID]
                                           description:nil
                                             mediaType:SSPublishContentMediaTypeNews];
-    //创建弹出菜单容器
-    id<ISSContainer> container = [ShareSDK container];
-    [container setIPadContainerWithView:nil arrowDirect:UIPopoverArrowDirectionUp];
     
-    //弹出分享菜单
-    [ShareSDK showShareActionSheet:container
-                         shareList:nil
-                           content:publishContent
-                     statusBarTips:YES
-                       authOptions:nil
-                      shareOptions:nil
-                            result:^(ShareType type, SSResponseState state, id<ISSPlatformShareInfo> statusInfo, id<ICMErrorInfo> error, BOOL end) {
-                                
-                                if (state == SSResponseStateSuccess)
-                                {
-                                    NSLog(NSLocalizedString(@"TEXT_ShARE_SUC", @"分享成功"));
-                                }
-                                else if (state == SSResponseStateFail)
-                                {
-                                    NSLog(NSLocalizedString(@"TEXT_ShARE_FAI", @"分享失败,错误码:%d,错误描述:%@"), [error errorCode], [error errorDescription]);
-                                }
-                            }];
+    id<ISSAuthOptions> authOptions = [ShareSDK authOptionsWithAutoAuth:YES
+                                                         allowCallback:NO
+                                                         authViewStyle:SSAuthViewStyleFullScreenPopup
+                                                          viewDelegate:nil
+                                               authManagerViewDelegate:nil];
+    
+    id<ISSShareOptions> shareOptions = [ShareSDK defaultShareOptionsWithTitle:@"Share"
+                                                              oneKeyShareList:[NSArray defaultOneKeyShareList]
+                                                               qqButtonHidden:YES
+                                                        wxSessionButtonHidden:YES
+                                                       wxTimelineButtonHidden:YES
+                                                         showKeyboardOnAppear:NO
+                                                            shareViewDelegate:self
+                                                          friendsViewDelegate:nil
+                                                        picViewerViewDelegate:nil];
+
+    [CLFShareView shareWithContent:publishContent shareOptions:shareOptions authOptions:authOptions];
 }
+
+- (void)viewOnWillDisplay:(UIViewController *)viewController shareType:(ShareType)shareType {
+    UIView *editView = [viewController.view.subviews lastObject];
+    UITextView *editTextView = [editView.subviews lastObject];
+    editView.backgroundColor = [UIColor whiteColor];
+    editTextView.backgroundColor = [UIColor whiteColor];
+    editView.nightBackgroundColor = CLFNightViewColor;
+    editTextView.nightBackgroundColor = CLFNightViewColor;
+    viewController.view.backgroundColor = [UIColor colorWithRed:0 / 255.0 green:0 / 255.0 blue:0 / 255.0 alpha:0.7];
+    viewController.view.nightBackgroundColor = [UIColor colorWithRed:0 / 255.0 green:0 / 255.0 blue:0 / 255.0 alpha:0.7];    
+}
+
+//- (void)willPresentActionSheet:(UIActionSheet *)actionSheet {
+//    NSLog(@"%@", actionSheet.subviews);
+//}
 
 #pragma mark - show more options && change font size
 
