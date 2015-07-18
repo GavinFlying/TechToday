@@ -81,6 +81,14 @@
         articleDetail.delegate = self;
         articleDetail.scrollView.delegate = self;
         [self.view addSubview:articleDetail];
+//        articleDetail.translatesAutoresizingMaskIntoConstraints = NO;
+//        articleDetail.layoutMargins = UIEdgeInsetsMake(0, -16, 0, -16);
+//        articleDetail.preservesSuperviewLayoutMargins = NO;
+//        NSArray *detailConts1 = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-[detail]-|" options:0 metrics:nil views:@{@"detail" : articleDetail}];
+//        NSArray *detailConts2 = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-[detail]-|" options:0 metrics:nil views:@{@"detail" : articleDetail}];
+//
+//        [self.view addConstraints:detailConts1];
+//        [self.view addConstraints:detailConts2];
         _articleDetail = articleDetail;
     }
     return _articleDetail;
