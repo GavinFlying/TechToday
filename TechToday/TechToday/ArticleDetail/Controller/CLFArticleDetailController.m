@@ -112,17 +112,14 @@
 - (void)showArticleDetail:(NSString *)str {
     NSString *urlStr = [NSString stringWithFormat:@"http://jinri.info/index.php/DaiAppApi/showArticle/%@", str];
     NSURL *url = [NSURL URLWithString:urlStr];
-    
-    // 如果是无图模式,则获取 html 源码,通过正则表达式去除所有图片的标签,再通过 webView 显示; 否则通过 URLRequest 正常加载
-    if (([CLFAppDelegate globalDelegate].isNoImageModeOn)) {
-        NSString *HTMLSource = [NSString stringWithContentsOfURL:url encoding:NSUTF8StringEncoding error:nil];
-        //        NSRegularExpression *regexToImage = [NSRegularExpression regularExpressionWithPattern:@"(http|https)://(www.)?[\\w-_.]+.[a-zA-Z]+/((([\\w-_/]+)/)?[\\w-_.]+.(png|gif|jpg))" options:NSRegularExpressionCaseInsensitive error:nil];
+    NSString *HTMLSource = [NSString stringWithContentsOfURL:url encoding:NSUTF8StringEncoding error:nil];
+    // 如果是无图模式且已经有页面数据,则获取 html 源码,通过正则表达式去除所有图片的标签,再通过 webView 显示; 否则通过 URLRequest 正常加载
+    if (([CLFAppDelegate globalDelegate].isNoImageModeOn) && HTMLSource) {
         NSRegularExpression *regexToImage = [NSRegularExpression regularExpressionWithPattern:@"<\\s*img [^\\>]*src\\s*=\\s*([\"|\'])(.*?)[\"|\'][^']*?>" options:NSRegularExpressionCaseInsensitive error:nil];
         NSString *pureHTMLSource = [regexToImage stringByReplacingMatchesInString:HTMLSource options:NSMatchingReportCompletion range:NSMakeRange(0, HTMLSource.length) withTemplate:@""];
-        
         [self.articleDetail loadHTMLString:pureHTMLSource baseURL:nil];
     } else {
-        NSURLRequest *request = [NSURLRequest requestWithURL:url cachePolicy:NSURLRequestReturnCacheDataElseLoad timeoutInterval:20.0f];
+        NSURLRequest *request = [NSURLRequest requestWithURL:url];
         [self.articleDetail loadRequest:request];
     }
 }

@@ -218,8 +218,8 @@
         [navigationBarOfCurrentView setBackgroundImage:[UIImage resizeImageWithName:@"NavigationBarNightBackground"] forBarMetrics:UIBarMetricsDefault];
         [navigationBarOfAllView setBackgroundImage:[UIImage resizeImageWithName:@"NavigationBarNightBackground" ] forBarMetrics:UIBarMetricsDefault];
     } else {
-        [navigationBarOfCurrentView setBackgroundImage:[UIImage resizeImageWithName:@"NavigationBarBackground"] forBarMetrics:UIBarMetricsDefault];
-        [navigationBarOfAllView setBackgroundImage:[UIImage resizeImageWithName:@"NavigationBarBackground"] forBarMetrics:UIBarMetricsDefault];
+        [navigationBarOfCurrentView setBackgroundImage:[UIImage resizeImageWithName:@"NavigationbarBackground"] forBarMetrics:UIBarMetricsDefault];
+        [navigationBarOfAllView setBackgroundImage:[UIImage resizeImageWithName:@"NavigationbarBackground"] forBarMetrics:UIBarMetricsDefault];
     }
 }
 

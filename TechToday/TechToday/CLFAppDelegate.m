@@ -19,6 +19,7 @@
 #import <ShareSDK/ShareSDK.h>
 #import "WeiboSDK.h"
 #import "WXApi.h"
+#import "RNCachingURLProtocol.h"
 
 @interface CLFAppDelegate () <UIAlertViewDelegate>
 
@@ -46,6 +47,8 @@
     [self configureDrawerViewController];
     [self.window makeKeyAndVisible];
     
+    [NSURLProtocol registerClass:[RNCachingURLProtocol class]];
+    
     // 统计应用打开次数
     [self appLaunchTimes];
     
@@ -60,8 +63,8 @@
     [_internetReachable startNotifier];
     
     // 分配缓存
-    NSURLCache *sharedCache = [[NSURLCache alloc] initWithMemoryCapacity:0 diskCapacity:50 * 1024 * 1024 diskPath:@"WebViewCache"];
-    [NSURLCache setSharedURLCache:sharedCache];
+//    NSURLCache *sharedCache = [[NSURLCache alloc] initWithMemoryCapacity:0 diskCapacity:50 * 1024 * 1024 diskPath:@"WebViewCache"];
+//    [NSURLCache setSharedURLCache:sharedCache];
     
     application.statusBarStyle = UIStatusBarStyleLightContent;
     return YES;
