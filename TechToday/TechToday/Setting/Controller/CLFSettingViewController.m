@@ -16,7 +16,7 @@
 #import "CLFCacheClearTool.h"
 
 
-@interface CLFSettingViewController () <UIAlertViewDelegate>
+@interface CLFSettingViewController ()
 
 @property (strong, nonatomic) UISwitch *nightModeSwitch;
 @property (strong, nonatomic) UISwitch *noImageModeSwitch;
@@ -28,8 +28,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    CGFloat topContentInset = CLFScreenH * CLFSettingTableViewContentTopInsetToScreenHeightRatio;
-    CGFloat leftContentInset = - topContentInset * 0.125;
+    CGFloat topContentInset = (CLFScreenH - 6 * CLFSettingCellHeight) * 0.5;
+    CGFloat leftContentInset = - topContentInset * 0.12;
     self.tableView.backgroundColor = [UIColor clearColor];
     self.tableView.contentInset = UIEdgeInsetsMake(topContentInset, leftContentInset, 0.0, 0.0);
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
@@ -118,16 +118,32 @@
         case 1: {
             break;
         }
-        case 2: {
+        case 2: { // clearing cache on disk
             NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
             NSString *cachesDir = [paths objectAtIndex:0];
             CGFloat cacheSize = [CLFCacheClearTool DirectorySizeAtPath:cachesDir];
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"缓存清理"
-                                                            message:[NSString stringWithFormat:@"目前共有 %.2fM 缓存,确定要清理吗?", cacheSize]
-                                                           delegate:self
-                                                  cancelButtonTitle:@"取消"
-                                                  otherButtonTitles:@"确定", nil];
-            [alert show];
+            
+            UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"缓存清理"
+                                                                                     message:[NSString stringWithFormat:@"目前共有 %.2fM 缓存,确定要清理吗?", cacheSize]
+                                                                              preferredStyle:UIAlertControllerStyleAlert];
+            
+            UIView *alert = [alertController.view.subviews lastObject];
+            alert.backgroundColor = [UIColor whiteColor];
+            alert.nightBackgroundColor = [UIColor whiteColor];
+            alert.layer.cornerRadius = 8;
+            alert.layer.masksToBounds = NO;
+            
+            UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+            }];
+            
+            UIAlertAction *confirmAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+                NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
+                NSString *cachesDir = [paths objectAtIndex:0];
+                [CLFCacheClearTool clearCacheAtPath:cachesDir completion:nil];
+            }];
+            [alertController addAction:cancelAction];
+            [alertController addAction:confirmAction];
+            [self presentViewController:alertController animated:YES completion:nil];
             
             break;
         }
@@ -285,25 +301,6 @@
         }
     }
     [self dismissViewControllerAnimated:YES completion:nil];
-}
-
-#pragma mark - clearing cache
-
-/**
- *  clearing cache
- */
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-    switch (buttonIndex) {
-        case 0: {
-            break;
-        }
-        case 1: {
-            NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
-            NSString *cachesDir = [paths objectAtIndex:0];
-            [CLFCacheClearTool clearCacheAtPath:cachesDir completion:nil];
-            break;
-        }
-    }
 }
 
 @end

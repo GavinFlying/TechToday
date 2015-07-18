@@ -44,7 +44,6 @@
 
 #define CLFSettingCellHeight (60)
 
-#define CLFSettingTableViewContentTopInsetToScreenHeightRatio (0.18)
 #define CLFScreenW [UIScreen mainScreen].bounds.size.width
 #define CLFScreenH [UIScreen mainScreen].bounds.size.height
 #define CLFScreenWScale ([UIScreen mainScreen].bounds.size.width / (375.0f))

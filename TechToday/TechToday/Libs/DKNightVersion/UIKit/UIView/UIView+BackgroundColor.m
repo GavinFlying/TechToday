@@ -60,8 +60,6 @@
 
 - (void)setNightBackgroundColor:(UIColor *)nightBackgroundColor {
     if ([DKNightVersionManager currentThemeVersion] == DKThemeVersionNight) [self setBackgroundColor:nightBackgroundColor];
-//    if ([DKNightVersionManager currentThemeVersion] == DKThemeVersionNight) [self setBackgroundColor:[UIColor clearColor]];
-
     objc_setAssociatedObject(self, @selector(nightBackgroundColor), nightBackgroundColor, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 

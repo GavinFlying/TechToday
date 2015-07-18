@@ -214,6 +214,7 @@ static NSSet *RNCachingSupportedSchemes;
 {
     BOOL reachable = (BOOL) [[Reachability reachabilityWithHostName:[[[self request] URL] host]] currentReachabilityStatus] != NotReachable;
     return !reachable;
+//    return YES;
 }
 
 - (void)appendData:(NSData *)newData

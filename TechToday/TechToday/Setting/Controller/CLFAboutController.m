@@ -156,50 +156,6 @@
 
 #pragma mark - set up appIntroView
 
-//- (UIView *)appIntroView {
-//    if (!_appIntroView) {
-//        UIView *appIntroView = [[UIView alloc] init];
-//        
-//        CGFloat appIntroViewX = 15;
-//        CGFloat appIntroViewY = CGRectGetMaxY(self.appIconView.frame) + 15;
-//        CGFloat appIntroViewW = CGRectGetWidth(self.view.frame) - 30;
-//        CGFloat appIntroViewH = CGRectGetHeight(self.view.frame) - CGRectGetHeight(self.appIconView.frame);
-//        appIntroView.frame = CGRectMake(appIntroViewX, appIntroViewY, appIntroViewW, appIntroViewH);
-//        appIntroView.backgroundColor = [UIColor clearColor];
-//        appIntroView.nightBackgroundColor = CLFNightViewColor;
-//        [self.view addSubview:appIntroView];
-//        
-//        _appIntroView = appIntroView;
-//    }
-//    return _appIntroView;
-//}
-//
-//- (void)setupAppIntroView {
-//    self.appIntroView.backgroundColor = [UIColor whiteColor];
-//    
-//    UIWebView *introView = [[UIWebView alloc] init];
-//    
-//    introView.frame = self.appIntroView.bounds;
-//    
-//    NSString *mainBundleDirectory = [[NSBundle mainBundle] bundlePath];
-//    NSString *path = [mainBundleDirectory  stringByAppendingPathComponent:@"AboutTechToday.html"];
-//    NSURL *url = [NSURL fileURLWithPath:path];
-//    NSURLRequest *request = [NSURLRequest requestWithURL:url];
-//    introView.scalesPageToFit = YES;
-//    [introView loadRequest:request];
-//    introView.delegate = self;
-//    
-//    introView.scrollView.backgroundColor = [UIColor clearColor];
-//    introView.scrollView.nightBackgroundColor = CLFNightViewColor;
-//    introView.backgroundColor = [UIColor clearColor];
-//    introView.nightBackgroundColor = CLFNightViewColor;
-//    
-//    introView.scrollView.contentInset = UIEdgeInsetsMake(10, 0, 100, 0);
-//    introView.scrollView.showsVerticalScrollIndicator = NO;
-//    introView.opaque = NO;
-//    [self.appIntroView addSubview:introView];
-//}
-
 - (UIWebView *)appIntroView {
     if (!_appIntroView) {
         UIWebView *appIntroView = [[UIWebView alloc] init];

@@ -61,7 +61,13 @@ static id _authOptions;
     titleLabel.backgroundColor = [UIColor clearColor];
     [shareView addSubview:titleLabel];
     
-    NSArray *shareIcons = @[@"share_icon_0.png", @"share_icon_1.png", @"share_icon_2.png"];
+    NSArray *shareIcons = nil;
+    if ([WXApi isWXAppInstalled]) {
+        shareIcons = @[@"share_icon_0.png", @"share_icon_1.png", @"share_icon_2.png"];
+    } else {
+        shareIcons = @[@"share_icon_0.png", @"", @""];
+    }
+
 //    NSArray *shareTitles = @[@"新浪微博", @"微信好友", @"微信朋友圈"];
     for (NSInteger i = 0; i < 3; i++) {
         CGFloat top = 0.0;

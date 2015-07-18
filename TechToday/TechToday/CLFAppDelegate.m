@@ -15,7 +15,6 @@
 #import "JVFloatingDrawerSpringAnimator.h"
 #import "CLFSettingViewController.h"
 #import "CLFArticleCacheTool.h"
-
 #import <ShareSDK/ShareSDK.h>
 #import "WeiboSDK.h"
 #import "WXApi.h"
@@ -40,6 +39,11 @@
     [ShareSDK  connectSinaWeiboWithAppKey:@"2329308416"
                                 appSecret:@"f6d10661b4e122963abbea4cc0905a93"
                               redirectUri:@"http://jinri.info"];
+    
+    //添加微信应用  http://open.weixin.qq.com
+    [ShareSDK connectWeChatWithAppId:@"wx7528d998fb4c375b"
+                           appSecret:@"67ed6149eacbb2dec1b35574bb5a180b"
+                           wechatCls:[WXApi class]];
 
     // 设置 drawerViewController
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
@@ -63,8 +67,8 @@
     [_internetReachable startNotifier];
     
     // 分配缓存
-//    NSURLCache *sharedCache = [[NSURLCache alloc] initWithMemoryCapacity:0 diskCapacity:50 * 1024 * 1024 diskPath:@"WebViewCache"];
-//    [NSURLCache setSharedURLCache:sharedCache];
+    NSURLCache *sharedCache = [[NSURLCache alloc] initWithMemoryCapacity:0 diskCapacity:50 * 1024 * 1024 diskPath:@"WebViewCache"];
+    [NSURLCache setSharedURLCache:sharedCache];
     
     application.statusBarStyle = UIStatusBarStyleLightContent;
     return YES;
@@ -207,5 +211,22 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
+- (BOOL)application:(UIApplication *)application
+      handleOpenURL:(NSURL *)url
+{
+    return [ShareSDK handleOpenURL:url
+                        wxDelegate:self];
+}
+
+- (BOOL)application:(UIApplication *)application
+            openURL:(NSURL *)url
+  sourceApplication:(NSString *)sourceApplication
+         annotation:(id)annotation
+{
+    return [ShareSDK handleOpenURL:url
+                 sourceApplication:sourceApplication
+                        annotation:annotation
+                        wxDelegate:self];
+}
 
 @end

@@ -168,6 +168,7 @@
  *  下拉刷新 getArticle 返回最新15篇文章
  *  上拉加载 getMoreArticle/articleID 返回 articleID 及之前的15篇文章
  */
+
 - (void)loadNewData {
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     NSString *URLAppendage = nil;

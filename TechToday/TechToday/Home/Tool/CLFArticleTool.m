@@ -11,20 +11,28 @@
 #import "CLFArticle.h"
 #import "CLFArticleCacheTool.h"
 #import "CLFArticleFrame.h"
+#import "CLFReachability.h"
 
 @implementation CLFArticleTool
 
 + (void)articleWithURLAppendage:(NSString *)URLAppendage params:(NSDictionary *)params success:(void (^)(NSMutableArray *))success failure:(void (^)(NSError *))failure {
-    
+    NetworkStatus internetStatus = [[CLFReachability sharedCLFReachability] currentReachabilityStatus];
     // 先看下缓存中有没有数据
     NSMutableArray *articlesInDatabase = [CLFArticleCacheTool artilcesWithURLAppendage:URLAppendage params:params];
     
     if ([URLAppendage containsString:@"getArticle"]) {
         URLAppendage = @"getArticle";
     }
-#warning 下拉刷新/缓存/有网络/没网络 TODO
+    
     // 缓存中有数据且为下拉刷新 返回缓存中的数据
-    if ([URLAppendage containsString:@"getArticle"] && articlesInDatabase.count) { // 可加个判断给上拉加载用.缓存中存在且加载形式为上拉加载的话,调用缓存中的东西.(没网络的情况下).有网络的情况下可能会出现因为加载了缓存导致中间的部分此前未缓存的article无法显示的情况
+    if ([URLAppendage containsString:@"getArticle"] && articlesInDatabase.count) {
+        if (success) {
+            NSMutableArray *articleFrameArray = [self convertArticleToArticleFrame:articlesInDatabase];
+            success(articleFrameArray);
+        }
+        // 缓存中存在且加载形式为上拉加载的话,调用缓存中的东西.(没网络的情况下).有网络的情况下可能会出现因为加载了缓存导致中间的部分此前未缓存的article无法显示的情况
+    } else if ([URLAppendage containsString:@"getMoreArticle"] && articlesInDatabase.count && (NotReachable == internetStatus)) {
+        NSLog(@"dafasdf");
         if (success) {
             NSMutableArray *articleFrameArray = [self convertArticleToArticleFrame:articlesInDatabase];
             success(articleFrameArray);
