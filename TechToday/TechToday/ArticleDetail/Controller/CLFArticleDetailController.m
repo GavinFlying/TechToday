@@ -230,14 +230,14 @@
         [nextButton setImage:[UIImage imageNamed:@"ToolbarNextArrowNight"] forState:UIControlStateNormal];
         //        [commentButton setImage:[UIImage imageNamed:@"ToolbarCommentNight"] forState:UIControlStateNormal];
         [shareButton setImage:[UIImage imageNamed:@"ToolbarShareNight"] forState:UIControlStateNormal];
-        [moreButton setImage:[UIImage imageNamed:@"ToolbarCommentNight"] forState:UIControlStateNormal];
+        [moreButton setImage:[UIImage imageNamed:@"ToolbarMoreOptionsNight"] forState:UIControlStateNormal];
     } else {
         self.navigationController.toolbar.barStyle = UIBarStyleDefault;
         [backButton setImage:[UIImage imageNamed:@"ToolbarBackArrow"] forState:UIControlStateNormal];
         [nextButton setImage:[UIImage imageNamed:@"ToolbarNextArrow"] forState:UIControlStateNormal];
         //        [commentButton setImage:[UIImage imageNamed:@"ToolbarComment"] forState:UIControlStateNormal];
         [shareButton setImage:[UIImage imageNamed:@"ToolbarShare"] forState:UIControlStateNormal];
-        [moreButton setImage:[UIImage imageNamed:@"ToolbarComment"] forState:UIControlStateNormal];
+        [moreButton setImage:[UIImage imageNamed:@"ToolbarMoreOptions"] forState:UIControlStateNormal];
     }
     
     

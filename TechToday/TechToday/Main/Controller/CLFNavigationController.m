@@ -49,7 +49,6 @@
 }
 
 + (void)setupNavigationBarTheme {
-    NSLog(@"setupNavigationBar");
     UINavigationBar *navigationBar = [UINavigationBar appearance];
     NSMutableDictionary *textAttrs = [NSMutableDictionary dictionary];
     textAttrs[NSForegroundColorAttributeName] = [UIColor whiteColor];
@@ -58,7 +57,6 @@
 }
 
 + (void)setupBarButtonItemTheme {
-    NSLog(@"setupBarButton");
     UIBarButtonItem *barButtonItem = [UIBarButtonItem appearance];
     NSMutableDictionary *textAttrs = [NSMutableDictionary dictionary];
     textAttrs[NSForegroundColorAttributeName] = [UIColor whiteColor];
@@ -217,11 +215,11 @@
     UINavigationBar *navigationBarOfCurrentView = self.navigationBar;
     UINavigationBar *navigationBarOfAllView = [UINavigationBar appearance];
     if ([DKNightVersionManager currentThemeVersion] == DKThemeVersionNight) {
-        [navigationBarOfCurrentView setBackgroundImage:[UIImage resizeImageWithName:@"NavigationbarNightBackground"] forBarMetrics:UIBarMetricsDefault];
-        [navigationBarOfAllView setBackgroundImage:[UIImage resizeImageWithName:@"NavigationbarNightBackground"] forBarMetrics:UIBarMetricsDefault];
+        [navigationBarOfCurrentView setBackgroundImage:[UIImage resizeImageWithName:@"NavigationBarNightBackground"] forBarMetrics:UIBarMetricsDefault];
+        [navigationBarOfAllView setBackgroundImage:[UIImage resizeImageWithName:@"NavigationBarNightBackground" ] forBarMetrics:UIBarMetricsDefault];
     } else {
-        [navigationBarOfCurrentView setBackgroundImage:[UIImage resizeImageWithName:@"NavigationbarBackground"] forBarMetrics:UIBarMetricsDefault];
-        [navigationBarOfAllView setBackgroundImage:[UIImage resizeImageWithName:@"NavigationbarBackground"] forBarMetrics:UIBarMetricsDefault];
+        [navigationBarOfCurrentView setBackgroundImage:[UIImage resizeImageWithName:@"NavigationBarBackground"] forBarMetrics:UIBarMetricsDefault];
+        [navigationBarOfAllView setBackgroundImage:[UIImage resizeImageWithName:@"NavigationBarBackground"] forBarMetrics:UIBarMetricsDefault];
     }
 }
 
