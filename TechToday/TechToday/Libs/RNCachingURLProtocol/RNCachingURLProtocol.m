@@ -26,7 +26,7 @@
 //
 
 #import "RNCachingURLProtocol.h"
-#import "Reachability.h"
+#import "CLFReachability.h"
 #import <CommonCrypto/CommonDigest.h>
 
 #define WORKAROUND_MUTABLE_COPY_LEAK 1
@@ -99,8 +99,8 @@ static NSSet *RNCachingSupportedSchemes;
   NSString *cachesPath = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) lastObject];
 //  NSString *fileName = [[[aRequest URL] absoluteString] sha1];
     
-    NSString *fullCachesPath = [cachesPath stringByAppendingPathComponent:@"com.hackemist.SDWebImageCache.default"];
-    
+    NSString *fullCachesPath = [cachesPath stringByAppendingPathComponent:@"dd"];
+        
     const char *str = [[[aRequest URL] absoluteString] UTF8String];
     if (str == NULL) {
         str = "";
@@ -111,13 +111,17 @@ static NSSet *RNCachingSupportedSchemes;
                           r[0], r[1], r[2], r[3], r[4], r[5], r[6], r[7], r[8], r[9], r[10], r[11], r[12], r[13], r[14], r[15]];
     
     
-
+    NSString *ddd = [fullCachesPath stringByAppendingPathComponent:fileName];
+    NSLog(@"\n%@\n", ddd);
   return [fullCachesPath stringByAppendingPathComponent:fileName];
 }
 
+// customized by Gavin Cai
 - (void)startLoading
 {
-  if (![self useCache]) {
+    NSLog(@"*****************************************************\n%@\n", [self cachePathForRequest:[self request]]);
+    RNCachedData *cache = [NSKeyedUnarchiver unarchiveObjectWithFile:[self cachePathForRequest:[self request]]];
+  if (!cache) {
     NSMutableURLRequest *connectionRequest = 
 #if WORKAROUND_MUTABLE_COPY_LEAK
       [[self request] mutableCopyWorkaround];
@@ -129,26 +133,18 @@ static NSSet *RNCachingSupportedSchemes;
     NSURLConnection *connection = [NSURLConnection connectionWithRequest:connectionRequest
                                                                 delegate:self];
     [self setConnection:connection];
-  }
-  else {
-    RNCachedData *cache = [NSKeyedUnarchiver unarchiveObjectWithFile:[self cachePathForRequest:[self request]]];
-    if (cache) {
+  } else {
       NSData *data = [cache data];
       NSURLResponse *response = [cache response];
       NSURLRequest *redirectRequest = [cache redirectRequest];
       if (redirectRequest) {
         [[self client] URLProtocol:self wasRedirectedToRequest:redirectRequest redirectResponse:response];
       } else {
-          
-        [[self client] URLProtocol:self didReceiveResponse:response cacheStoragePolicy:NSURLCacheStorageNotAllowed]; // we handle caching ourselves.
-        [[self client] URLProtocol:self didLoadData:data];
-        [[self client] URLProtocolDidFinishLoading:self];
+          [[self client] URLProtocol:self didReceiveResponse:response cacheStoragePolicy:NSURLCacheStorageNotAllowed]; // we handle caching ourselves.
+          [[self client] URLProtocol:self didLoadData:data];
+          [[self client] URLProtocolDidFinishLoading:self];
       }
     }
-    else {
-      [[self client] URLProtocol:self didFailWithError:[NSError errorWithDomain:NSURLErrorDomain code:NSURLErrorCannotConnectToHost userInfo:nil]];
-    }
-  }
 }
 
 - (void)stopLoading
@@ -180,7 +176,7 @@ static NSSet *RNCachingSupportedSchemes;
     [cache setResponse:response];
     [cache setData:[self data]];
     [cache setRedirectRequest:redirectableRequest];
-    [NSKeyedArchiver archiveRootObject:cache toFile:cachePath];
+    if (cache != nil) [NSKeyedArchiver archiveRootObject:cache toFile:cachePath];
     [[self client] URLProtocol:self wasRedirectedToRequest:redirectableRequest redirectResponse:response];
     return redirectableRequest;
   } else {
@@ -223,12 +219,20 @@ static NSSet *RNCachingSupportedSchemes;
   [self setResponse:nil];
 }
 
-- (BOOL) useCache 
-{
-    BOOL reachable = (BOOL) [[Reachability reachabilityWithHostName:[[[self request] URL] host]] currentReachabilityStatus] != NotReachable;
-    return !reachable;
-//    return YES;
-}
+//- (BOOL) useCache 
+//{
+////    BOOL reachable = (BOOL) [[Reachability reachabilityWithHostName:[[[self request] URL] host]] currentReachabilityStatus] != NotReachable;
+//    
+//    // add by Gavin Cai
+////    RNCachedData *cache = [NSKeyedUnarchiver unarchiveObjectWithFile:[self cachePathForRequest:[self request]]];
+////    if (cache) {
+////        return YES;
+////    } else {
+////        return NO;
+////    }
+//    
+////    return !reachable;
+//}
 
 - (void)appendData:(NSData *)newData
 {
