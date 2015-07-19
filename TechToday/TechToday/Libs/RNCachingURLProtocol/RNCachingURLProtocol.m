@@ -111,15 +111,12 @@ static NSSet *RNCachingSupportedSchemes;
                           r[0], r[1], r[2], r[3], r[4], r[5], r[6], r[7], r[8], r[9], r[10], r[11], r[12], r[13], r[14], r[15]];
     
     
-    NSString *ddd = [fullCachesPath stringByAppendingPathComponent:fileName];
-    NSLog(@"\n%@\n", ddd);
-  return [fullCachesPath stringByAppendingPathComponent:fileName];
+  return [cachesPath stringByAppendingPathComponent:fileName];
 }
 
 // customized by Gavin Cai
 - (void)startLoading
 {
-    NSLog(@"*****************************************************\n%@\n", [self cachePathForRequest:[self request]]);
     RNCachedData *cache = [NSKeyedUnarchiver unarchiveObjectWithFile:[self cachePathForRequest:[self request]]];
   if (!cache) {
     NSMutableURLRequest *connectionRequest = 
@@ -134,6 +131,7 @@ static NSSet *RNCachingSupportedSchemes;
                                                                 delegate:self];
     [self setConnection:connection];
   } else {
+      NSLog(@"customize cache");
       NSData *data = [cache data];
       NSURLResponse *response = [cache response];
       NSURLRequest *redirectRequest = [cache redirectRequest];
