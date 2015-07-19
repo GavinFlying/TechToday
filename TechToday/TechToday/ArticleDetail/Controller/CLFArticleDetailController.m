@@ -15,12 +15,15 @@
 #import "CLFAppDelegate.h"
 #import "CLFArticleCacheTool.h"
 #import "CLFShareView.h"
+#import "RNCachingURLProtocol.h"
+#import "AFNetworking.h"
 
 @interface CLFArticleDetailController () <UIWebViewDelegate, UITableViewDelegate, UITableViewDataSource, UIGestureRecognizerDelegate, ISSShareViewDelegate>
 // 显示文章的webView
 @property (weak, nonatomic)   CLFWebView  *articleDetail;
 
-@property (strong, nonatomic) UIWebView *preloadView;
+
+@property (weak, nonatomic) UIWebView *testWebView;
 // 点击更多选项出现的tableView
 @property (weak, nonatomic)   UITableView *moreOptionList;
 // 点击更多选项中的字体调整后出现的tableView
@@ -44,12 +47,6 @@
         } else {
             self.fontSize = 13;
         }
-        
-        
-        
-        self.preloadView = [[UIWebView alloc] init];
-        self.preloadView.tag = 111;
-        self.preloadView.delegate = self;
     }
     return self;
 }
@@ -88,6 +85,7 @@
         articleDetail.scalesPageToFit = YES;
         articleDetail.delegate = self;
         articleDetail.scrollView.delegate = self;
+        articleDetail.suppressesIncrementalRendering = YES;
         [self.view addSubview:articleDetail];
 //        articleDetail.translatesAutoresizingMaskIntoConstraints = NO;
 //        articleDetail.layoutMargins = UIEdgeInsetsMake(0, -16, 0, -16);
@@ -107,7 +105,6 @@
     self.articleDetail.scrollView.contentInset = UIEdgeInsetsMake(self.articleFrame.noImageViewCellHeight + 20, 0, -self.articleFrame.noImageViewCellHeight - 64, 0);
     self.articleDetail.article = self.articleFrame.article;
     self.articleDetail.titleHeight = self.articleFrame.noImageViewCellHeight;
-    
     // 这篇文章设置为已读, 同时更新数据库中文章的状态
     CLFArticle *article = self.articleFrame.article;
     article.read = YES;
@@ -115,6 +112,16 @@
     
     // 根据文章ID来显示文章正文
     [self showArticleDetail:article.articleID];
+}
+
+- (UIWebView *)testWebView {
+    if (!_testWebView) {
+        UIWebView *testView = [[UIWebView alloc] init];
+        testView.frame = CGRectMake(0, 0, 1, 1);
+        [self.view addSubview:testView];
+        _testWebView = testView;
+    }
+    return _testWebView;
 }
 
 - (void)showArticleDetail:(NSString *)str {
@@ -134,21 +141,34 @@
         [self.articleDetail loadRequest:request];
     }
     
+    NSString *preloadURLStr = [NSString stringWithFormat:@"http://jinri.info/index.php/DaiAppApi/showArticle/%ld", ([str integerValue] - 1)];
+
+    NSURL *preloadURL = [NSURL URLWithString:preloadURLStr];
+    NSMutableURLRequest *preloadRequest = [[NSMutableURLRequest alloc] init];
+    [preloadRequest setHTTPMethod:@"GET"];
+    [preloadRequest setURL:preloadURL];
+    [preloadRequest setTimeoutInterval:15.0f];
     
-//    
-//    NSInteger articleID = [str integerValue];
-//    for (NSInteger i = 0; i < 2; i ++) {
-//        articleID++;
-//        NSString *preloadURLStr = [NSString stringWithFormat:@"http://jinri.info/index.php/DaiAppApi/showArticle/%ld", articleID];
-//        NSURL *preloadURL = [NSURL URLWithString:preloadURLStr];
-//        NSURLRequest *preloadRequest = [NSURLRequest requestWithURL:preloadURL];
-//        [self.preloadView loadRequest:preloadRequest];
-//    }
+    __weak CLFArticleDetailController *wself = self;
+    wself.testWebView.alpha = 0.5;
+    dispatch_queue_t q = dispatch_queue_create("preload", DISPATCH_QUEUE_SERIAL);
+    dispatch_async(q, ^{
+        [wself.testWebView loadRequest:preloadRequest];
+    });
     
+//    [NSURLConnection sendAsynchronousRequest:preloadRequest queue:queue completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
+//        [self.articleDetail loadData:data MIMEType:@"text/html" textEncodingName:@"UTF-8" baseURL:nil];
+//    }];
+//    [NSURLConnection connectionWithRequest:preloadRequest delegate:[[RNCachingURLProtocol alloc] init]];
+//    RNCachingURLProtocol *ttt = [[RNCachingURLProtocol alloc] init];
+//    [ttt setupConnectionWithRequest:preloadRequest];
+//    [NSURLConnection connectionWithRequest:preloadRequest delegate:self];
     
-    
-    
-    
+//    AFHTTPRequestOperationManager *mgr = [AFHTTPRequestOperationManager manager];
+//    [mgr GET:preloadURLStr parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+//    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+//    }];
+
 }
 
 - (void)webViewDidStartLoad:(UIWebView *)webView {
@@ -191,7 +211,6 @@
         self.articleDetail.buttomHeight = self.articleDetail.scrollView.contentSize.height;
         self.articleDetail.scrollView.hidden = NO;
         self.articleDetail.suppressesIncrementalRendering = YES;
-
     }
 }
 

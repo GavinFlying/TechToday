@@ -118,8 +118,9 @@
     self.pageViewsLabel.backgroundColor = [UIColor clearColor];
     self.pageViewsLabel.nightBackgroundColor = [UIColor clearColor];
 
+    // 由于自己做了本地存储, SDWebImage只需要做内存缓存即可
     NSString *imageLocation = [NSString stringWithFormat:@"http://jinri.info/%@", article.img];
-    [self.articleImage sd_setImageWithURL:[NSURL URLWithString:imageLocation] placeholderImage:nil];
+    [self.articleImage sd_setImageWithURL:[NSURL URLWithString:imageLocation] placeholderImage:nil options:SDWebImageCacheMemoryOnly];
     
     self.articleImage.frame = articleFrame.imageViewFrame;
     

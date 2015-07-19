@@ -99,8 +99,11 @@ static NSSet *RNCachingSupportedSchemes;
   NSString *cachesPath = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) lastObject];
 //  NSString *fileName = [[[aRequest URL] absoluteString] sha1];
     
-    NSString *fullCachesPath = [cachesPath stringByAppendingPathComponent:@"dd"];
-        
+    NSString *fullCachesPath = [cachesPath stringByAppendingPathComponent:@"WebCaches"];
+    
+    NSFileManager *fileMgr = [NSFileManager defaultManager];
+    [fileMgr createDirectoryAtPath:fullCachesPath withIntermediateDirectories:YES attributes:nil error:nil];
+    
     const char *str = [[[aRequest URL] absoluteString] UTF8String];
     if (str == NULL) {
         str = "";
@@ -111,7 +114,7 @@ static NSSet *RNCachingSupportedSchemes;
                           r[0], r[1], r[2], r[3], r[4], r[5], r[6], r[7], r[8], r[9], r[10], r[11], r[12], r[13], r[14], r[15]];
     
     
-  return [cachesPath stringByAppendingPathComponent:fileName];
+  return [fullCachesPath stringByAppendingPathComponent:fileName];
 }
 
 // customized by Gavin Cai
@@ -119,17 +122,18 @@ static NSSet *RNCachingSupportedSchemes;
 {
     RNCachedData *cache = [NSKeyedUnarchiver unarchiveObjectWithFile:[self cachePathForRequest:[self request]]];
   if (!cache) {
-    NSMutableURLRequest *connectionRequest = 
-#if WORKAROUND_MUTABLE_COPY_LEAK
-      [[self request] mutableCopyWorkaround];
-#else
-      [[self request] mutableCopy];
-#endif
-    // we need to mark this request with our header so we know not to handle it in +[NSURLProtocol canInitWithRequest:].
-    [connectionRequest setValue:@"" forHTTPHeaderField:RNCachingURLHeader];
-    NSURLConnection *connection = [NSURLConnection connectionWithRequest:connectionRequest
-                                                                delegate:self];
-    [self setConnection:connection];
+//    NSMutableURLRequest *connectionRequest = 
+//#if WORKAROUND_MUTABLE_COPY_LEAK
+//      [[self request] mutableCopyWorkaround];
+//#else
+//      [[self request] mutableCopy];
+//#endif
+//    // we need to mark this request with our header so we know not to handle it in +[NSURLProtocol canInitWithRequest:].
+//    [connectionRequest setValue:@"" forHTTPHeaderField:RNCachingURLHeader];
+//    NSURLConnection *connection = [NSURLConnection connectionWithRequest:connectionRequest
+//                                                                delegate:self];
+//    [self setConnection:connection];
+      [self setupConnectionWithRequest:[self request]];
   } else {
       NSLog(@"customize cache");
       NSData *data = [cache data];
@@ -143,6 +147,20 @@ static NSSet *RNCachingSupportedSchemes;
           [[self client] URLProtocolDidFinishLoading:self];
       }
     }
+}
+
+- (void)setupConnectionWithRequest:(NSURLRequest *)request {
+    NSMutableURLRequest *connectionRequest =
+#if WORKAROUND_MUTABLE_COPY_LEAK
+    [request mutableCopyWorkaround];
+#else
+    [request mutableCopy];
+#endif
+    // we need to mark this request with our header so we know not to handle it in +[NSURLProtocol canInitWithRequest:].
+    [connectionRequest setValue:@"" forHTTPHeaderField:RNCachingURLHeader];
+    NSURLConnection *connection = [NSURLConnection connectionWithRequest:connectionRequest
+                                                                delegate:self];
+    [self setConnection:connection];
 }
 
 - (void)stopLoading

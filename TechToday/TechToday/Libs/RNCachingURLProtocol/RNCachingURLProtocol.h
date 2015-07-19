@@ -66,6 +66,7 @@
 + (void)setSupportedSchemes:(NSSet *)supportedSchemes;
 
 - (NSString *)cachePathForRequest:(NSURLRequest *)aRequest;
-- (BOOL) useCache;
+//- (BOOL) useCache;
+- (void)setupConnectionWithRequest:(NSURLRequest *)request;
 
 @end
