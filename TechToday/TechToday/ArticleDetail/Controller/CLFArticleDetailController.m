@@ -19,6 +19,8 @@
 @interface CLFArticleDetailController () <UIWebViewDelegate, UITableViewDelegate, UITableViewDataSource, UIGestureRecognizerDelegate, ISSShareViewDelegate>
 // 显示文章的webView
 @property (weak, nonatomic)   CLFWebView  *articleDetail;
+
+@property (strong, nonatomic) UIWebView *preloadView;
 // 点击更多选项出现的tableView
 @property (weak, nonatomic)   UITableView *moreOptionList;
 // 点击更多选项中的字体调整后出现的tableView
@@ -35,13 +37,19 @@
         UITapGestureRecognizer *singleTapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(singleTap:)];
         singleTapRecognizer.delegate = self;
         [self.articleDetail addGestureRecognizer:singleTapRecognizer];
-
+        self.articleDetail.tag = 222;
         NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
         if ([defaults integerForKey:@"articleFontSize"]) {
             self.fontSize = [defaults integerForKey:@"articleFontSize"];
         } else {
             self.fontSize = 13;
         }
+        
+        
+        
+        self.preloadView = [[UIWebView alloc] init];
+        self.preloadView.tag = 111;
+        self.preloadView.delegate = self;
     }
     return self;
 }
@@ -125,52 +133,79 @@
         NSURLRequest *request = [NSURLRequest requestWithURL:url cachePolicy:NSURLRequestReturnCacheDataElseLoad timeoutInterval:20.0f];
         [self.articleDetail loadRequest:request];
     }
+    
+    
+//    
+//    NSInteger articleID = [str integerValue];
+//    for (NSInteger i = 0; i < 2; i ++) {
+//        articleID++;
+//        NSString *preloadURLStr = [NSString stringWithFormat:@"http://jinri.info/index.php/DaiAppApi/showArticle/%ld", articleID];
+//        NSURL *preloadURL = [NSURL URLWithString:preloadURLStr];
+//        NSURLRequest *preloadRequest = [NSURLRequest requestWithURL:preloadURL];
+//        [self.preloadView loadRequest:preloadRequest];
+//    }
+    
+    
+    
+    
+    
 }
 
 - (void)webViewDidStartLoad:(UIWebView *)webView {
-    [MBProgressHUD showMessage:@"加载中..." toView:self.view];
+    if (webView.tag == 222) {
+        [MBProgressHUD showMessage:@"加载中..." toView:self.view];
+    }
+
 }
 
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
-    // 设置普通模式及夜间模式的正文颜色
-    NSString *fontColor = nil;
-    if ([DKNightVersionManager currentThemeVersion] == DKThemeVersionNight) {
-        fontColor = @"#828282";
-    } else {
-        fontColor = @"#000000";
+    
+    if (webView.tag == 222) {
+        // 设置普通模式及夜间模式的正文颜色
+        NSString *fontColor = nil;
+        if ([DKNightVersionManager currentThemeVersion] == DKThemeVersionNight) {
+            fontColor = @"#828282";
+        } else {
+            fontColor = @"#000000";
+        }
+        
+        // 为html添加css样式,修改字体大小/字体等
+        [webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:
+                                                         @"var tagHead =document.documentElement.firstChild;"
+                                                         "var tagStyle = document.createElement(\"style\");"
+                                                         "tagStyle.setAttribute(\"type\", \"text/css\");"
+                                                         "tagStyle.appendChild(document.createTextNode(\"BODY{padding: 10pt 15pt}\"));"
+                                                         "tagStyle.appendChild(document.createTextNode(\"BODY{text-align: justify}\"));"
+                                                         "tagStyle.appendChild(document.createTextNode(\"BODY{background-color: transparent}\"));"
+                                                         "tagStyle.appendChild(document.createTextNode(\"BODY{font-family: SourceHanSansCN-Light; font-size: %ldpt; color: %@}\"));"
+                                                         "var tagHeadAdd = tagHead.appendChild(tagStyle);", (long)self.fontSize, fontColor]];
+        
+        // 据说能减轻 webView 的内存泄露 =,=
+        [[NSUserDefaults standardUserDefaults] setInteger:0 forKey:@"WebKitCacheModelPreferenceKey"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        
+        // 文章加载之后, 获得文章的高度,再次传入 webView 来设置 buttonView 的位置
+        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+        self.articleDetail.scrollView.contentInset = UIEdgeInsetsMake(self.articleFrame.noImageViewCellHeight + 20, 0, CLFArticleDetailButtomViewHeight, 0);
+        self.articleDetail.buttomHeight = self.articleDetail.scrollView.contentSize.height;
+        self.articleDetail.scrollView.hidden = NO;
+        self.articleDetail.suppressesIncrementalRendering = YES;
+
     }
-    
-    // 为html添加css样式,修改字体大小/字体等
-    [webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:
-                                                     @"var tagHead =document.documentElement.firstChild;"
-                                                     "var tagStyle = document.createElement(\"style\");"
-                                                     "tagStyle.setAttribute(\"type\", \"text/css\");"
-                                                     "tagStyle.appendChild(document.createTextNode(\"BODY{padding: 10pt 15pt}\"));"
-                                                     "tagStyle.appendChild(document.createTextNode(\"BODY{text-align: justify}\"));"
-                                                     "tagStyle.appendChild(document.createTextNode(\"BODY{background-color: transparent}\"));"
-                                                     "tagStyle.appendChild(document.createTextNode(\"BODY{font-family: SourceHanSansCN-Light; font-size: %ldpt; color: %@}\"));"
-                                                     "var tagHeadAdd = tagHead.appendChild(tagStyle);", (long)self.fontSize, fontColor]];
-    
-    // 据说能减轻 webView 的内存泄露 =,=
-    [[NSUserDefaults standardUserDefaults] setInteger:0 forKey:@"WebKitCacheModelPreferenceKey"];
-    [[NSUserDefaults standardUserDefaults] synchronize];
-    
-    // 文章加载之后, 获得文章的高度,再次传入 webView 来设置 buttonView 的位置
-    [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
-    self.articleDetail.scrollView.contentInset = UIEdgeInsetsMake(self.articleFrame.noImageViewCellHeight + 20, 0, CLFArticleDetailButtomViewHeight, 0);
-    self.articleDetail.buttomHeight = self.articleDetail.scrollView.contentSize.height;
-    self.articleDetail.scrollView.hidden = NO;
 }
 
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
-    [MBProgressHUD hideHUDForView:self.view];
-    if (-999 != error.code) {    // error.code = -999 是操作未能完成导致的error.
-        [MBProgressHUD showError:@"网络错误" toView:self.view];
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(10 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            [MBProgressHUD hideHUDForView:self.view];
-        });
+    if (webView.tag == 222) {
+        [MBProgressHUD hideHUDForView:self.view];
+        if (-999 != error.code) {    // error.code = -999 是操作未能完成导致的error.
+            [MBProgressHUD showError:@"网络错误" toView:self.view];
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(10 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                [MBProgressHUD hideHUDForView:self.view];
+            });
+        }
     }
+
 }
 
 // 清除缓存
