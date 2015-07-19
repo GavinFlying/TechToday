@@ -61,7 +61,7 @@
 
 - (void)setTitleText:(NSString *)titleText {
     CGFloat titleW = 100;
-    CGFloat titleH = 25;
+    CGFloat titleH = 30;
     CGFloat titleX = CGRectGetMaxX(self.iconImageView.frame) + CLFArticleCellBorder;
     CGFloat titleY = self.iconImageView.frame.origin.y;
     self.titleLabel.frame = CGRectMake(titleX, titleY, titleW, titleH);
@@ -77,7 +77,7 @@
 
 - (void)setIconImage:(UIImage *)iconImage {
     CGFloat iconW = 30;
-    CGFloat iconH = 25;
+    CGFloat iconH = 30;
     CGFloat iconX = 50;
     CGFloat iconY = (CLFSettingCellHeight - iconH) * 0.5;
     self.iconImageView.frame = CGRectMake(iconX, iconY, iconW, iconH);

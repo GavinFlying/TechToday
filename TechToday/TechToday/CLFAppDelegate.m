@@ -136,7 +136,7 @@
     self.drawerViewController.leftViewController = self.leftDrawerViewController;
     self.drawerViewController.centerViewController = self.centerNavigationController;
     self.drawerViewController.animator = self.drawerAnimator;
-    self.drawerViewController.backgroundImage = [UIImage imageNamed:@"sky"];
+    self.drawerViewController.backgroundImage = [UIImage imageNamed:@"NightSky"];
 }
 
 - (void)toggleLeftDrawer:(id)sender animated:(BOOL)animated {

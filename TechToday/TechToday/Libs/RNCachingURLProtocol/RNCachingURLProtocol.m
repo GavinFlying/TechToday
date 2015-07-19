@@ -135,7 +135,6 @@ static NSSet *RNCachingSupportedSchemes;
 //    [self setConnection:connection];
       [self setupConnectionWithRequest:[self request]];
   } else {
-      NSLog(@"customize cache");
       NSData *data = [cache data];
       NSURLResponse *response = [cache response];
       NSURLRequest *redirectRequest = [cache redirectRequest];

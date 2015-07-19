@@ -154,7 +154,6 @@
             [self.preloadWebView loadRequest:preloadRequest];
         });
     }
-
     
 //    [NSURLConnection sendAsynchronousRequest:preloadRequest queue:queue completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
 //        [self.articleDetail loadData:data MIMEType:@"text/html" textEncodingName:@"UTF-8" baseURL:nil];

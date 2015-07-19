@@ -28,7 +28,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    CGFloat topContentInset = (CLFScreenH - 6 * CLFSettingCellHeight) * 0.5;
+    CGFloat topContentInset = (CLFScreenH - 6 * CLFSettingCellHeight) * 0.45;
     CGFloat leftContentInset = - topContentInset * 0.12;
     self.tableView.backgroundColor = [UIColor clearColor];
     self.tableView.contentInset = UIEdgeInsetsMake(topContentInset, leftContentInset, 0.0, 0.0);
@@ -74,7 +74,7 @@
             break;
         }
         case 2: {
-            cell.iconImage = [UIImage imageNamed:@"SettingLogin"];
+            cell.iconImage = [UIImage imageNamed:@"SettingClearCache"];
             cell.titleText = @"清理缓存";
             break;
         }
