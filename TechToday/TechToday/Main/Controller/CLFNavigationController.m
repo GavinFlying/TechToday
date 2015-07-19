@@ -183,9 +183,13 @@
                 self.statusBarView.hidden = YES;
             }];
         } else {
-            [UIView animateWithDuration:0.25 animations:^{
+            [UIView animateWithDuration:0.25f animations:^{
                 self.view.transform = CGAffineTransformIdentity;
+            } completion:^(BOOL finished) {
+                [self.lastViewControllerScreenshot removeFromSuperview];
+                [self.shadowView removeFromSuperview];
             }];
+            
         }
     } else {
         self.view.transform = CGAffineTransformMakeTranslation(tx, 0);

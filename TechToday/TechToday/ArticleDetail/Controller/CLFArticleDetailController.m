@@ -21,9 +21,8 @@
 @interface CLFArticleDetailController () <UIWebViewDelegate, UITableViewDelegate, UITableViewDataSource, UIGestureRecognizerDelegate, ISSShareViewDelegate>
 // 显示文章的webView
 @property (weak, nonatomic)   CLFWebView  *articleDetail;
-
-
-@property (weak, nonatomic) UIWebView *testWebView;
+// 预加载用的webView
+@property (weak, nonatomic) UIWebView *preloadWebView;
 // 点击更多选项出现的tableView
 @property (weak, nonatomic)   UITableView *moreOptionList;
 // 点击更多选项中的字体调整后出现的tableView
@@ -114,14 +113,15 @@
     [self showArticleDetail:article.articleID];
 }
 
-- (UIWebView *)testWebView {
-    if (!_testWebView) {
-        UIWebView *testView = [[UIWebView alloc] init];
-        testView.frame = CGRectMake(0, 0, 1, 1);
-        [self.view addSubview:testView];
-        _testWebView = testView;
+
+- (UIWebView *)preloadWebView {
+    if (!_preloadWebView) {
+        UIWebView *preloadWebView = [[UIWebView alloc] init];
+        preloadWebView.frame = CGRectMake(0, 0, 1, 1);
+        [self.view addSubview:preloadWebView];
+        _preloadWebView = preloadWebView;
     }
-    return _testWebView;
+    return _preloadWebView;
 }
 
 - (void)showArticleDetail:(NSString *)str {
@@ -139,22 +139,22 @@
     } else {
         NSURLRequest *request = [NSURLRequest requestWithURL:url cachePolicy:NSURLRequestReturnCacheDataElseLoad timeoutInterval:20.0f];
         [self.articleDetail loadRequest:request];
+        
+        // preload
+        NSString *preloadURLStr = [NSString stringWithFormat:@"http://jinri.info/index.php/DaiAppApi/showArticle/%ld", ([str integerValue] - 1)];
+        NSURL *preloadURL = [NSURL URLWithString:preloadURLStr];
+        NSMutableURLRequest *preloadRequest = [[NSMutableURLRequest alloc] init];
+        [preloadRequest setHTTPMethod:@"GET"];
+        [preloadRequest setURL:preloadURL];
+        [preloadRequest setTimeoutInterval:15.0f];
+        
+        self.preloadWebView.alpha = 0.5;
+        dispatch_queue_t q = dispatch_queue_create("preload", DISPATCH_QUEUE_SERIAL);
+        dispatch_async(q, ^{
+            [self.preloadWebView loadRequest:preloadRequest];
+        });
     }
-    
-    NSString *preloadURLStr = [NSString stringWithFormat:@"http://jinri.info/index.php/DaiAppApi/showArticle/%ld", ([str integerValue] - 1)];
 
-    NSURL *preloadURL = [NSURL URLWithString:preloadURLStr];
-    NSMutableURLRequest *preloadRequest = [[NSMutableURLRequest alloc] init];
-    [preloadRequest setHTTPMethod:@"GET"];
-    [preloadRequest setURL:preloadURL];
-    [preloadRequest setTimeoutInterval:15.0f];
-    
-    __weak CLFArticleDetailController *wself = self;
-    wself.testWebView.alpha = 0.5;
-    dispatch_queue_t q = dispatch_queue_create("preload", DISPATCH_QUEUE_SERIAL);
-    dispatch_async(q, ^{
-        [wself.testWebView loadRequest:preloadRequest];
-    });
     
 //    [NSURLConnection sendAsynchronousRequest:preloadRequest queue:queue completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
 //        [self.articleDetail loadData:data MIMEType:@"text/html" textEncodingName:@"UTF-8" baseURL:nil];
