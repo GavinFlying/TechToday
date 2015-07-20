@@ -32,7 +32,6 @@
         }
         // 缓存中存在且加载形式为上拉加载的话,调用缓存中的东西.(没网络的情况下).有网络的情况下可能会出现因为加载了缓存导致中间的部分此前未缓存的article无法显示的情况
     } else if ([URLAppendage containsString:@"getMoreArticle"] && articlesInDatabase.count && (NotReachable == internetStatus)) {
-        NSLog(@"dafasdf");
         if (success) {
             NSMutableArray *articleFrameArray = [self convertArticleToArticleFrame:articlesInDatabase];
             success(articleFrameArray);

@@ -25,7 +25,6 @@
 /**
  *  计算文件夹的大小
  */
-#warning 似乎只能计算一层?
 + (CGFloat)DirectorySizeAtPath:(NSString *)path {
     NSFileManager *fileManager = [NSFileManager defaultManager];
     CGFloat directorySize = 0.0;

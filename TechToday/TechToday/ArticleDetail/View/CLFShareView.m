@@ -174,7 +174,6 @@ static id _authOptions;
     }
     /*
      调用shareSDK的无UI分享类型，
-     链接地址：http://bbs.mob.com/forum.php?mod=viewthread&tid=110&extra=page%3D1%26filter%3Dtypeid%26typeid%3D34
      */
     [ShareSDK showShareViewWithType:shareType container:nil content:publishContent statusBarTips:YES authOptions:authOptions shareOptions:shareOptions result:^(ShareType type, SSResponseState state, id<ISSPlatformShareInfo> statusInfo, id<ICMErrorInfo> error, BOOL end) {
         if (state == SSResponseStateSuccess)

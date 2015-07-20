@@ -49,11 +49,6 @@
 - (CLFSettingCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     CLFSettingCell *cell = [CLFSettingCell cellWithTableView:tableView];
     switch (indexPath.row) {
-//        case 0: {
-////            cell.iconImage = [UIImage imageNamed:@"SettingLogin"];
-////            cell.titleText = @"登录/注册";
-//            break;
-//        }
         case 0: {
             cell.iconImage = [UIImage imageNamed:@"SettingNightMode"];
             cell.titleText = @"夜间模式";
@@ -111,8 +106,6 @@
     CLFNavigationController *destinationViewController = [[CLFAppDelegate globalDelegate] centerNavigationController];
     switch (indexPath.row) {
         case 0: {
-//            [[CLFAppDelegate globalDelegate] toggleLeftDrawer:self animated:YES];
-//            [destinationViewController goToLoginController];
             break;
         }
         case 1: {
