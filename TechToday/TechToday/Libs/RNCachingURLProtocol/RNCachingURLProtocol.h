@@ -67,6 +67,5 @@
 
 - (NSString *)cachePathForRequest:(NSURLRequest *)aRequest;
 //- (BOOL) useCache;
-- (void)setupConnectionWithRequest:(NSURLRequest *)request;
 
 @end

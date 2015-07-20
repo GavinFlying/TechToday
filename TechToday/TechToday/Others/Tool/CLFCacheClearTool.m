@@ -16,7 +16,7 @@
 + (CGFloat)fileSizeAtPath:(NSString *)path {
     NSFileManager *fileManager = [NSFileManager defaultManager];
     if ([fileManager fileExistsAtPath:path]) {
-        NSInteger size = [fileManager attributesOfItemAtPath:path error:nil].fileSize;
+        CGFloat size = [fileManager attributesOfItemAtPath:path error:nil].fileSize;
         return size / 1024.0 / 1024.0;
     }
     return 0;

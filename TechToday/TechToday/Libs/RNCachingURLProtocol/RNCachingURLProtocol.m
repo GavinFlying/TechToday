@@ -64,10 +64,8 @@ static NSSet *RNCachingSupportedSchemes;
 @synthesize data = data_;
 @synthesize response = response_;
 
-+ (void)initialize
-{
-  if (self == [RNCachingURLProtocol class])
-  {
++ (void)initialize {
+  if (self == [RNCachingURLProtocol class]) {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
       RNCachingSupportedSchemesMonitor = [NSObject new];
@@ -77,24 +75,20 @@ static NSSet *RNCachingSupportedSchemes;
   }
 }
 
-+ (BOOL)canInitWithRequest:(NSURLRequest *)request
-{
++ (BOOL)canInitWithRequest:(NSURLRequest *)request {
   // only handle http requests we haven't marked with our header.
   if ([[self supportedSchemes] containsObject:[[request URL] scheme]] &&
-      ([request valueForHTTPHeaderField:RNCachingURLHeader] == nil))
-  {
+      ([request valueForHTTPHeaderField:RNCachingURLHeader] == nil)) {
     return YES;
   }
   return NO;
 }
 
-+ (NSURLRequest *)canonicalRequestForRequest:(NSURLRequest *)request
-{
++ (NSURLRequest *)canonicalRequestForRequest:(NSURLRequest *)request {
   return request;
 }
 
-- (NSString *)cachePathForRequest:(NSURLRequest *)aRequest
-{
+- (NSString *)cachePathForRequest:(NSURLRequest *)aRequest {
   // This stores in the Caches directory, which can be deleted when space is low, but we only use it for offline access
   NSString *cachesPath = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) lastObject];
 //  NSString *fileName = [[[aRequest URL] absoluteString] sha1];
@@ -113,33 +107,33 @@ static NSSet *RNCachingSupportedSchemes;
     NSString *fileName = [NSString stringWithFormat:@"%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x",
                           r[0], r[1], r[2], r[3], r[4], r[5], r[6], r[7], r[8], r[9], r[10], r[11], r[12], r[13], r[14], r[15]];
     
-    
   return [fullCachesPath stringByAppendingPathComponent:fileName];
 }
 
 // customized by Gavin Cai
-- (void)startLoading
-{
+- (void)startLoading {
+    BOOL getArticleRequest = [self.request.URL.absoluteString containsString:@"getArticle"];
+    BOOL getMoreArticleRequest = [self.request.URL.absoluteString containsString:@"getMoreArticle"];
+    BOOL shareSDKRequest = [self.request.URL.absoluteString containsString:@"api.share.mob.com"];
     RNCachedData *cache = [NSKeyedUnarchiver unarchiveObjectWithFile:[self cachePathForRequest:[self request]]];
-  if (!cache) {
-//    NSMutableURLRequest *connectionRequest = 
-//#if WORKAROUND_MUTABLE_COPY_LEAK
-//      [[self request] mutableCopyWorkaround];
-//#else
-//      [[self request] mutableCopy];
-//#endif
-//    // we need to mark this request with our header so we know not to handle it in +[NSURLProtocol canInitWithRequest:].
-//    [connectionRequest setValue:@"" forHTTPHeaderField:RNCachingURLHeader];
-//    NSURLConnection *connection = [NSURLConnection connectionWithRequest:connectionRequest
-//                                                                delegate:self];
-//    [self setConnection:connection];
-      [self setupConnectionWithRequest:[self request]];
-  } else {
-      NSData *data = [cache data];
-      NSURLResponse *response = [cache response];
-      NSURLRequest *redirectRequest = [cache redirectRequest];
+    if (!cache || getArticleRequest || getMoreArticleRequest || shareSDKRequest) {
+        NSMutableURLRequest *connectionRequest =
+#if WORKAROUND_MUTABLE_COPY_LEAK
+        [[self request] mutableCopyWorkaround];
+#else
+        [[self request] mutableCopy];
+#endif
+    // we need to mark this request with our header so we know not to handle it in +[NSURLProtocol canInitWithRequest:].
+        [connectionRequest setValue:@"" forHTTPHeaderField:RNCachingURLHeader];
+        NSURLConnection *connection = [NSURLConnection connectionWithRequest:connectionRequest
+                                                                delegate:self];
+        [self setConnection:connection];
+    } else {
+        NSData *data = [cache data];
+        NSURLResponse *response = [cache response];
+        NSURLRequest *redirectRequest = [cache redirectRequest];
       if (redirectRequest) {
-        [[self client] URLProtocol:self wasRedirectedToRequest:redirectRequest redirectResponse:response];
+          [[self client] URLProtocol:self wasRedirectedToRequest:redirectRequest redirectResponse:response];
       } else {
           [[self client] URLProtocol:self didReceiveResponse:response cacheStoragePolicy:NSURLCacheStorageNotAllowed]; // we handle caching ourselves.
           [[self client] URLProtocol:self didLoadData:data];
@@ -148,29 +142,13 @@ static NSSet *RNCachingSupportedSchemes;
     }
 }
 
-- (void)setupConnectionWithRequest:(NSURLRequest *)request {
-    NSMutableURLRequest *connectionRequest =
-#if WORKAROUND_MUTABLE_COPY_LEAK
-    [request mutableCopyWorkaround];
-#else
-    [request mutableCopy];
-#endif
-    // we need to mark this request with our header so we know not to handle it in +[NSURLProtocol canInitWithRequest:].
-    [connectionRequest setValue:@"" forHTTPHeaderField:RNCachingURLHeader];
-    NSURLConnection *connection = [NSURLConnection connectionWithRequest:connectionRequest
-                                                                delegate:self];
-    [self setConnection:connection];
-}
-
-- (void)stopLoading
-{
+- (void)stopLoading {
   [[self connection] cancel];
 }
 
 // NSURLConnection delegates (generally we pass these on to our client)
 
-- (NSURLRequest *)connection:(NSURLConnection *)connection willSendRequest:(NSURLRequest *)request redirectResponse:(NSURLResponse *)response
-{
+- (NSURLRequest *)connection:(NSURLConnection *)connection willSendRequest:(NSURLRequest *)request redirectResponse:(NSURLResponse *)response {
 // Thanks to Nick Dowell https://gist.github.com/1885821
   if (response != nil) {
       NSMutableURLRequest *redirectableRequest =
@@ -199,28 +177,24 @@ static NSSet *RNCachingSupportedSchemes;
   }
 }
 
-- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
-{
+- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data {
   [[self client] URLProtocol:self didLoadData:data];
   [self appendData:data];
 }
 
-- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
-{
+- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
   [[self client] URLProtocol:self didFailWithError:error];
   [self setConnection:nil];
   [self setData:nil];
   [self setResponse:nil];
 }
 
-- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
-{
+- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
   [self setResponse:response];
   [[self client] URLProtocol:self didReceiveResponse:response cacheStoragePolicy:NSURLCacheStorageNotAllowed];  // We cache ourselves.
 }
 
-- (void)connectionDidFinishLoading:(NSURLConnection *)connection
-{
+- (void)connectionDidFinishLoading:(NSURLConnection *)connection {
   [[self client] URLProtocolDidFinishLoading:self];
 
   NSString *cachePath = [self cachePathForRequest:[self request]];
@@ -234,8 +208,7 @@ static NSSet *RNCachingSupportedSchemes;
   [self setResponse:nil];
 }
 
-//- (BOOL) useCache 
-//{
+//- (BOOL) useCache {
 ////    BOOL reachable = (BOOL) [[Reachability reachabilityWithHostName:[[[self request] URL] host]] currentReachabilityStatus] != NotReachable;
 //    
 //    // add by Gavin Cai
@@ -249,8 +222,7 @@ static NSSet *RNCachingSupportedSchemes;
 ////    return !reachable;
 //}
 
-- (void)appendData:(NSData *)newData
-{
+- (void)appendData:(NSData *)newData {
   if ([self data] == nil) {
     [self setData:[newData mutableCopy]];
   }
@@ -261,15 +233,13 @@ static NSSet *RNCachingSupportedSchemes;
 
 + (NSSet *)supportedSchemes {
   NSSet *supportedSchemes;
-  @synchronized(RNCachingSupportedSchemesMonitor)
-  {
+  @synchronized(RNCachingSupportedSchemesMonitor) {
     supportedSchemes = RNCachingSupportedSchemes;
   }
   return supportedSchemes;
 }
 
-+ (void)setSupportedSchemes:(NSSet *)supportedSchemes
-{
++ (void)setSupportedSchemes:(NSSet *)supportedSchemes {
   @synchronized(RNCachingSupportedSchemesMonitor)
   {
     RNCachingSupportedSchemes = supportedSchemes;
@@ -287,15 +257,13 @@ static NSString *const kRedirectRequestKey = @"redirectRequest";
 @synthesize response = response_;
 @synthesize redirectRequest = redirectRequest_;
 
-- (void)encodeWithCoder:(NSCoder *)aCoder
-{
+- (void)encodeWithCoder:(NSCoder *)aCoder {
   [aCoder encodeObject:[self data] forKey:kDataKey];
   [aCoder encodeObject:[self response] forKey:kResponseKey];
   [aCoder encodeObject:[self redirectRequest] forKey:kRedirectRequestKey];
 }
 
-- (id)initWithCoder:(NSCoder *)aDecoder
-{
+- (id)initWithCoder:(NSCoder *)aDecoder {
   self = [super init];
   if (self != nil) {
     [self setData:[aDecoder decodeObjectForKey:kDataKey]];

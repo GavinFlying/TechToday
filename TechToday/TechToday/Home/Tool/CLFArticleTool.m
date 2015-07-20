@@ -26,26 +26,21 @@
     
     // 缓存中有数据且为下拉刷新 返回缓存中的数据
     if ([URLAppendage containsString:@"getArticle"] && articlesInDatabase.count) {
-        NSLog(@"down--cache");
         if (success) {
             NSMutableArray *articleFrameArray = [self convertArticleToArticleFrame:articlesInDatabase];
             success(articleFrameArray);
         }
         // 缓存中存在且加载形式为上拉加载的话,调用缓存中的东西.(没网络的情况下).有网络的情况下可能会出现因为加载了缓存导致中间的部分此前未缓存的article无法显示的情况
     } else if ([URLAppendage containsString:@"getMoreArticle"] && articlesInDatabase.count && (NotReachable == internetStatus)) {
-        NSLog(@"up--cache");
         if (success) {
             NSMutableArray *articleFrameArray = [self convertArticleToArticleFrame:articlesInDatabase];
             success(articleFrameArray);
         }
     } else {
-        NSLog(@"down--network");
         // 在网络中取数据.由于getArticle每次固定返回最新15篇,所以加入了 searchArticle, 判断文章是否已经存在.已经存在于数据库则返回数据库中的记录
         NSString *URL = [NSString stringWithFormat:@"http://jinri.info/index.php/DaiAppApi/%@", URLAppendage];
-        NSLog(@"%@", URL);
         [CLFHttpTool getWithURL:URL params:params success:^(id responseObject) {
             NSDictionary *msg = responseObject[@"msg"];
-            NSLog(@"%@", msg);
             NSMutableArray *articlesArray = [NSMutableArray array];
             for (NSDictionary *dict in msg) {
                 CLFArticle *article = [CLFArticle articleWithDict:dict];
@@ -54,7 +49,6 @@
             }
             
             [CLFArticleCacheTool addArticles:articlesArray];
-            
             NSMutableArray *articleFrameArray = [self convertArticleToArticleFrame:articlesArray];
             if (success) {
                 success(articleFrameArray);

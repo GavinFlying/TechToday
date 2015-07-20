@@ -120,7 +120,7 @@
     // 由于自己做了本地存储, SDWebImage只需要做内存缓存即可
     NSString *imageLocation = [NSString stringWithFormat:@"http://jinri.info/%@", article.img];
     [self.articleImage sd_setImageWithURL:[NSURL URLWithString:imageLocation] placeholderImage:[UIImage imageNamed:@"placeholderImage"] options:SDWebImageCacheMemoryOnly];
-    
+
     self.articleImage.frame = articleFrame.imageViewFrame;
     
     NSString *titleText = article.title;

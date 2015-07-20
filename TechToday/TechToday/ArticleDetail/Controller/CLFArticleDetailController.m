@@ -139,7 +139,7 @@
         [self.articleDetail loadRequest:request];
         
         // preload
-        NSString *preloadURLStr = [NSString stringWithFormat:@"http://jinri.info/index.php/DaiAppApi/showArticle/%ld", ([str integerValue] - 1)];
+        NSString *preloadURLStr = [NSString stringWithFormat:@"http://jinri.info/index.php/DaiAppApi/showArticle/%ld", (long)([str integerValue] - 1)];
         NSURL *preloadURL = [NSURL URLWithString:preloadURLStr];
         NSMutableURLRequest *preloadRequest = [[NSMutableURLRequest alloc] init];
         [preloadRequest setHTTPMethod:@"GET"];

@@ -200,7 +200,7 @@
         [self.tableView.header endRefreshing];
         
     } failure:^(NSError *error) {
-        NSLog(@"%@", error);
+        [MBProgressHUD showError:@"网络连接异常" toView:self.navigationController.view];
         [self.tableView.header endRefreshing];
 
     }];
@@ -221,7 +221,7 @@
         
         [self.tableView.footer endRefreshing];
     } failure:^(NSError *error) {
-        NSLog(@"%@", error);
+        [MBProgressHUD showError:@"网络连接异常" toView:self.navigationController.view];
         [self.tableView.footer endRefreshing];
     }];
 }
