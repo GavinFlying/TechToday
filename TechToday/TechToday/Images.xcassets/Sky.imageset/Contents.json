@@ -3,27 +3,27 @@
     {
       "idiom" : "iphone",
       "scale" : "1x",
-      "filename" : "NightSky.png"
+      "filename" : "Sky.png"
     },
     {
       "idiom" : "iphone",
       "scale" : "2x",
-      "filename" : "NightSky@2x.png"
+      "filename" : "Sky@2x.png"
     },
     {
       "idiom" : "iphone",
       "scale" : "3x",
-      "filename" : "NightSky@3x.png"
+      "filename" : "Sky@3x.png"
     },
     {
       "idiom" : "ipad",
       "scale" : "1x",
-      "filename" : "NightSky~ipad.png"
+      "filename" : "Sky~ipad.png"
     },
     {
       "idiom" : "ipad",
       "scale" : "2x",
-      "filename" : "NightSky@2x~ipad.png"
+      "filename" : "Sky@2x~ipad.png"
     }
   ],
   "info" : {

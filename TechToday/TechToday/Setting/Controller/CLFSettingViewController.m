@@ -11,7 +11,6 @@
 #import "CLFAppDelegate.h"
 #import "CLFNavigationController.h"
 #import "JVFloatingDrawerViewController.h"
-#import "CLFLoginController.h"
 #import "MBProgressHUD+MJ.h"
 #import "CLFCacheClearTool.h"
 

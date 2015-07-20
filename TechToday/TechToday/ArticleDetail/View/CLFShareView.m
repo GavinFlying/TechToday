@@ -10,10 +10,6 @@
 #import <ShareSDK/ShareSDK.h>
 #import "CLFCommonHeader.h"
 
-@interface CLFShareView () <UICollectionViewDataSource, UICollectionViewDelegate>
-
-@end
-
 @implementation CLFShareView
 
 static id _publishContent;
@@ -33,7 +29,7 @@ static id _authOptions;
     CGFloat shadowViewH = CLFScreenH;
     shadowView.frame = CGRectMake(shadowViewX, shadowViewY, shadowViewW, shadowViewH);
     shadowView.backgroundColor = [UIColor colorWithRed:0 / 255.0 green:0 / 255.0 blue:0 / 255.0 alpha:0.7f];
-    shadowView.tag = 440;
+    shadowView.tag = 10;
     [window addSubview:shadowView];
     
     UIView *shareView = [[UIView alloc] init];
@@ -44,7 +40,7 @@ static id _authOptions;
     shareView.frame = CGRectMake(shareViewX, shareViewY, shareViewW, shareViewH);
     shareView.backgroundColor = [UIColor whiteColor];
     shareView.nightBackgroundColor = CLFNightViewColor;
-    shareView.tag = 441;
+    shareView.tag = 11;
     [window addSubview:shareView];
     
     UILabel *titleLabel = [[UILabel alloc] init];
@@ -94,10 +90,11 @@ static id _authOptions;
         [button setContentVerticalAlignment:UIControlContentVerticalAlignmentTop];
         [button setImageEdgeInsets:UIEdgeInsetsMake(0, 15 * CLFScreenWScale, 30 * CLFScreenWScale, 15 * CLFScreenWScale)];
 //        [button setTitleEdgeInsets:UIEdgeInsetsMake(65 * CLFScreenWScale, -60 * CLFScreenWScale, 5 * CLFScreenWScale, 0)];
-        button.tag = 331 + i;
+        button.tag = 20 + i;
         [button addTarget:self action:@selector(shareBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
         [shareView addSubview:button];
     }
+    
     UIButton *cancelBtn = [[UIButton alloc] init];
     CGFloat cancelBtnW = titleLabelW;
     CGFloat cancelBtnH = titleLabelH;
@@ -117,34 +114,12 @@ static id _authOptions;
         shareView.transform = CGAffineTransformMakeScale(1, 1);
         shadowView.alpha = 1;
     } completion:nil];
-
 }
 
-- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
-    return 1;
-}
-
-- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
-{
-    return 3;
-}
-
-- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
-{
-    // 1.获得cell
-    UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"share" forIndexPath:indexPath];
-    
-    // 2.传递模
-    cell.backgroundColor = [UIColor yellowColor];
-    
-    return cell;
-}
-
-+ (void)shareBtnClicked:(UIButton *)btn
-{
++ (void)shareBtnClicked:(UIButton *)btn {
     UIWindow *window = [UIApplication sharedApplication].keyWindow;
-    UIView *blackView = [window viewWithTag:440];
-    UIView *shareView = [window viewWithTag:441];
+    UIView *blackView = [window viewWithTag:10];
+    UIView *shareView = [window viewWithTag:11];
     
     [shareView removeFromSuperview];
     [blackView removeFromSuperview];
@@ -154,34 +129,23 @@ static id _authOptions;
     id shareOptions = _shareOptions;
     id authOptions = _authOptions;
     switch (btn.tag) {
-        case 331:
-        {
+        case 20: {
             shareType = ShareTypeSinaWeibo;
-        }
             break;
-            
-        case 332:
-        {
+        }
+        case 21: {
             shareType = ShareTypeWeixiSession;
-        }
             break;
-            
-        case 333:
-        {
+        }
+        case 22: {
             shareType = ShareTypeWeixiTimeline;
-        }
             break;
-    }
-    /*
-     调用shareSDK的无UI分享类型，
-     */
-    [ShareSDK showShareViewWithType:shareType container:nil content:publishContent statusBarTips:YES authOptions:authOptions shareOptions:shareOptions result:^(ShareType type, SSResponseState state, id<ISSPlatformShareInfo> statusInfo, id<ICMErrorInfo> error, BOOL end) {
-        if (state == SSResponseStateSuccess)
-        {
-            NSLog(NSLocalizedString(@"TEXT_ShARE_SUC", @"分享成功"));
         }
-        else if (state == SSResponseStateFail)
-        {
+    }
+    [ShareSDK showShareViewWithType:shareType container:nil content:publishContent statusBarTips:YES authOptions:authOptions shareOptions:shareOptions result:^(ShareType type, SSResponseState state, id<ISSPlatformShareInfo> statusInfo, id<ICMErrorInfo> error, BOOL end) {
+        if (state == SSResponseStateSuccess) {
+            NSLog(NSLocalizedString(@"TEXT_ShARE_SUC", @"分享成功"));
+        } else if (state == SSResponseStateFail) {
             NSLog(NSLocalizedString(@"TEXT_ShARE_FAI", @"分享失败,错误码:%d,错误描述:%@"), [error errorCode], [error errorDescription]);
         }
     }];

@@ -10,10 +10,8 @@
 #import "CLFArticleDetailController.h"
 #import "CLFCommonHeader.h"
 #import "CLFAppDelegate.h"
-#import "CLFLoginController.h"
 #import "CLFAboutController.h"
 #import "JVFloatingDrawerViewController.h"
-#import "CLFSettingViewController.h"
 #import "UIImage+CLF.h"
 
 @interface CLFNavigationController () <UIGestureRecognizerDelegate>

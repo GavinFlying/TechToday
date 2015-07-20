@@ -15,8 +15,6 @@
 #import "CLFAppDelegate.h"
 #import "CLFArticleCacheTool.h"
 #import "CLFShareView.h"
-#import "RNCachingURLProtocol.h"
-#import "AFNetworking.h"
 
 @interface CLFArticleDetailController () <UIWebViewDelegate, UITableViewDelegate, UITableViewDataSource, UIGestureRecognizerDelegate, ISSShareViewDelegate>
 // 显示文章的webView

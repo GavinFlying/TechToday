@@ -10,6 +10,7 @@
 #import "CLFArticleFrame.h"
 #import "CLFArticle.h"
 #import "CLFArticleCell.h"
+#import "CLFArticleNoImageCell.h"
 #import "CLFArticleDetailController.h"
 #import "CLFNavigationController.h"
 #import "MJRefresh.h"
@@ -18,10 +19,8 @@
 #import "CLFCommonHeader.h"
 #import "JVFloatingDrawerSpringAnimator.h"
 #import "CLFAppDelegate.h"
-#import "CLFLoginController.h"
 #import "CLFSettingViewController.h"
-#import "UIImage+CLF.h"
-#import "CLFArticleNoImageCell.h"
+
 
 @interface CLFHomeViewController () <CLFArticleDetailDelegate, CLFSettingViewControllerDelegate>
 

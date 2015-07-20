@@ -12,6 +12,7 @@
 		3F34292B1B5134AF006B4656 /* CLFCacheClearTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F34292A1B5134AF006B4656 /* CLFCacheClearTool.m */; };
 		3F34292D1B51532F006B4656 /* AboutTechToday.html in Resources */ = {isa = PBXBuildFile; fileRef = 3F34292C1B51532F006B4656 /* AboutTechToday.html */; };
 		3F494F811B58E3780034E6E4 /* CLFShareView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F494F801B58E3780034E6E4 /* CLFShareView.m */; };
+		3F7472D41B5C9DD100AA6381 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F7472D31B5C9DD100AA6381 /* MBProgressHUD.m */; };
 		3F9015581B50EAB300A242E2 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F9015571B50EAB300A242E2 /* MessageUI.framework */; };
 		3F922E9D1B4B6960004CC85D /* TechTodayTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F922E9C1B4B6960004CC85D /* TechTodayTests.m */; };
 		3F922EAD1B4B6FA2004CC85D /* CLFArticleDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F922EA91B4B6FA2004CC85D /* CLFArticleDetailController.m */; };
@@ -44,7 +45,6 @@
 		3F922FA51B4B6FD4004CC85D /* JVFloatingDrawerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F922F0B1B4B6FD4004CC85D /* JVFloatingDrawerViewController.m */; };
 		3F922FA61B4B6FD4004CC85D /* MBProgressHUD+MJ.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F922F0E1B4B6FD4004CC85D /* MBProgressHUD+MJ.m */; };
 		3F922FA71B4B6FD4004CC85D /* MBProgressHUD.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 3F922F0F1B4B6FD4004CC85D /* MBProgressHUD.bundle */; };
-		3F922FA81B4B6FD4004CC85D /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F922F111B4B6FD4004CC85D /* MBProgressHUD.m */; };
 		3F922FA91B4B6FD4004CC85D /* MJRefreshAutoFooter.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F922F151B4B6FD4004CC85D /* MJRefreshAutoFooter.m */; };
 		3F922FAA1B4B6FD4004CC85D /* MJRefreshBackFooter.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F922F171B4B6FD4004CC85D /* MJRefreshBackFooter.m */; };
 		3F922FAB1B4B6FD4004CC85D /* MJRefreshComponent.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F922F191B4B6FD4004CC85D /* MJRefreshComponent.m */; };
@@ -89,7 +89,6 @@
 		3F922FFE1B4B6FED004CC85D /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F922FEA1B4B6FED004CC85D /* Reachability.m */; };
 		3F922FFF1B4B6FED004CC85D /* CLFHttpTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F922FED1B4B6FED004CC85D /* CLFHttpTool.m */; };
 		3F9230011B4B6FED004CC85D /* CLFAboutController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F922FF21B4B6FED004CC85D /* CLFAboutController.m */; };
-		3F9230021B4B6FED004CC85D /* CLFLoginController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F922FF41B4B6FED004CC85D /* CLFLoginController.m */; };
 		3F9230031B4B6FED004CC85D /* CLFSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F922FF61B4B6FED004CC85D /* CLFSettingViewController.m */; };
 		3F9230041B4B6FED004CC85D /* CLFSettingCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F922FF91B4B6FED004CC85D /* CLFSettingCell.m */; };
 		3F9230081B4B7016004CC85D /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F9230071B4B7016004CC85D /* SystemConfiguration.framework */; };
@@ -156,6 +155,8 @@
 		3F34292C1B51532F006B4656 /* AboutTechToday.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = AboutTechToday.html; sourceTree = "<group>"; };
 		3F494F7F1B58E3780034E6E4 /* CLFShareView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CLFShareView.h; sourceTree = "<group>"; };
 		3F494F801B58E3780034E6E4 /* CLFShareView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CLFShareView.m; sourceTree = "<group>"; };
+		3F7472D21B5C9DD100AA6381 /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
+		3F7472D31B5C9DD100AA6381 /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
 		3F9015571B50EAB300A242E2 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		3F922E7D1B4B6960004CC85D /* TechToday.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TechToday.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3F922E811B4B6960004CC85D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -223,8 +224,6 @@
 		3F922F0D1B4B6FD4004CC85D /* MBProgressHUD+MJ.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MBProgressHUD+MJ.h"; sourceTree = "<group>"; };
 		3F922F0E1B4B6FD4004CC85D /* MBProgressHUD+MJ.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MBProgressHUD+MJ.m"; sourceTree = "<group>"; };
 		3F922F0F1B4B6FD4004CC85D /* MBProgressHUD.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = MBProgressHUD.bundle; sourceTree = "<group>"; };
-		3F922F101B4B6FD4004CC85D /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
-		3F922F111B4B6FD4004CC85D /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
 		3F922F141B4B6FD4004CC85D /* MJRefreshAutoFooter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJRefreshAutoFooter.h; sourceTree = "<group>"; };
 		3F922F151B4B6FD4004CC85D /* MJRefreshAutoFooter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MJRefreshAutoFooter.m; sourceTree = "<group>"; };
 		3F922F161B4B6FD4004CC85D /* MJRefreshBackFooter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJRefreshBackFooter.h; sourceTree = "<group>"; };
@@ -314,8 +313,6 @@
 		3F922FED1B4B6FED004CC85D /* CLFHttpTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CLFHttpTool.m; sourceTree = "<group>"; };
 		3F922FF11B4B6FED004CC85D /* CLFAboutController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CLFAboutController.h; sourceTree = "<group>"; };
 		3F922FF21B4B6FED004CC85D /* CLFAboutController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CLFAboutController.m; sourceTree = "<group>"; };
-		3F922FF31B4B6FED004CC85D /* CLFLoginController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CLFLoginController.h; sourceTree = "<group>"; };
-		3F922FF41B4B6FED004CC85D /* CLFLoginController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CLFLoginController.m; sourceTree = "<group>"; };
 		3F922FF51B4B6FED004CC85D /* CLFSettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CLFSettingViewController.h; sourceTree = "<group>"; };
 		3F922FF61B4B6FED004CC85D /* CLFSettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CLFSettingViewController.m; sourceTree = "<group>"; };
 		3F922FF81B4B6FED004CC85D /* CLFSettingCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CLFSettingCell.h; sourceTree = "<group>"; };
@@ -435,7 +432,7 @@
 			path = RNCachingURLProtocol;
 			sourceTree = "<group>";
 		};
-		3F922E741B4B6960004CC85D = {
+		3F7472D51B5C9EAE00AA6381 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
 				3F9015571B50EAB300A242E2 /* MessageUI.framework */,
@@ -447,6 +444,14 @@
 				3F92300B1B4B7029004CC85D /* libxml2.2.dylib */,
 				3F9230091B4B701D004CC85D /* libsqlite3.dylib */,
 				3F9230071B4B7016004CC85D /* SystemConfiguration.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		3F922E741B4B6960004CC85D = {
+			isa = PBXGroup;
+			children = (
+				3F7472D51B5C9EAE00AA6381 /* Frameworks */,
 				3F922E7F1B4B6960004CC85D /* TechToday */,
 				3F922E991B4B6960004CC85D /* TechTodayTests */,
 				3F922E7E1B4B6960004CC85D /* Products */,
@@ -670,9 +675,9 @@
 			children = (
 				3F922F0D1B4B6FD4004CC85D /* MBProgressHUD+MJ.h */,
 				3F922F0E1B4B6FD4004CC85D /* MBProgressHUD+MJ.m */,
+				3F7472D21B5C9DD100AA6381 /* MBProgressHUD.h */,
+				3F7472D31B5C9DD100AA6381 /* MBProgressHUD.m */,
 				3F922F0F1B4B6FD4004CC85D /* MBProgressHUD.bundle */,
-				3F922F101B4B6FD4004CC85D /* MBProgressHUD.h */,
-				3F922F111B4B6FD4004CC85D /* MBProgressHUD.m */,
 			);
 			path = MBProgressHUD;
 			sourceTree = "<group>";
@@ -895,8 +900,6 @@
 			children = (
 				3F922FF11B4B6FED004CC85D /* CLFAboutController.h */,
 				3F922FF21B4B6FED004CC85D /* CLFAboutController.m */,
-				3F922FF31B4B6FED004CC85D /* CLFLoginController.h */,
-				3F922FF41B4B6FED004CC85D /* CLFLoginController.m */,
 				3F922FF51B4B6FED004CC85D /* CLFSettingViewController.h */,
 				3F922FF61B4B6FED004CC85D /* CLFSettingViewController.m */,
 			);
@@ -1229,7 +1232,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				3F922FC91B4B6FD4004CC85D /* UIImageView+HighlightedWebCache.m in Sources */,
-				3F9230021B4B6FED004CC85D /* CLFLoginController.m in Sources */,
 				3F922FC61B4B6FD4004CC85D /* UIImage+GIF.m in Sources */,
 				3F922FB81B4B6FD4004CC85D /* MJRefreshConst.m in Sources */,
 				3F922FBE1B4B6FD4004CC85D /* SDImageCache.m in Sources */,
@@ -1283,13 +1285,13 @@
 				3F922F981B4B6FD4004CC85D /* FMDatabase.m in Sources */,
 				3F922FCA1B4B6FD4004CC85D /* UIImageView+WebCache.m in Sources */,
 				3F922F9B1B4B6FD4004CC85D /* FMDatabaseQueue.m in Sources */,
+				3F7472D41B5C9DD100AA6381 /* MBProgressHUD.m in Sources */,
 				3F922F991B4B6FD4004CC85D /* FMDatabaseAdditions.m in Sources */,
 				3F922FBF1B4B6FD4004CC85D /* SDWebImageCompat.m in Sources */,
 				3F922FBC1B4B6FD4004CC85D /* MKAnnotationView+WebCache.m in Sources */,
 				3F922FAC1B4B6FD4004CC85D /* MJRefreshFooter.m in Sources */,
 				3F922EC81B4B6FBB004CC85D /* CLFArticleCacheTool.m in Sources */,
 				3F922FAE1B4B6FD4004CC85D /* MJRefreshAutoGifFooter.m in Sources */,
-				3F922FA81B4B6FD4004CC85D /* MBProgressHUD.m in Sources */,
 				3F34292B1B5134AF006B4656 /* CLFCacheClearTool.m in Sources */,
 				3F922FBB1B4B6FD4004CC85D /* UIView+MJExtension.m in Sources */,
 				3F922FBA1B4B6FD4004CC85D /* UIScrollView+MJRefresh.m in Sources */,

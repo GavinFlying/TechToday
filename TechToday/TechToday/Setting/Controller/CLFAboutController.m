@@ -8,10 +8,6 @@
 
 #import "CLFAboutController.h"
 #import "CLFCommonHeader.h"
-#import "CLFHomeViewController.h"
-#import "CLFAppDelegate.h"
-#import "JVFloatingDrawerViewController.h"
-#import "CLFNavigationController.h"
 #import "NSString+CLF.h"
 
 @interface CLFAboutController () <UIWebViewDelegate>
