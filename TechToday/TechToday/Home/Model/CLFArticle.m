@@ -21,10 +21,28 @@
 
 @implementation CLFArticle
 
+static NSDictionary *authorDict;
+
 - (instancetype)initWithDict:(NSDictionary *)dict {
     if (self = [super init]) {
+        static dispatch_once_t onceToken;
+        dispatch_once(&onceToken, ^{
+            authorDict = @{@"16392" : @"雷锋网",
+                           @"16393" : @"Engadget",
+                           @"16390" : @"36氪",
+                           @"16391" : @"cnBeta",
+                           @"16394" : @"DoNews",
+                           @"16395" : @"虎嗅网",
+                           @"16396" : @"腾讯科技",
+                           @"16397" : @"爱范儿",
+                           @"16398" : @"凤凰科技",
+                           @"16399" : @"TechCrunch",
+                           @"16400" : @"知客数码",
+                           @"16401" : @"数字尾巴"};
+        });
+        
         self.date = dict[@"date"];
-        self.source = dict[@"author_id"];
+        self.source = authorDict[dict[@"author_id"]];
         self.img = dict[@"img"];
         self.pageViews = [NSString stringWithFormat:@"阅读: %@", dict[@"page_views"]];
         self.title = dict[@"title"];
