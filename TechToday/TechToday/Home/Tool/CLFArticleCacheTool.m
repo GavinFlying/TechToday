@@ -10,6 +10,7 @@
 #import "FMDB.h"
 #import "CLFArticle.h"
 #import <sqlite3.h>
+#import "NSCalendar+CLF.h"
 
 @implementation CLFArticleCacheTool
 
@@ -75,17 +76,42 @@ static FMDatabaseQueue *_queue;
 }
 
 /**
- *  删除数据库中时间戳距离当前超过24小时的文章
+ *  删除数据库中时间戳在今日之外的文章数据
  */
 + (void)deleteExpiredData {
-    [self setupDataBase];
-    NSDate *currentDate = [NSDate date];
-    NSTimeInterval secondsAfter1970 = [currentDate timeIntervalSince1970];
-    NSTimeInterval expireTime = secondsAfter1970 - 24 * 60 * 60;
-    [_queue inDatabase:^(FMDatabase *db) {
-        [db executeUpdate:@"DELETE FROM t_article WHERE articleCtime < ?", [NSNumber numberWithDouble:expireTime]];
-    }];
-    [_queue close];
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSDate *clearTime = [defaults objectForKey:@"clearTime"];
+    if (!clearTime) {
+        clearTime = [NSDate distantPast];
+    }
+    NSLog(@"%@", clearTime);
+    NSTimeZone *gmt = [NSTimeZone timeZoneWithAbbreviation:@"GMT"];
+    NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
+    calendar.timeZone = gmt;
+    
+    if ([calendar isDateInToday:clearTime]) {
+        return;
+    } else {
+        NSDate *currentDate = [NSDate date];
+        NSLog(@"%@", currentDate);
+        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        [defaults setObject:currentDate forKey:@"clearTime"];
+        [defaults synchronize];
+
+        NSDateComponents *components = [calendar components:NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitDay|NSCalendarUnitHour|NSCalendarUnitMinute|NSCalendarUnitSecond fromDate:currentDate];
+        components.hour = 0;
+        components.minute = 0;
+        components.second = 0;
+        NSDate *midNightDate = [calendar dateFromComponents:components];
+        
+        NSTimeInterval secondsAfter1970 = [midNightDate timeIntervalSince1970];
+        NSTimeInterval expireTime = secondsAfter1970;
+        [self setupDataBase];
+        [_queue inDatabase:^(FMDatabase *db) {
+            [db executeUpdate:@"DELETE FROM t_article WHERE articleCtime < ?", [NSNumber numberWithDouble:expireTime]];
+        }];
+        [_queue close];
+    }
 }
 
 /**

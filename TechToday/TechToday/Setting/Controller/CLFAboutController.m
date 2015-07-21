@@ -156,13 +156,14 @@
     if (!_appIntroView) {
         UIWebView *appIntroView = [[UIWebView alloc] init];
         
-        CGFloat appIntroViewX = 15;
+        CGFloat appIntroViewX = 0;
         CGFloat appIntroViewY = CGRectGetMaxY(self.appIconView.frame) + 15;
-        CGFloat appIntroViewW = CGRectGetWidth(self.view.frame) - 30;
+        CGFloat appIntroViewW = CGRectGetWidth(self.view.frame);
         CGFloat appIntroViewH = CGRectGetHeight(self.view.frame) - CGRectGetHeight(self.appIconView.frame);
         appIntroView.frame = CGRectMake(appIntroViewX, appIntroViewY, appIntroViewW, appIntroViewH);
         appIntroView.backgroundColor = [UIColor whiteColor];
         appIntroView.nightBackgroundColor = CLFNightViewColor;
+        appIntroView.suppressesIncrementalRendering = YES;
         [self.view addSubview:appIntroView];
         
         _appIntroView = appIntroView;

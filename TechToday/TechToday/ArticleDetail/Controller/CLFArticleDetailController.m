@@ -224,17 +224,6 @@
 
 }
 
-// 清除缓存
-//- (void)cleanCacheWithRequest:(NSURLRequest *)request {
-//    [[NSURLCache sharedURLCache] removeCachedResponseForRequest:request];
-//    [[NSURLCache sharedURLCache] removeAllCachedResponses];
-//    for (NSHTTPCookie *cookie in [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookies]) {
-//        if ([[cookie domain] isEqualToString:[request.URL absoluteString]]) {
-//            [[NSHTTPCookieStorage sharedHTTPCookieStorage] deleteCookie:cookie];
-//        }
-//    }
-//}
-
 #pragma mark - set up toolbarItems
 
 - (void)setupToolBarItem {
@@ -253,13 +242,6 @@
     nextButton.frame = CGRectMake(0, 0, toolbarH * 0.6, toolbarH * 0.4);
     [nextButton addTarget:self action:@selector(switchToNextArticle) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *nextItem = [[UIBarButtonItem alloc] initWithCustomView:nextButton];
-    
-    // TODO : show comments and submit comment
-    //    UIButton *commentButton = [[UIButton alloc] init];
-    //    commentButton.contentMode = UIViewContentModeScaleAspectFit;
-    //    commentButton.frame = CGRectMake(0, 0, toolbarH * 0.6, toolbarH * 0.5);
-    //    [commentButton addTarget:self action:nil forControlEvents:UIControlEventTouchUpInside];
-    //    UIBarButtonItem *commentItem = [[UIBarButtonItem alloc] initWithCustomView:commentButton];
     
     // share article to Weibo/Weixin etc
     UIButton *shareButton = [[UIButton alloc] init];
@@ -280,21 +262,17 @@
         self.navigationController.toolbar.barStyle = UIBarStyleBlack;
         [backButton setImage:[UIImage imageNamed:@"ToolbarBackArrowNight"] forState:UIControlStateNormal];
         [nextButton setImage:[UIImage imageNamed:@"ToolbarNextArrowNight"] forState:UIControlStateNormal];
-        //        [commentButton setImage:[UIImage imageNamed:@"ToolbarCommentNight"] forState:UIControlStateNormal];
         [shareButton setImage:[UIImage imageNamed:@"ToolbarShareNight"] forState:UIControlStateNormal];
         [moreButton setImage:[UIImage imageNamed:@"ToolbarMoreOptionsNight"] forState:UIControlStateNormal];
     } else {
         self.navigationController.toolbar.barStyle = UIBarStyleDefault;
         [backButton setImage:[UIImage imageNamed:@"ToolbarBackArrow"] forState:UIControlStateNormal];
         [nextButton setImage:[UIImage imageNamed:@"ToolbarNextArrow"] forState:UIControlStateNormal];
-        //        [commentButton setImage:[UIImage imageNamed:@"ToolbarComment"] forState:UIControlStateNormal];
         [shareButton setImage:[UIImage imageNamed:@"ToolbarShare"] forState:UIControlStateNormal];
         [moreButton setImage:[UIImage imageNamed:@"ToolbarMoreOptions"] forState:UIControlStateNormal];
     }
     
-    
     UIBarButtonItem *flexItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
-    //    [self setToolbarItems:@[flexItem, backItem, flexItem, nextItem, flexItem, commentItem, flexItem, shareItem, flexItem]];
     [self setToolbarItems:@[flexItem, backItem, flexItem, nextItem, flexItem, shareItem, flexItem, moreItem, flexItem]];
 }
 

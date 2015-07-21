@@ -74,9 +74,8 @@ static NSDictionary *authorDict;
         } else {
             return @"刚刚";
         }
-
     } else {
-        return _date;
+        return [NSString stringWithFormat:@"昨天 %@", _date];
     }
 }
 

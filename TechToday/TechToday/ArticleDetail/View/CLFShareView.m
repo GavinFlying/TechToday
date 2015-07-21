@@ -30,8 +30,15 @@ static id _authOptions;
     shadowView.frame = CGRectMake(shadowViewX, shadowViewY, shadowViewW, shadowViewH);
     shadowView.backgroundColor = [UIColor colorWithRed:0 / 255.0 green:0 / 255.0 blue:0 / 255.0 alpha:0.7f];
     shadowView.tag = 10;
+    
     [window addSubview:shadowView];
     
+    UIButton *shadowButton = [[UIButton alloc] init];
+    shadowButton.frame = shadowView.bounds;
+    shadowButton.backgroundColor = [UIColor clearColor];
+    [shadowButton addTarget:self action:@selector(shareBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
+    [shadowView addSubview:shadowButton];
+
     UIView *shareView = [[UIView alloc] init];
     CGFloat shareViewW = 300 * CLFScreenWScale;
     CGFloat shareViewH = 180 * CLFScreenWScale;
@@ -118,11 +125,11 @@ static id _authOptions;
 
 + (void)shareBtnClicked:(UIButton *)btn {
     UIWindow *window = [UIApplication sharedApplication].keyWindow;
-    UIView *blackView = [window viewWithTag:10];
+    UIView *shadowView = [window viewWithTag:10];
     UIView *shareView = [window viewWithTag:11];
     
     [shareView removeFromSuperview];
-    [blackView removeFromSuperview];
+    [shadowView removeFromSuperview];
     
     int shareType = 0;
     id publishContent = _publishContent;

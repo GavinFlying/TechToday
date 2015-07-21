@@ -175,7 +175,7 @@
             break;
         }
         case 1: {
-            NSString *appid = @"725296055";
+            NSString *appid = @"1021176188";
             NSString *str = [NSString stringWithFormat:@"itms-apps://itunes.apple.com/cn/app/id%@?mt=8", appid];
             NSURL *url = [NSURL URLWithString:str];
             [[UIApplication sharedApplication] openURL:url];

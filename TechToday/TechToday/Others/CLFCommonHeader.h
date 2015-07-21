@@ -28,8 +28,6 @@
 #define CLFArticleTitleFont [UIFont fontWithName:@"SourceHanSansCN-Normal" size:21]
 #define CLFArticleOtherFont [UIFont fontWithName:@"SourceHanSansCN-Light" size:13]
 #define CLFArticleDetailSourceFont [UIFont fontWithName:@"SourceHanSansCN-Light" size:15]
-//#define CLFArticleTitleFont [UIFont systemFontOfSize:21]
-//#define CLFArticleOtherFont [UIFont systemFontOfSize:13]
 
 #define CLFUIMainColor [UIColor colorWithRed:0 / 255.0 green:151 / 255.0 blue:255 / 255.0 alpha:100]
 

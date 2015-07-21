@@ -32,9 +32,6 @@
     CLFArticleCell *cell = [tableView dequeueReusableCellWithIdentifier:ID];
     if (nil == cell) {
         cell = [[CLFArticleCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:ID];
-//        cell.layer.shadowColor = [[UIColor blackColor] CGColor];
-//        cell.layer.shadowOffset = CGSizeMake(1, 2);
-//        cell.layer.shadowOpacity = 0.4;
         cell.selectedBackgroundView = [[UIView alloc] initWithFrame:cell.frame];
         cell.selectedBackgroundView.backgroundColor = CLFRemindButtonBackgroundColor;
     }
@@ -135,6 +132,7 @@
     self.sourceLabel.frame = articleFrame.sourceLabelFrame;
     
     self.dateLabel.text = article.date;
+    self.dateLabel.textAlignment = NSTextAlignmentLeft;
     self.dateLabel.frame = articleFrame.dateLabelFrame;
     
     self.pageViewsLabel.text = article.pageViews;

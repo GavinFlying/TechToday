@@ -18,7 +18,7 @@
 
 @end
 
-@interface CLFSettingViewController : UITableViewController <MFMailComposeViewControllerDelegate>
+@interface CLFSettingViewController : UITableViewController 
 
 @property (weak, nonatomic) id<CLFSettingViewControllerDelegate> delegate;
 

@@ -68,11 +68,7 @@
         UIButton *remindButton = [[UIButton alloc] init];
         [self.navigationController.view insertSubview:remindButton belowSubview:self.navigationController.navigationBar];
         remindButton.userInteractionEnabled = NO;
-        remindButton.backgroundColor = CLFRemindButtonBackgroundColor;
-        remindButton.nightBackgroundColor = CLFNightTextColor;
         remindButton.titleLabel.font = [UIFont systemFontOfSize:14];
-        [remindButton setTitleColor:CLFUIMainColor forState:UIControlStateNormal];
-        remindButton.nightTitleColor = CLFNightBarColor;
         remindButton.hidden = YES;
         
         CGFloat remindButtonH = 30;
@@ -87,7 +83,12 @@
 }
 
 - (void)showNewArticleCount:(long)count {
+    // set color in here to fix a bug of DKNightVersion: launch the app in Night Mode && noImage Mode, then turn to normal mode, the remindButton would get something wrong.
     self.theNewArticleRemindButton.hidden = NO;
+    self.theNewArticleRemindButton.backgroundColor = CLFRemindButtonBackgroundColor;
+    self.theNewArticleRemindButton.nightBackgroundColor = CLFNightTextColor;
+    [self.theNewArticleRemindButton setTitleColor:CLFUIMainColor forState:UIControlStateNormal];
+    self.theNewArticleRemindButton.nightTitleColor = CLFNightBarColor;
     
     if (count) {
         [self.theNewArticleRemindButton setTitle:[NSString stringWithFormat:@"更新了%ld篇文章", count] forState:UIControlStateNormal];

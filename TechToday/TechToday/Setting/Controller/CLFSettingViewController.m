@@ -15,7 +15,7 @@
 #import "CLFCacheClearTool.h"
 
 
-@interface CLFSettingViewController ()
+@interface CLFSettingViewController () <MFMailComposeViewControllerDelegate>
 
 @property (strong, nonatomic) UISwitch *nightModeSwitch;
 @property (strong, nonatomic) UISwitch *noImageModeSwitch;
@@ -241,7 +241,6 @@
 - (void)displayComposerSheet {
     MFMailComposeViewController *mailPicker = [[MFMailComposeViewController alloc] init];
     mailPicker.navigationBar.tintColor = [UIColor whiteColor];
-
     
     mailPicker.mailComposeDelegate = self;
     

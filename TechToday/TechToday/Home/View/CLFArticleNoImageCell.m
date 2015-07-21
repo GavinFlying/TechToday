@@ -115,6 +115,7 @@
     self.sourceLabel.frame = articleFrame.noImageViewSourceLabelFrame;
     
     self.dateLabel.text = article.date;
+    self.dateLabel.textAlignment = NSTextAlignmentLeft;
     self.dateLabel.frame = articleFrame.noImageViewDateLabelFrame;
     
     self.pageViewsLabel.text = article.pageViews;

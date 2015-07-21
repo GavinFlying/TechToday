@@ -42,6 +42,7 @@
     CGFloat sourceLabelY = CGRectGetMaxY(_titleLabelFrame) + CLFArticleCellInnerBorder;
     CGFloat noImageSourceLabelY = CGRectGetMaxY(_noImageViewTitleLabelFrame) + CLFArticleCellInnerBorder;
     CGSize sourceLabelSize = [NSString sizeOfText:article.source maxSize:CGSizeMake(0.3 * cellW, 20) font:CLFArticleOtherFont];
+    
     _sourceLabelFrame = (CGRect){{sourceLabelX, sourceLabelY}, sourceLabelSize};
     _noImageViewSourceLabelFrame = (CGRect){{sourceLabelX, noImageSourceLabelY}, sourceLabelSize};
     
@@ -49,12 +50,12 @@
     CGFloat dateLabelX = CGRectGetMaxX(_sourceLabelFrame) + CLFArticleCellInnerBorder;
     CGFloat dateLabelY = sourceLabelY;
     CGFloat noImageDateLabelY = noImageSourceLabelY;
-    CGSize dateLabelSize = [NSString sizeOfText:article.date maxSize:CGSizeMake(0.2 * cellW, 20) font:CLFArticleOtherFont];
+    CGSize dateLabelSize = CGSizeMake(0.3 * cellW, 20);
     _dateLabelFrame = (CGRect){{dateLabelX, dateLabelY}, dateLabelSize};
     _noImageViewDateLabelFrame = (CGRect){{dateLabelX, noImageDateLabelY}, dateLabelSize};
     
     // pageViewLabelFrame
-    CGSize pageViewsLabelSize = [NSString sizeOfText:article.pageViews maxSize:CGSizeMake(0.45 * cellW, 20) font:CLFArticleOtherFont];
+    CGSize pageViewsLabelSize = [NSString sizeOfText:article.pageViews maxSize:CGSizeMake(0.4 * cellW, 20) font:CLFArticleOtherFont];
     CGFloat pageViewsLabelX = CGRectGetMaxX(_imageViewFrame) - pageViewsLabelSize.width;
     CGFloat pageViewsLabelY = dateLabelY;
     CGFloat noImagePageViewsLabelY = noImageDateLabelY;
