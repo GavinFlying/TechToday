@@ -13,11 +13,19 @@
 
 + (CGSize)sizeOfText:(NSString *)text maxSize:(CGSize)maxSize font:(UIFont *)font {
     NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
-//    paragraphStyle.lineSpacing = 111;
     paragraphStyle.lineHeightMultiple = 1.3;
-//    paragraphStyle.alignment = NSTextAlignmentRight;
+    paragraphStyle.lineBreakMode = NSLineBreakByCharWrapping;
     NSDictionary *attrs = @{NSParagraphStyleAttributeName : paragraphStyle, NSFontAttributeName : font};
     return [text boundingRectWithSize:maxSize options:NSStringDrawingUsesLineFragmentOrigin attributes:attrs context:nil].size;
+}
+
++ (NSAttributedString *)NSAttributedStringFromNSString:(NSString *)string {
+    NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithString:string];
+    NSMutableParagraphStyle *style = [[NSMutableParagraphStyle alloc] init];
+    style.lineHeightMultiple = 1.3;
+    style.lineBreakMode = NSLineBreakByCharWrapping;
+    [attrString addAttribute:NSParagraphStyleAttributeName value:style range:NSMakeRange(0, string.length)];
+    return attrString;
 }
 
 @end

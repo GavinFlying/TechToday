@@ -84,7 +84,6 @@ static FMDatabaseQueue *_queue;
     if (!clearTime) {
         clearTime = [NSDate distantPast];
     }
-    NSLog(@"%@", clearTime);
     NSTimeZone *gmt = [NSTimeZone timeZoneWithAbbreviation:@"GMT"];
     NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
     calendar.timeZone = gmt;
@@ -93,7 +92,6 @@ static FMDatabaseQueue *_queue;
         return;
     } else {
         NSDate *currentDate = [NSDate date];
-        NSLog(@"%@", currentDate);
         NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
         [defaults setObject:currentDate forKey:@"clearTime"];
         [defaults synchronize];

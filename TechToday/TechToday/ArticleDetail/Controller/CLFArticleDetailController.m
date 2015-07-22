@@ -84,14 +84,6 @@
         articleDetail.scrollView.delegate = self;
         articleDetail.suppressesIncrementalRendering = YES;
         [self.view addSubview:articleDetail];
-//        articleDetail.translatesAutoresizingMaskIntoConstraints = NO;
-//        articleDetail.layoutMargins = UIEdgeInsetsMake(0, -16, 0, -16);
-//        articleDetail.preservesSuperviewLayoutMargins = NO;
-//        NSArray *detailConts1 = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-[detail]-|" options:0 metrics:nil views:@{@"detail" : articleDetail}];
-//        NSArray *detailConts2 = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-[detail]-|" options:0 metrics:nil views:@{@"detail" : articleDetail}];
-//
-//        [self.view addConstraints:detailConts1];
-//        [self.view addConstraints:detailConts2];
         _articleDetail = articleDetail;
     }
     return _articleDetail;
@@ -126,21 +118,11 @@
     
     NSString *urlStr = [NSString stringWithFormat:@"http://jinri.info/index.php/DaiAppApi/showArticle/%@", str];
     NSURL *url = [NSURL URLWithString:urlStr];
-    // <[\/]*embed[^>]*>
-    
     NSString *HTMLSource = [NSString stringWithContentsOfURL:url encoding:NSUTF8StringEncoding error:nil];
-    
-//    NSRegularExpression *regexToATag = [NSRegularExpression regularExpressionWithPattern:@"<[\\/]*a[^>]*>" options:NSRegularExpressionCaseInsensitive error:nil];
-//    NSString *noATagHTMLSource = [regexToATag stringByReplacingMatchesInString:HTMLSource options:NSMatchingReportCompletion range:NSMakeRange(0, HTMLSource.length) withTemplate:@""];
-//    NSRegularExpression *regexToVideo = [NSRegularExpression regularExpressionWithPattern:@"<[\\/]*embed[^>]*>" options:NSRegularExpressionCaseInsensitive error:nil];
-//    NSString *noVideoHTMLSource = [regexToVideo stringByReplacingMatchesInString:noATagHTMLSource options:NSMatchingReportCompletion range:NSMakeRange(0, noATagHTMLSource.length) withTemplate:@""];
     
     // 如果是无图模式且已经有页面数据,则获取 html 源码,通过正则表达式去除p/br之外的标签,再通过 webView 显示; 否则去除img/p/br之外的标签显示
     if (HTMLSource) {
         if ([CLFAppDelegate globalDelegate].isNoImageModeOn) {
-    //        NSRegularExpression *regexToImage = [NSRegularExpression regularExpressionWithPattern:@"<\\s*img [^\\>]*src\\s*=\\s*([\"|\'])(.*?)[\"|\'][^']*?>" options:NSRegularExpressionCaseInsensitive error:nil];
-    //        NSString *pureHTMLSource = [regexToImage stringByReplacingMatchesInString:noVideoHTMLSource options:NSMatchingReportCompletion range:NSMakeRange(0, noVideoHTMLSource.length) withTemplate:@""];
-            
             NSRegularExpression *regexToAllTagBesidesbrAndp = [NSRegularExpression regularExpressionWithPattern:@"<(?!html|/html|head|meta|style|/head|/style|body|/body|div|/div|br|p|/p).*?>" options:NSRegularExpressionCaseInsensitive error:nil];
             NSString *pureHTMLSource = [regexToAllTagBesidesbrAndp stringByReplacingMatchesInString:HTMLSource options:NSMatchingReportCompletion range:NSMakeRange(0, HTMLSource.length) withTemplate:@""];
             [self.articleDetail loadHTMLString:pureHTMLSource baseURL:nil];
@@ -207,6 +189,7 @@
                                                          "tagStyle.appendChild(document.createTextNode(\"BODY{padding: 10pt 15pt}\"));"
                                                          "tagStyle.appendChild(document.createTextNode(\"BODY{text-align: justify}\"));"
                                                          "tagStyle.appendChild(document.createTextNode(\"BODY{background-color: transparent}\"));"
+                                                         "tagStyle.appendChild(document.createTextNode(\"BODY{word-break: break-all}\"));"
                                                          "tagStyle.appendChild(document.createTextNode(\"BODY{font-family: SourceHanSansCN-Light; font-size: %ldpt; color: %@}\"));"
                                                          "var tagHeadAdd = tagHead.appendChild(tagStyle);", (long)self.fontSize, fontColor]];
         
@@ -233,40 +216,37 @@
             });
         }
     }
-
 }
 
 #pragma mark - set up toolbarItems
 
-- (void)setupToolBarItem {
+- (UIButton *)customViewWithAction:(SEL)action {
     CGFloat toolbarH = CGRectGetHeight(self.navigationController.toolbar.frame);
+    CGFloat toolbarW = CGRectGetWidth(self.navigationController.toolbar.frame);
+    
+    UIButton *button = [[UIButton alloc] init];
+    button.contentMode = UIViewContentModeScaleAspectFit;
+    button.frame = CGRectMake(0, 0, 0.2 * toolbarW, toolbarH * 0.8);
+    [button addTarget:self action:action forControlEvents:UIControlEventTouchUpInside];
+    return button;
+}
+
+- (void)setupToolBarItem {
     
     // back to homeViewController
-    UIButton *backButton = [[UIButton alloc] init];
-    backButton.contentMode = UIViewContentModeScaleAspectFit;
-    backButton.frame = CGRectMake(0, 0, toolbarH * 0.4, toolbarH * 0.6);
-    [backButton addTarget:self action:@selector(backToHome) forControlEvents:UIControlEventTouchUpInside];
+    UIButton *backButton = [self customViewWithAction:@selector(backToHome)];
     UIBarButtonItem *backItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
     
     // show next article
-    UIButton *nextButton = [[UIButton alloc] init];
-    nextButton.contentMode = UIViewContentModeScaleAspectFit;
-    nextButton.frame = CGRectMake(0, 0, toolbarH * 0.6, toolbarH * 0.4);
-    [nextButton addTarget:self action:@selector(switchToNextArticle) forControlEvents:UIControlEventTouchUpInside];
+    UIButton *nextButton = [self customViewWithAction:@selector(switchToNextArticle)];
     UIBarButtonItem *nextItem = [[UIBarButtonItem alloc] initWithCustomView:nextButton];
     
     // share article to Weibo/Weixin etc
-    UIButton *shareButton = [[UIButton alloc] init];
-    shareButton.contentMode = UIViewContentModeScaleAspectFit;
-    shareButton.frame = CGRectMake(0, 0, toolbarH * 0.4, toolbarH * 0.6);
-    [shareButton addTarget:self action:@selector(showShareView) forControlEvents:UIControlEventTouchUpInside];
+    UIButton *shareButton = [self customViewWithAction:@selector(showShareView)];
     UIBarButtonItem *shareItem = [[UIBarButtonItem alloc] initWithCustomView:shareButton];
     
     // show more options
-    UIButton *moreButton = [[UIButton alloc] init];
-    moreButton.contentMode = UIViewContentModeScaleAspectFit;
-    moreButton.frame = CGRectMake(0, 0, toolbarH * 0.5, toolbarH * 0.5);
-    [moreButton addTarget:self action:@selector(showMoreOptions) forControlEvents:UIControlEventTouchUpInside];
+    UIButton *moreButton = [self customViewWithAction:@selector(showMoreOptions)];
     UIBarButtonItem *moreItem = [[UIBarButtonItem alloc] initWithCustomView:moreButton];
     
     // change the button icon according to currentThemeVersion : night or normal
@@ -283,9 +263,10 @@
         [shareButton setImage:[UIImage imageNamed:@"ToolbarShare"] forState:UIControlStateNormal];
         [moreButton setImage:[UIImage imageNamed:@"ToolbarMoreOptions"] forState:UIControlStateNormal];
     }
-    
+    UIBarButtonItem *fixedItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
+    fixedItem.width = CLFScreenW * 36 / 375;
     UIBarButtonItem *flexItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
-    [self setToolbarItems:@[flexItem, backItem, flexItem, nextItem, flexItem, shareItem, flexItem, moreItem, flexItem]];
+    [self setToolbarItems:@[fixedItem, flexItem, backItem, flexItem, nextItem, flexItem, shareItem, flexItem, moreItem, flexItem, fixedItem]];
 }
 
 - (void)backToHome {
@@ -571,7 +552,6 @@
         NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
         [defaults setInteger:self.fontSize forKey:@"articleFontSize"];
         [defaults synchronize];
-        
     }
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
     tableView.hidden = YES;

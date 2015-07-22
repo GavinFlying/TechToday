@@ -11,6 +11,7 @@
 #import "CLFArticle.h"
 #import "CLFCommonHeader.h"
 #import "UIImageView+WebCache.h"
+#import "NSString+CLF.h"
 
 @interface CLFArticleNoImageCell ()
 
@@ -103,14 +104,8 @@
     self.pageViewsLabel.backgroundColor = [UIColor clearColor];
     self.pageViewsLabel.nightBackgroundColor = [UIColor clearColor];
     
-    NSString *titleText = article.title;
-    NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithString:titleText];
-    NSMutableParagraphStyle *style = [[NSMutableParagraphStyle alloc] init];
-    style.lineHeightMultiple = 1.3;
-    [attrString addAttribute:NSParagraphStyleAttributeName value:style range:NSMakeRange(0, titleText.length)];
-    self.titleLabel.attributedText = attrString;
+    self.titleLabel.attributedText = [NSString NSAttributedStringFromNSString:article.title];
     self.titleLabel.frame = articleFrame.noImageViewTitleLabelFrame;
-    
     self.sourceLabel.text = article.source;
     self.sourceLabel.frame = articleFrame.noImageViewSourceLabelFrame;
     

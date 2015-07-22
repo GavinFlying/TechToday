@@ -11,5 +11,6 @@
 @interface NSString (CLF)
 
 + (CGSize)sizeOfText:(NSString *)text maxSize:(CGSize)maxSize font:(UIFont *)font;
++ (NSAttributedString *)NSAttributedStringFromNSString:(NSString *)string;
 
 @end

@@ -284,8 +284,7 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     CLFArticleFrame *articleFrame = self.articleFrames[indexPath.row];
     if ([CLFAppDelegate globalDelegate].isNoImageModeOn) {
-        return 108.6;
-//        return articleFrame.noImageViewCellHeight;
+        return articleFrame.noImageViewCellHeight;
     }
     return articleFrame.cellHeight;
 }

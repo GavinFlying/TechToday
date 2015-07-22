@@ -41,7 +41,7 @@
     CGFloat sourceLabelX = titleLabelX;
     CGFloat sourceLabelY = CGRectGetMaxY(_titleLabelFrame) + CLFArticleCellInnerBorder;
 //    CGFloat noImageSourceLabelY = CGRectGetMaxY(_noImageViewTitleLabelFrame) + CLFArticleCellInnerBorder;
-    CGFloat noImageSourceLabelY = 68.6 + CLFArticleCellInnerBorder;
+    CGFloat noImageSourceLabelY = CGRectGetMaxY(_noImageViewTitleLabelFrame) < 68.6 ?  (68.6 + CLFArticleCellInnerBorder) : (CGRectGetMaxY(_noImageViewTitleLabelFrame) + CLFArticleCellInnerBorder);
     CGSize sourceLabelSize = [NSString sizeOfText:article.source maxSize:CGSizeMake(0.3 * cellW, 20) font:CLFArticleOtherFont];
     
     _sourceLabelFrame = (CGRect){{sourceLabelX, sourceLabelY}, sourceLabelSize};
@@ -64,7 +64,7 @@
     _noImageViewPageViewsLabelFrame = (CGRect){{pageViewsLabelX, noImagePageViewsLabelY}, pageViewsLabelSize};
     
     _cellHeight = CGRectGetMaxY(_pageViewsLabelFrame) + 2.3 * CLFArticleCellInnerBorder;
-    _noImageViewCellHeight = _cellHeight - imageViewH;
+    _noImageViewCellHeight = CGRectGetMaxY(_noImageViewPageViewsLabelFrame) + 2.3 * CLFArticleCellInnerBorder;
 }
 
 @end

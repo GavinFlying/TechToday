@@ -112,12 +112,8 @@
     // titleLabel
     self.titleLabel.textColor = self.titleStyle ? [UIColor whiteColor] : [UIColor blackColor];
     self.titleLabel.nightTextColor = CLFNightTextColor;
-    NSString *titleText = self.article.title;
-    NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithString:titleText];
-    NSMutableParagraphStyle *style = [[NSMutableParagraphStyle alloc] init];
-    style.lineHeightMultiple = 1.3;
-    [attrString addAttribute:NSParagraphStyleAttributeName value:style range:NSMakeRange(0, titleText.length)];
-    self.titleLabel.attributedText = attrString;
+
+    self.titleLabel.attributedText = [NSString NSAttributedStringFromNSString:self.article.title];
     
     CGSize titleLabelSize = [NSString sizeOfText:self.article.title maxSize:CGSizeMake(titleViewContentW, MAXFLOAT) font:CLFArticleTitleFont];
     CGFloat titleLabelX = CLFArticleCellToBorderMargin + CLFArticleCellInnerBorder;
