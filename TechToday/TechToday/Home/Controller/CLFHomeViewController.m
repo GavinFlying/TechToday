@@ -96,31 +96,13 @@
         [self.theNewArticleRemindButton setTitle:@"没有新的文章" forState:UIControlStateNormal];
     }
     
-//    self.theNewArticleRemindButton.translatesAutoresizingMaskIntoConstraints = NO;
-//    NSArray *remindConts1 = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[remindButton]-0-|" options:0 metrics:nil views:@{@"remindButton" : self.theNewArticleRemindButton}];
-//    NSArray *remindConts2 = [NSLayoutConstraint constraintsWithVisualFormat:@"V:[naviBar]-(-30)-[remindButton(30)]" options:0 metrics:nil views:@{@"naviBar" : self.navigationController.navigationBar, @"remindButton" : self.theNewArticleRemindButton}];
-//    NSArray *remindConts3 = [NSLayoutConstraint constraintsWithVisualFormat:@"V:[naviBar]-0-[remindButton(30)]" options:0 metrics:nil views:@{@"naviBar" : self.navigationController.navigationBar, @"remindButton" : self.theNewArticleRemindButton}];
-//    [self.navigationController.view addConstraints:remindConts1];
-//    [self.navigationController.view addConstraints:remindConts2];
-//    [self.navigationController.view layoutIfNeeded];
-    
     [UIView animateWithDuration:0.5 animations:^{
-//        [self.navigationController.view removeConstraints:remindConts2];
         self.theNewArticleRemindButton.transform = CGAffineTransformMakeTranslation(0, 30);
-//        [self.navigationController.view addConstraints:remindConts3];
-//        [self.navigationController.view layoutIfNeeded];
     } completion:^(BOOL finished) {
         [UIView animateWithDuration:0.5 delay:0.5 options:UIViewAnimationOptionCurveLinear animations:^{
-            
-//            [self.navigationController.view removeConstraints:remindConts3];
-//            [self.navigationController.view addConstraints:remindConts2];
-//            [self.navigationController.view layoutIfNeeded];
-            
             self.theNewArticleRemindButton.transform = CGAffineTransformIdentity;
         } completion:^(BOOL finished) {
             self.theNewArticleRemindButton.hidden = YES;
-//            [self.navigationController.view removeConstraints:remindConts1];
-//            [self.navigationController.view removeConstraints:remindConts2];
         }];
     }];
 }
@@ -327,7 +309,6 @@
     self.articleDetailController = articleDetailController;
     [self.navigationController pushViewController:articleDetailController animated:YES];
 }
-
 
 #pragma mark - about settingViewController
 
