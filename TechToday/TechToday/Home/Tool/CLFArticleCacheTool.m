@@ -111,6 +111,10 @@ static FMDatabaseQueue *_queue;
             [db executeUpdate:@"DELETE FROM t_article WHERE articleCtime < ?", [NSNumber numberWithDouble:expireTime]];
         }];
         [_queue close];
+        
+        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
+        NSString *cachesDir = [paths objectAtIndex:0];
+        [self clearCacheAtPath:cachesDir completion:nil];
     }
 }
 
@@ -146,6 +150,47 @@ static FMDatabaseQueue *_queue;
     [_queue close];
     
     return articleArray;
+}
+
++ (CGFloat)fileSizeAtPath:(NSString *)path {
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    if ([fileManager fileExistsAtPath:path]) {
+        CGFloat size = [fileManager attributesOfItemAtPath:path error:nil].fileSize;
+        return size / 1024.0 / 1024.0;
+    }
+    return 0;
+}
+
+/**
+ *  计算文件夹的大小
+ */
++ (CGFloat)directorySizeAtPath:(NSString *)path {
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    CGFloat directorySize = 0.0;
+    if ([fileManager fileExistsAtPath:path]) {
+        NSArray *containedFiles = [fileManager subpathsAtPath:path];
+        for (NSString *fileName in containedFiles) {
+            NSString *absolutePath = [path stringByAppendingPathComponent:fileName];
+            directorySize += [self fileSizeAtPath:absolutePath];
+        }
+        return directorySize;
+    }
+    return 0.0;
+}
+
+/**
+ *  清楚指定路径的文件
+ */
++ (void)clearCacheAtPath:(NSString *)path completion:(completionBlock)completion {
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    if ([fileManager fileExistsAtPath:path]) {
+        NSArray *containedFiles = [fileManager subpathsAtPath:path];
+        for (NSString *fileName in containedFiles) {
+            NSString *absolutePath = [path stringByAppendingPathComponent:fileName];
+            [fileManager removeItemAtPath:absolutePath error:nil];
+        }
+    }
+    //    completion();
 }
 
 @end

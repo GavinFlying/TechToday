@@ -40,7 +40,8 @@
     // sourceLabelFrame
     CGFloat sourceLabelX = titleLabelX;
     CGFloat sourceLabelY = CGRectGetMaxY(_titleLabelFrame) + CLFArticleCellInnerBorder;
-    CGFloat noImageSourceLabelY = CGRectGetMaxY(_noImageViewTitleLabelFrame) + CLFArticleCellInnerBorder;
+//    CGFloat noImageSourceLabelY = CGRectGetMaxY(_noImageViewTitleLabelFrame) + CLFArticleCellInnerBorder;
+    CGFloat noImageSourceLabelY = 68.6 + CLFArticleCellInnerBorder;
     CGSize sourceLabelSize = [NSString sizeOfText:article.source maxSize:CGSizeMake(0.3 * cellW, 20) font:CLFArticleOtherFont];
     
     _sourceLabelFrame = (CGRect){{sourceLabelX, sourceLabelY}, sourceLabelSize};

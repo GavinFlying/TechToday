@@ -44,15 +44,12 @@
 - (void)setTitleHeight:(CGFloat)titleHeight {
     _titleHeight = titleHeight;
     self.titleStyle = arc4random() % 2;
-//    [self.titleView removeFromSuperview];
-//    self.titleView = nil;
     [self setupTitleViewSubviewsFrame];
     self.separatorView.hidden = self.titleStyle;
 }
 
 - (void)setButtomHeight:(CGFloat)buttomHeight {
     _buttomHeight = buttomHeight;
-//    [self.buttomView removeFromSuperview];
     [self setupButtomViewSubviewsFrame:buttomHeight];
 }
 

@@ -8,9 +8,9 @@
 #import "MBProgressHUD+MJ.h"
 
 @implementation MBProgressHUD (MJ)
+
 #pragma mark 显示信息
-+ (void)show:(NSString *)text icon:(NSString *)icon view:(UIView *)view
-{
++ (void)show:(NSString *)text icon:(NSString *)icon view:(UIView *)view {
     if (view == nil) view = [[UIApplication sharedApplication].windows lastObject];
     // 快速显示一个提示信息
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:view animated:YES];
@@ -28,12 +28,11 @@
 }
 
 #pragma mark 显示错误信息
-+ (void)showError:(NSString *)error toView:(UIView *)view{
++ (void)showError:(NSString *)error toView:(UIView *)view {
     [self show:error icon:@"error.png" view:view];
 }
 
-+ (void)showSuccess:(NSString *)success toView:(UIView *)view
-{
++ (void)showSuccess:(NSString *)success toView:(UIView *)view {
     [self show:success icon:@"success.png" view:view];
 }
 
@@ -50,28 +49,31 @@
     return hud;
 }
 
-+ (void)showSuccess:(NSString *)success
-{
++ (void)showText:(NSString *)text toView:(UIView *)view {
+    [self show:text icon:nil view:view];
+}
+
++ (void)showSuccess:(NSString *)success {
     [self showSuccess:success toView:nil];
 }
 
-+ (void)showError:(NSString *)error
-{
++ (void)showError:(NSString *)error {
     [self showError:error toView:nil];
 }
 
-+ (MBProgressHUD *)showMessage:(NSString *)message
-{
++ (void)showText:(NSString *)text {
+    [self showText:text toView:nil];
+}
+
++ (MBProgressHUD *)showMessage:(NSString *)message {
     return [self showMessage:message toView:nil];
 }
 
-+ (void)hideHUDForView:(UIView *)view
-{
++ (void)hideHUDForView:(UIView *)view {
     [self hideHUDForView:view animated:YES];
 }
 
-+ (void)hideHUD
-{
++ (void)hideHUD {
     [self hideHUDForView:nil];
 }
 @end

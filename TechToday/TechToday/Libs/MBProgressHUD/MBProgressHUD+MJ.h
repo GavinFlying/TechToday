@@ -10,6 +10,7 @@
 @interface MBProgressHUD (MJ)
 + (void)showSuccess:(NSString *)success toView:(UIView *)view;
 + (void)showError:(NSString *)error toView:(UIView *)view;
++ (void)showText:(NSString *)text toView:(UIView *)view;
 
 + (MBProgressHUD *)showMessage:(NSString *)message toView:(UIView *)view;
 

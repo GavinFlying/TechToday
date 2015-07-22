@@ -12,8 +12,7 @@
 #import "CLFNavigationController.h"
 #import "JVFloatingDrawerViewController.h"
 #import "MBProgressHUD+MJ.h"
-#import "CLFCacheClearTool.h"
-
+#import "CLFArticleCacheTool.h"
 
 @interface CLFSettingViewController () <MFMailComposeViewControllerDelegate>
 
@@ -113,7 +112,7 @@
         case 2: { // clearing cache on disk
             NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
             NSString *cachesDir = [paths objectAtIndex:0];
-            CGFloat cacheSize = [CLFCacheClearTool DirectorySizeAtPath:cachesDir];
+            CGFloat cacheSize = [CLFArticleCacheTool directorySizeAtPath:cachesDir];
             
             UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"缓存清理"
                                                                                      message:[NSString stringWithFormat:@"目前共有 %.2fM 缓存,确定要清理吗?", cacheSize]
@@ -131,7 +130,7 @@
             UIAlertAction *confirmAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
                 NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
                 NSString *cachesDir = [paths objectAtIndex:0];
-                [CLFCacheClearTool clearCacheAtPath:cachesDir completion:nil];
+                [CLFArticleCacheTool clearCacheAtPath:cachesDir completion:nil];
             }];
             [alertController addAction:cancelAction];
             [alertController addAction:confirmAction];

@@ -126,31 +126,45 @@
     
     NSString *urlStr = [NSString stringWithFormat:@"http://jinri.info/index.php/DaiAppApi/showArticle/%@", str];
     NSURL *url = [NSURL URLWithString:urlStr];
-    
+    // <[\/]*embed[^>]*>
     
     NSString *HTMLSource = [NSString stringWithContentsOfURL:url encoding:NSUTF8StringEncoding error:nil];
-    // 如果是无图模式且已经有页面数据,则获取 html 源码,通过正则表达式去除所有图片的标签,再通过 webView 显示; 否则通过 URLRequest 正常加载
-    if (([CLFAppDelegate globalDelegate].isNoImageModeOn) && HTMLSource) {
-        NSRegularExpression *regexToImage = [NSRegularExpression regularExpressionWithPattern:@"<\\s*img [^\\>]*src\\s*=\\s*([\"|\'])(.*?)[\"|\'][^']*?>" options:NSRegularExpressionCaseInsensitive error:nil];
-        NSString *pureHTMLSource = [regexToImage stringByReplacingMatchesInString:HTMLSource options:NSMatchingReportCompletion range:NSMakeRange(0, HTMLSource.length) withTemplate:@""];
-        [self.articleDetail loadHTMLString:pureHTMLSource baseURL:nil];
+    
+//    NSRegularExpression *regexToATag = [NSRegularExpression regularExpressionWithPattern:@"<[\\/]*a[^>]*>" options:NSRegularExpressionCaseInsensitive error:nil];
+//    NSString *noATagHTMLSource = [regexToATag stringByReplacingMatchesInString:HTMLSource options:NSMatchingReportCompletion range:NSMakeRange(0, HTMLSource.length) withTemplate:@""];
+//    NSRegularExpression *regexToVideo = [NSRegularExpression regularExpressionWithPattern:@"<[\\/]*embed[^>]*>" options:NSRegularExpressionCaseInsensitive error:nil];
+//    NSString *noVideoHTMLSource = [regexToVideo stringByReplacingMatchesInString:noATagHTMLSource options:NSMatchingReportCompletion range:NSMakeRange(0, noATagHTMLSource.length) withTemplate:@""];
+    
+    // 如果是无图模式且已经有页面数据,则获取 html 源码,通过正则表达式去除p/br之外的标签,再通过 webView 显示; 否则去除img/p/br之外的标签显示
+    if (HTMLSource) {
+        if ([CLFAppDelegate globalDelegate].isNoImageModeOn) {
+    //        NSRegularExpression *regexToImage = [NSRegularExpression regularExpressionWithPattern:@"<\\s*img [^\\>]*src\\s*=\\s*([\"|\'])(.*?)[\"|\'][^']*?>" options:NSRegularExpressionCaseInsensitive error:nil];
+    //        NSString *pureHTMLSource = [regexToImage stringByReplacingMatchesInString:noVideoHTMLSource options:NSMatchingReportCompletion range:NSMakeRange(0, noVideoHTMLSource.length) withTemplate:@""];
+            
+            NSRegularExpression *regexToAllTagBesidesbrAndp = [NSRegularExpression regularExpressionWithPattern:@"<(?!html|/html|head|meta|style|/head|/style|body|/body|div|/div|br|p|/p).*?>" options:NSRegularExpressionCaseInsensitive error:nil];
+            NSString *pureHTMLSource = [regexToAllTagBesidesbrAndp stringByReplacingMatchesInString:HTMLSource options:NSMatchingReportCompletion range:NSMakeRange(0, HTMLSource.length) withTemplate:@""];
+            [self.articleDetail loadHTMLString:pureHTMLSource baseURL:nil];
+        } else {
+            NSRegularExpression *regexToAllTagBesidesImgAndbrAndp = [NSRegularExpression regularExpressionWithPattern:@"<(?!html|/html|head|meta|style|/head|/style|body|/body|div|/div|img|br|p|/p).*?>" options:NSRegularExpressionCaseInsensitive error:nil];
+            NSString *pureHTMLSource = [regexToAllTagBesidesImgAndbrAndp stringByReplacingMatchesInString:HTMLSource options:NSMatchingReportCompletion range:NSMakeRange(0, HTMLSource.length) withTemplate:@""];
+            [self.articleDetail loadHTMLString:pureHTMLSource baseURL:nil];
+            
+            // preload
+            NSString *preloadURLStr = [NSString stringWithFormat:@"http://jinri.info/index.php/DaiAppApi/showArticle/%ld", (long)([str integerValue] - 1)];
+            NSURL *preloadURL = [NSURL URLWithString:preloadURLStr];
+            NSMutableURLRequest *preloadRequest = [[NSMutableURLRequest alloc] init];
+            [preloadRequest setHTTPMethod:@"GET"];
+            [preloadRequest setURL:preloadURL];
+            [preloadRequest setTimeoutInterval:15.0f];
+            
+            self.preloadWebView.alpha = 0.5;
+            dispatch_queue_t q = dispatch_queue_create("preload", DISPATCH_QUEUE_SERIAL);
+            dispatch_async(q, ^{
+                [self.preloadWebView loadRequest:preloadRequest];
+            });
+        }
     } else {
-        NSURLRequest *request = [NSURLRequest requestWithURL:url cachePolicy:NSURLRequestReturnCacheDataElseLoad timeoutInterval:20.0f];
-        [self.articleDetail loadRequest:request];
-        
-        // preload
-        NSString *preloadURLStr = [NSString stringWithFormat:@"http://jinri.info/index.php/DaiAppApi/showArticle/%ld", (long)([str integerValue] - 1)];
-        NSURL *preloadURL = [NSURL URLWithString:preloadURLStr];
-        NSMutableURLRequest *preloadRequest = [[NSMutableURLRequest alloc] init];
-        [preloadRequest setHTTPMethod:@"GET"];
-        [preloadRequest setURL:preloadURL];
-        [preloadRequest setTimeoutInterval:15.0f];
-        
-        self.preloadWebView.alpha = 0.5;
-        dispatch_queue_t q = dispatch_queue_create("preload", DISPATCH_QUEUE_SERIAL);
-        dispatch_async(q, ^{
-            [self.preloadWebView loadRequest:preloadRequest];
-        });
+        [self.articleDetail loadRequest:nil];
     }
     
 //    [NSURLConnection sendAsynchronousRequest:preloadRequest queue:queue completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
@@ -172,9 +186,7 @@
     if (webView.tag == 222) {
         [MBProgressHUD showMessage:@"加载中..." toView:self.view];
     }
-
 }
-
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
     

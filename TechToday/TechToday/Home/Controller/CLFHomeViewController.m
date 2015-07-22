@@ -284,14 +284,15 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     CLFArticleFrame *articleFrame = self.articleFrames[indexPath.row];
     if ([CLFAppDelegate globalDelegate].isNoImageModeOn) {
-        return articleFrame.noImageViewCellHeight;
+        return 108.6;
+//        return articleFrame.noImageViewCellHeight;
     }
     return articleFrame.cellHeight;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     if ([CLFAppDelegate globalDelegate].isNoImageModeOn) {
-        CLFArticleNoImageCell *cell = (CLFArticleNoImageCell *)[CLFArticleNoImageCell cellWithTableView:tableView];
+        CLFArticleNoImageCell *cell = [CLFArticleNoImageCell cellWithTableView:tableView];
         CLFArticleFrame *articleFrame = self.articleFrames[indexPath.row];
         cell.articleFrame = articleFrame;
         cell.backgroundColor = [UIColor whiteColor];
@@ -303,7 +304,7 @@
         }
         return cell;
     } else {
-        CLFArticleCell *cell = (CLFArticleCell *)[CLFArticleCell cellWithTableView:tableView];
+        CLFArticleCell *cell = [CLFArticleCell cellWithTableView:tableView];
         CLFArticleFrame *articleFrame = self.articleFrames[indexPath.row];
         cell.articleFrame = articleFrame;
         cell.backgroundColor = [UIColor whiteColor];

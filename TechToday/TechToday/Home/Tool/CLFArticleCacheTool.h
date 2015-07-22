@@ -6,7 +6,9 @@
 //  Copyright (c) 2015 CaiGavin. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
+
+typedef void (^completionBlock) ();
 
 @class CLFArticle;
 @interface CLFArticleCacheTool : NSObject
@@ -16,5 +18,9 @@
 + (NSMutableArray *)artilcesWithURLAppendage:(NSString *)URLAppendage params:(NSDictionary *)params;
 + (CLFArticle *)searchArticle:(CLFArticle *)article;
 + (void)deleteExpiredData;
+
++ (CGFloat)fileSizeAtPath:(NSString *)path;
++ (CGFloat)directorySizeAtPath:(NSString *)path;
++ (void)clearCacheAtPath:(NSString *)path completion:(completionBlock)completion;
 
 @end

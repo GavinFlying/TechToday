@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		3F1A2C751B59F23000EBA485 /* RNCachingURLProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F1A2C731B59F23000EBA485 /* RNCachingURLProtocol.m */; };
 		3F3293591B501E4200793CE3 /* TechToday.png in Resources */ = {isa = PBXBuildFile; fileRef = 3F3293581B501E4200793CE3 /* TechToday.png */; };
-		3F34292B1B5134AF006B4656 /* CLFCacheClearTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F34292A1B5134AF006B4656 /* CLFCacheClearTool.m */; };
 		3F34292D1B51532F006B4656 /* AboutTechToday.html in Resources */ = {isa = PBXBuildFile; fileRef = 3F34292C1B51532F006B4656 /* AboutTechToday.html */; };
 		3F494F811B58E3780034E6E4 /* CLFShareView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F494F801B58E3780034E6E4 /* CLFShareView.m */; };
 		3F7472D41B5C9DD100AA6381 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F7472D31B5C9DD100AA6381 /* MBProgressHUD.m */; };
@@ -150,8 +149,6 @@
 		3F1A2C721B59F23000EBA485 /* RNCachingURLProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RNCachingURLProtocol.h; sourceTree = "<group>"; };
 		3F1A2C731B59F23000EBA485 /* RNCachingURLProtocol.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RNCachingURLProtocol.m; sourceTree = "<group>"; };
 		3F3293581B501E4200793CE3 /* TechToday.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = TechToday.png; sourceTree = "<group>"; };
-		3F3429291B5134AF006B4656 /* CLFCacheClearTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CLFCacheClearTool.h; sourceTree = "<group>"; };
-		3F34292A1B5134AF006B4656 /* CLFCacheClearTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CLFCacheClearTool.m; sourceTree = "<group>"; };
 		3F34292C1B51532F006B4656 /* AboutTechToday.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = AboutTechToday.html; sourceTree = "<group>"; };
 		3F494F7F1B58E3780034E6E4 /* CLFShareView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CLFShareView.h; sourceTree = "<group>"; };
 		3F494F801B58E3780034E6E4 /* CLFShareView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CLFShareView.m; sourceTree = "<group>"; };
@@ -880,8 +877,6 @@
 			children = (
 				3F922FEC1B4B6FED004CC85D /* CLFHttpTool.h */,
 				3F922FED1B4B6FED004CC85D /* CLFHttpTool.m */,
-				3F3429291B5134AF006B4656 /* CLFCacheClearTool.h */,
-				3F34292A1B5134AF006B4656 /* CLFCacheClearTool.m */,
 			);
 			path = Tool;
 			sourceTree = "<group>";
@@ -1292,7 +1287,6 @@
 				3F922FAC1B4B6FD4004CC85D /* MJRefreshFooter.m in Sources */,
 				3F922EC81B4B6FBB004CC85D /* CLFArticleCacheTool.m in Sources */,
 				3F922FAE1B4B6FD4004CC85D /* MJRefreshAutoGifFooter.m in Sources */,
-				3F34292B1B5134AF006B4656 /* CLFCacheClearTool.m in Sources */,
 				3F922FBB1B4B6FD4004CC85D /* UIView+MJExtension.m in Sources */,
 				3F922FBA1B4B6FD4004CC85D /* UIScrollView+MJRefresh.m in Sources */,
 				3F922F9A1B4B6FD4004CC85D /* FMDatabasePool.m in Sources */,
@@ -1362,6 +1356,88 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		3F408B741B5F64810099C2A7 /* ad hoc distribution */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = "ad hoc distribution";
+		};
+		3F408B751B5F64810099C2A7 /* ad hoc distribution */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/TechToday/Libs/ShareSDK/Connection",
+					"$(PROJECT_DIR)/TechToday/Libs/ShareSDK/Core",
+					"$(PROJECT_DIR)/TechToday/Libs/ShareSDK",
+					"$(PROJECT_DIR)/TechToday/Libs/ShareSDK/UI",
+				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					/usr/include/libxml2,
+				);
+				INFOPLIST_FILE = TechToday/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/TechToday/Libs/ShareSDK/Extend/SinaWeiboSDK",
+					"$(PROJECT_DIR)/TechToday/Libs/ShareSDK/Extend/WeChatSDK",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = "ad hoc distribution";
+		};
+		3F408B761B5F64810099C2A7 /* ad hoc distribution */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = TechTodayTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TechToday.app/TechToday";
+			};
+			name = "ad hoc distribution";
+		};
 		3F922E9E1B4B6960004CC85D /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1460,6 +1536,7 @@
 					/usr/include/libxml2,
 				);
 				INFOPLIST_FILE = TechToday/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1488,6 +1565,7 @@
 					/usr/include/libxml2,
 				);
 				INFOPLIST_FILE = TechToday/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1540,6 +1618,7 @@
 			buildConfigurations = (
 				3F922E9E1B4B6960004CC85D /* Debug */,
 				3F922E9F1B4B6960004CC85D /* Release */,
+				3F408B741B5F64810099C2A7 /* ad hoc distribution */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -1549,6 +1628,7 @@
 			buildConfigurations = (
 				3F922EA11B4B6960004CC85D /* Debug */,
 				3F922EA21B4B6960004CC85D /* Release */,
+				3F408B751B5F64810099C2A7 /* ad hoc distribution */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -1558,6 +1638,7 @@
 			buildConfigurations = (
 				3F922EA41B4B6960004CC85D /* Debug */,
 				3F922EA51B4B6960004CC85D /* Release */,
+				3F408B761B5F64810099C2A7 /* ad hoc distribution */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
