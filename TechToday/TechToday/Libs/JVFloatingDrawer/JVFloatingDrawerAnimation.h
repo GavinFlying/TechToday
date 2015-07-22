@@ -9,6 +9,9 @@
 #import <Foundation/Foundation.h>
 #import "JVFloatingDrawerViewController.h"
 
+typedef void (^completionBlock) ();
+
+
 @protocol JVFloatingDrawerAnimation <NSObject>
 
 /**
@@ -35,6 +38,11 @@
  */
 - (void)dismissWithSide:(JVFloatingDrawerSide)drawerSide sideView:(UIView *)sideView
              centerView:(UIView *)centerView animated:(BOOL)animated completion:(void(^)(BOOL finished))completion;
+
+
+// By Gavin Cai
+- (void)dismissWithSide:(JVFloatingDrawerSide)drawerSide sideView:(UIView *)sideView
+             centerView:(UIView *)centerView gesture:(UIPanGestureRecognizer *)gesture completion:(completionBlock)completion;
 
 @optional
 /**

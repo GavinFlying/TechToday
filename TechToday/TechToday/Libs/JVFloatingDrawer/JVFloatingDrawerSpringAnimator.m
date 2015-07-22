@@ -69,6 +69,13 @@ static const CGFloat kJVCenterViewDestinationScale = 0.7;
     }
 }
 
+// By Gavin Cai
+- (void)dismissWithSide:(JVFloatingDrawerSide)drawerSide sideView:(UIView *)sideView
+             centerView:(UIView *)centerView gesture:(UIPanGestureRecognizer *)gesture completion:(completionBlock)completion {
+    [self transformWithPanGesture:gesture WithSide:drawerSide sideView:sideView centerView:centerView completion:completion];
+}
+
+
 #pragma mark Orientation
 
 - (void)willRotateOpenDrawerWithOpenSide:(JVFloatingDrawerSide)drawerSide sideView:(UIView *)sideView centerView:(UIView *)centerView {}
@@ -134,6 +141,51 @@ static const CGFloat kJVCenterViewDestinationScale = 0.7;
     CGAffineTransform centerTranslate = CGAffineTransformMakeTranslation(scaledCenterViewHorizontalOffset, 0.0);
     CGAffineTransform centerScale = CGAffineTransformMakeScale(kJVCenterViewDestinationScale, kJVCenterViewDestinationScale);
     centerView.transform = CGAffineTransformConcat(centerScale, centerTranslate);
+}
+
+// By Gavin Cai
+static CGAffineTransform centerViewInitialTransform;
+static CGAffineTransform sideViewInitialTransform;
+
+- (void)transformWithPanGesture:(UIPanGestureRecognizer *)gesture WithSide:(JVFloatingDrawerSide)drawerSide sideView:(UIView *)sideView centerView:(UIView *)centerView completion:(completionBlock)completion {
+    CGFloat translation = [gesture translationInView:centerView].x;
+
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        centerViewInitialTransform = centerView.transform;
+        sideViewInitialTransform = sideView.transform;
+    });
+    
+    if (UIGestureRecognizerStateEnded == gesture.state
+        || UIGestureRecognizerStateCancelled == gesture.state) {
+        if (280 * 0.3 <= translation * -1) {
+            [UIView animateWithDuration:0.25 animations:^{
+                centerView.transform = CGAffineTransformIdentity;
+                sideView.transform = CGAffineTransformMakeTranslation(-CGRectGetWidth(sideView.frame), 0);
+            } completion:^(BOOL finished) {
+                completion();
+            }];
+        } else {
+            [UIView animateWithDuration:0.25f animations:^{
+                centerView.transform = centerViewInitialTransform;
+                sideView.transform = sideViewInitialTransform;
+            }];
+        }
+    } else {
+        sideView.transform = CGAffineTransformTranslate(sideViewInitialTransform, translation, 0);
+        
+        CGFloat centerViewSX = -translation * 0.3 / centerViewInitialTransform.tx;
+        CGFloat centerViewSY = centerViewSX;
+        CGAffineTransform centerViewTranslate = CGAffineTransformMakeTranslation(centerViewInitialTransform.tx + translation, 0);
+        CGAffineTransform centerViewScale = CGAffineTransformMakeScale(centerViewInitialTransform.a + centerViewSX, centerViewInitialTransform.d + centerViewSY);
+        centerView.transform = CGAffineTransformConcat(centerViewScale, centerViewTranslate);
+        
+        // 当回到原位时去除效果
+        if (!centerView.transform.tx) {
+            completion();
+        }
+    }
+    
 }
 
 - (void)removeTransformsWithSide:(JVFloatingDrawerSide)drawerSide sideView:(UIView *)sideView centerView:(UIView *)centerView {
