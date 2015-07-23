@@ -33,8 +33,6 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         UIImageView *iconImage = [[UIImageView alloc] init];
-        iconImage.contentMode = UIViewContentModeScaleAspectFill;
-        iconImage.clipsToBounds = YES;
         iconImage.contentMode = UIViewContentModeScaleAspectFit;
         [self.contentView addSubview:iconImage];
         self.iconImageView = iconImage;
@@ -46,6 +44,7 @@
         titleLabel.textColor = [UIColor whiteColor];
         titleLabel.font = CLFArticleTitleFont;
         titleLabel.numberOfLines = 0;
+        titleLabel.contentMode = UIViewContentModeCenter;
         [self.contentView addSubview:titleLabel];
         self.titleLabel = titleLabel;
     }
@@ -61,9 +60,9 @@
 
 - (void)setTitleText:(NSString *)titleText {
     CGFloat titleW = 100;
-    CGFloat titleH = 30;
+    CGFloat titleH = CLFSettingCellHeight;
     CGFloat titleX = CGRectGetMaxX(self.iconImageView.frame) + CLFArticleCellBorder;
-    CGFloat titleY = self.iconImageView.frame.origin.y;
+    CGFloat titleY = 0;
     self.titleLabel.frame = CGRectMake(titleX, titleY, titleW, titleH);
     self.titleLabel.text = titleText;
 }
@@ -76,10 +75,10 @@
 }
 
 - (void)setIconImage:(UIImage *)iconImage {
-    CGFloat iconW = 30;
-    CGFloat iconH = 30;
+    CGFloat iconW = 35;
+    CGFloat iconH = CLFSettingCellHeight;
     CGFloat iconX = 50;
-    CGFloat iconY = (CLFSettingCellHeight - iconH) * 0.5;
+    CGFloat iconY = 0;
     self.iconImageView.frame = CGRectMake(iconX, iconY, iconW, iconH);
     self.iconImageView.image = iconImage;
 }

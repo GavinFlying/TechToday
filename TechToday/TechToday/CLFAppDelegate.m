@@ -17,6 +17,7 @@
 #import "CLFArticleCacheTool.h"
 #import <ShareSDK/ShareSDK.h>
 #import "WeiboSDK.h"
+#import <SinaWeiboConnection/SinaWeiboConnection.h>
 #import "WXApi.h"
 #import "RNCachingURLProtocol.h"
 
@@ -57,7 +58,7 @@
     [self appLaunchTimes];
     
     // 删除过期数据 --> 契合 TechToday
-    [CLFArticleCacheTool deleteExpiredData];
+//    [CLFArticleCacheTool deleteExpiredData];
     
     // 检查网络情况
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityChanged:) name:kReachabilityChangedNotification object:nil];

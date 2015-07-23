@@ -7,11 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CLFArticleNoImageCell.h"
 
 @class CLFArticleFrame;
-@interface CLFArticleCell : UITableViewCell
-
-@property (strong, nonatomic) CLFArticleFrame *articleFrame;
+@interface CLFArticleCell : CLFArticleNoImageCell
 
 + (instancetype)cellWithTableView:(UITableView *)tableView;
 

@@ -15,6 +15,7 @@
 #import "CLFAppDelegate.h"
 #import "CLFArticleCacheTool.h"
 #import "CLFShareView.h"
+#import "UIWebView+CLF.h"
 
 @interface CLFArticleDetailController () <UIWebViewDelegate, UITableViewDelegate, UITableViewDataSource, UIGestureRecognizerDelegate, ISSShareViewDelegate>
 // 显示文章的webView
@@ -50,6 +51,7 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    NSLog(@"viewWillAppear");
     [self.navigationController setToolbarHidden:NO animated:NO];
     [self setupToolBarItem];
     [self.navigationController setNavigationBarHidden:YES animated:YES];
@@ -202,7 +204,6 @@
         self.articleDetail.scrollView.contentInset = UIEdgeInsetsMake(self.articleFrame.noImageViewCellHeight + 20, 0, CLFArticleDetailButtomViewHeight, 0);
         self.articleDetail.buttomHeight = self.articleDetail.scrollView.contentSize.height;
         self.articleDetail.scrollView.hidden = NO;
-        self.articleDetail.suppressesIncrementalRendering = YES;
     }
 }
 
@@ -225,8 +226,9 @@
     CGFloat toolbarW = CGRectGetWidth(self.navigationController.toolbar.frame);
     
     UIButton *button = [[UIButton alloc] init];
-    button.contentMode = UIViewContentModeScaleAspectFit;
-    button.frame = CGRectMake(0, 0, 0.2 * toolbarW, toolbarH * 0.8);
+    button.frame = CGRectMake(0, 0, 0.2 * toolbarW, toolbarH * 0.7);
+    CGFloat imageInset = (0.2 * toolbarW - 0.7 * 1.5 * toolbarH) * 0.5;
+    button.imageEdgeInsets = UIEdgeInsetsMake(0, imageInset, 0, imageInset);
     [button addTarget:self action:action forControlEvents:UIControlEventTouchUpInside];
     return button;
 }
@@ -270,6 +272,7 @@
 }
 
 - (void)backToHome {
+    [self.articleDetail stopLoading];
     [self.navigationController popViewControllerAnimated:YES];
 }
 
@@ -284,17 +287,30 @@
 }
 
 - (void)showShareView {
-    NSString *imagePath = [[NSBundle mainBundle] pathForResource:@"TechToday" ofType:@"png"];
+    UIImage *webpage = [self.articleDetail fullWebpageScreenshot];
     CLFArticle *article = self.articleFrame.article;
     
+    NSString *wechatImagePath = [[NSBundle mainBundle] pathForResource:@"TechToday.png" ofType:nil];
+
     //构造分享内容
-    id<ISSContent> publishContent = [ShareSDK content:[NSString stringWithFormat:@"推荐jinri.info上的一篇文章:\n%@ http://jinri.info/index.php/DaiArticle/index/%@", article.title, article.articleID]
+    id<ISSContent> publishContent = [ShareSDK content:[NSString stringWithFormat:@"%@ http://jinri.info/index.php/DaiArticle/index/%@ 更多精彩请访问 jinri.info: http://jinri.info或前往App Store下载TechToday", article.title, article.articleID]
                                        defaultContent:nil
-                                                image:[ShareSDK imageWithPath:imagePath]
+                                                image:[ShareSDK jpegImageWithImage:webpage quality:1.0]
                                                 title:@"TechToday"
                                                   url:[NSString stringWithFormat:@"http://jinri.info/index.php/DaiArticle/index/%@", article.articleID]
                                           description:nil
                                             mediaType:SSPublishContentMediaTypeNews];
+    
+    [publishContent addWeixinSessionUnitWithType:INHERIT_VALUE
+                                         content:INHERIT_VALUE
+                                           title:article.title
+                                             url:[NSString stringWithFormat:@"http://jinri.info/index.php/DaiArticle/index/%@", article.articleID]
+                                           image:[ShareSDK imageWithPath:wechatImagePath]
+                                    musicFileUrl:nil
+                                         extInfo:nil
+                                        fileData:nil
+                                    emoticonData:nil];
+    NSLog(@"%@", [NSString stringWithFormat:@"http://jinri.info/index.php/DaiArticle/index/%@", article.articleID]);
     
     id<ISSAuthOptions> authOptions = [ShareSDK authOptionsWithAutoAuth:YES
                                                          allowCallback:NO

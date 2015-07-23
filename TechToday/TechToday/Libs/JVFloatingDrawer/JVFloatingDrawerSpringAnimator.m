@@ -137,7 +137,6 @@ static const CGFloat kJVCenterViewDestinationScale = 0.7;
     CGAffineTransform sideTranslate = CGAffineTransformMakeTranslation(centerViewHorizontalOffset, 0.0);
     sideView.transform = sideTranslate;
     
-    
     CGAffineTransform centerTranslate = CGAffineTransformMakeTranslation(scaledCenterViewHorizontalOffset, 0.0);
     CGAffineTransform centerScale = CGAffineTransformMakeScale(kJVCenterViewDestinationScale, kJVCenterViewDestinationScale);
     centerView.transform = CGAffineTransformConcat(centerScale, centerTranslate);
@@ -149,7 +148,10 @@ static CGAffineTransform sideViewInitialTransform;
 
 - (void)transformWithPanGesture:(UIPanGestureRecognizer *)gesture WithSide:(JVFloatingDrawerSide)drawerSide sideView:(UIView *)sideView centerView:(UIView *)centerView completion:(completionBlock)completion {
     CGFloat translation = [gesture translationInView:centerView].x;
-
+    if (translation > 0) {
+        return;
+    }
+    
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         centerViewInitialTransform = centerView.transform;
@@ -158,7 +160,7 @@ static CGAffineTransform sideViewInitialTransform;
     
     if (UIGestureRecognizerStateEnded == gesture.state
         || UIGestureRecognizerStateCancelled == gesture.state) {
-        if (280 * 0.3 <= translation * -1) {
+        if (centerViewInitialTransform.tx * 0.5 <= translation * -1) {
             [UIView animateWithDuration:0.25 animations:^{
                 centerView.transform = CGAffineTransformIdentity;
                 sideView.transform = CGAffineTransformMakeTranslation(-CGRectGetWidth(sideView.frame), 0);
@@ -185,7 +187,6 @@ static CGAffineTransform sideViewInitialTransform;
             completion();
         }
     }
-    
 }
 
 - (void)removeTransformsWithSide:(JVFloatingDrawerSide)drawerSide sideView:(UIView *)sideView centerView:(UIView *)centerView {

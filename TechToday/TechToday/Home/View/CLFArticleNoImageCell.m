@@ -12,6 +12,7 @@
 #import "CLFCommonHeader.h"
 #import "UIImageView+WebCache.h"
 #import "NSString+CLF.h"
+#import "UILabel+CLF.h"
 
 @interface CLFArticleNoImageCell ()
 
@@ -43,7 +44,6 @@
  */
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
-    
     if (self) {
         UILabel *titleLabel = [[UILabel alloc] init];
         [self.contentView addSubview:titleLabel];
@@ -87,22 +87,9 @@
     self.titleLabel.font = CLFArticleTitleFont;
     self.titleLabel.numberOfLines = 0;
     
-    self.sourceLabel.textColor = [UIColor lightGrayColor];
-    self.sourceLabel.nightTextColor = CLFNightTextColor;
-    self.sourceLabel.backgroundColor = [UIColor clearColor];
-    self.sourceLabel.nightBackgroundColor = [UIColor clearColor];
-    self.sourceLabel.font = CLFArticleOtherFont;
-    
-    self.dateLabel.textColor = [UIColor lightGrayColor];
-    self.dateLabel.nightTextColor = CLFNightTextColor;
-    self.dateLabel.backgroundColor = [UIColor clearColor];
-    self.dateLabel.nightBackgroundColor = [UIColor clearColor];
-    self.dateLabel.font = CLFArticleOtherFont;
-    
-    self.pageViewsLabel.textColor = [UIColor lightGrayColor];
-    self.pageViewsLabel.nightTextColor = CLFNightTextColor;
-    self.pageViewsLabel.backgroundColor = [UIColor clearColor];
-    self.pageViewsLabel.nightBackgroundColor = [UIColor clearColor];
+    self.sourceLabel = [UILabel labelWithAttributesFromUILabel:self.sourceLabel];
+    self.dateLabel = [UILabel labelWithAttributesFromUILabel:self.dateLabel];
+    self.pageViewsLabel = [UILabel labelWithAttributesFromUILabel:self.pageViewsLabel];
     
     self.titleLabel.attributedText = [NSString NSAttributedStringFromNSString:article.title];
     self.titleLabel.frame = articleFrame.noImageViewTitleLabelFrame;

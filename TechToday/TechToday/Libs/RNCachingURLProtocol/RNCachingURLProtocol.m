@@ -115,9 +115,10 @@ static NSSet *RNCachingSupportedSchemes;
     // 不处理以下三种request
     BOOL getArticleRequest = [self.request.URL.absoluteString containsString:@"getArticle"];
     BOOL getMoreArticleRequest = [self.request.URL.absoluteString containsString:@"getMoreArticle"];
-    BOOL shareSDKRequest = [self.request.URL.absoluteString containsString:@"api.share.mob.com"];
+    BOOL shareSDKRequest = [self.request.URL.absoluteString containsString:@"mob.com"];
+    BOOL shareSDKRequest2 = [self.request.URL.absoluteString containsString:@"sharesdk.cn"];
     RNCachedData *cache = [NSKeyedUnarchiver unarchiveObjectWithFile:[self cachePathForRequest:[self request]]];
-    if (!cache || getArticleRequest || getMoreArticleRequest || shareSDKRequest) {
+    if (!cache || getArticleRequest || getMoreArticleRequest || shareSDKRequest || shareSDKRequest2) {
         NSMutableURLRequest *connectionRequest =
 #if WORKAROUND_MUTABLE_COPY_LEAK
         [[self request] mutableCopyWorkaround];

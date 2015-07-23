@@ -139,7 +139,6 @@
     self.separatorView.frame = CGRectMake(separatorViewX, separatorViewY, separatorViewW, separatorViewH);
 }
 
-
 #pragma mark - about buttomView
 
 - (UIView *)buttomView {

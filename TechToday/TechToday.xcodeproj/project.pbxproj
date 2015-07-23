@@ -11,7 +11,11 @@
 		3F3293591B501E4200793CE3 /* TechToday.png in Resources */ = {isa = PBXBuildFile; fileRef = 3F3293581B501E4200793CE3 /* TechToday.png */; };
 		3F34292D1B51532F006B4656 /* AboutTechToday.html in Resources */ = {isa = PBXBuildFile; fileRef = 3F34292C1B51532F006B4656 /* AboutTechToday.html */; };
 		3F494F811B58E3780034E6E4 /* CLFShareView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F494F801B58E3780034E6E4 /* CLFShareView.m */; };
+		3F59BC4E1B60EDB600DCAA64 /* UIWebView+CLF.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F59BC4D1B60EDB600DCAA64 /* UIWebView+CLF.m */; };
 		3F7472D41B5C9DD100AA6381 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F7472D31B5C9DD100AA6381 /* MBProgressHUD.m */; };
+		3F88FAE91B6091E2009F1B8E /* UILabel+CLF.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F88FAE81B6091E2009F1B8E /* UILabel+CLF.m */; };
+		3F88FAEE1B609423009F1B8E /* CLFArticleCacheTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F88FAEB1B609423009F1B8E /* CLFArticleCacheTool.m */; };
+		3F88FAEF1B609423009F1B8E /* CLFArticleTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F88FAED1B609423009F1B8E /* CLFArticleTool.m */; };
 		3F9015581B50EAB300A242E2 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F9015571B50EAB300A242E2 /* MessageUI.framework */; };
 		3F922E9D1B4B6960004CC85D /* TechTodayTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F922E9C1B4B6960004CC85D /* TechTodayTests.m */; };
 		3F922EAD1B4B6FA2004CC85D /* CLFArticleDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F922EA91B4B6FA2004CC85D /* CLFArticleDetailController.m */; };
@@ -20,8 +24,6 @@
 		3F922EC51B4B6FBB004CC85D /* CLFHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F922EB51B4B6FBB004CC85D /* CLFHomeViewController.m */; };
 		3F922EC61B4B6FBB004CC85D /* CLFArticle.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F922EB81B4B6FBB004CC85D /* CLFArticle.m */; };
 		3F922EC71B4B6FBB004CC85D /* CLFArticleFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F922EBA1B4B6FBB004CC85D /* CLFArticleFrame.m */; };
-		3F922EC81B4B6FBB004CC85D /* CLFArticleCacheTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F922EBD1B4B6FBB004CC85D /* CLFArticleCacheTool.m */; };
-		3F922EC91B4B6FBB004CC85D /* CLFArticleTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F922EBF1B4B6FBB004CC85D /* CLFArticleTool.m */; };
 		3F922ECA1B4B6FBB004CC85D /* CLFArticleCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F922EC21B4B6FBB004CC85D /* CLFArticleCell.m */; };
 		3F922ECB1B4B6FBB004CC85D /* CLFArticleNoImageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F922EC41B4B6FBB004CC85D /* CLFArticleNoImageCell.m */; };
 		3F922ECD1B4B6FC7004CC85D /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3F922ECC1B4B6FC7004CC85D /* Images.xcassets */; };
@@ -152,8 +154,16 @@
 		3F34292C1B51532F006B4656 /* AboutTechToday.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = AboutTechToday.html; sourceTree = "<group>"; };
 		3F494F7F1B58E3780034E6E4 /* CLFShareView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CLFShareView.h; sourceTree = "<group>"; };
 		3F494F801B58E3780034E6E4 /* CLFShareView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CLFShareView.m; sourceTree = "<group>"; };
+		3F59BC4C1B60EDB600DCAA64 /* UIWebView+CLF.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIWebView+CLF.h"; sourceTree = "<group>"; };
+		3F59BC4D1B60EDB600DCAA64 /* UIWebView+CLF.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIWebView+CLF.m"; sourceTree = "<group>"; };
 		3F7472D21B5C9DD100AA6381 /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
 		3F7472D31B5C9DD100AA6381 /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
+		3F88FAE71B6091E2009F1B8E /* UILabel+CLF.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UILabel+CLF.h"; sourceTree = "<group>"; };
+		3F88FAE81B6091E2009F1B8E /* UILabel+CLF.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UILabel+CLF.m"; sourceTree = "<group>"; };
+		3F88FAEA1B609423009F1B8E /* CLFArticleCacheTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CLFArticleCacheTool.h; sourceTree = "<group>"; };
+		3F88FAEB1B609423009F1B8E /* CLFArticleCacheTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CLFArticleCacheTool.m; sourceTree = "<group>"; };
+		3F88FAEC1B609423009F1B8E /* CLFArticleTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CLFArticleTool.h; sourceTree = "<group>"; };
+		3F88FAED1B609423009F1B8E /* CLFArticleTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CLFArticleTool.m; sourceTree = "<group>"; };
 		3F9015571B50EAB300A242E2 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		3F922E7D1B4B6960004CC85D /* TechToday.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TechToday.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3F922E811B4B6960004CC85D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -172,10 +182,6 @@
 		3F922EB81B4B6FBB004CC85D /* CLFArticle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CLFArticle.m; sourceTree = "<group>"; };
 		3F922EB91B4B6FBB004CC85D /* CLFArticleFrame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CLFArticleFrame.h; sourceTree = "<group>"; };
 		3F922EBA1B4B6FBB004CC85D /* CLFArticleFrame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CLFArticleFrame.m; sourceTree = "<group>"; };
-		3F922EBC1B4B6FBB004CC85D /* CLFArticleCacheTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CLFArticleCacheTool.h; sourceTree = "<group>"; };
-		3F922EBD1B4B6FBB004CC85D /* CLFArticleCacheTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CLFArticleCacheTool.m; sourceTree = "<group>"; };
-		3F922EBE1B4B6FBB004CC85D /* CLFArticleTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CLFArticleTool.h; sourceTree = "<group>"; };
-		3F922EBF1B4B6FBB004CC85D /* CLFArticleTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CLFArticleTool.m; sourceTree = "<group>"; };
 		3F922EC11B4B6FBB004CC85D /* CLFArticleCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CLFArticleCell.h; sourceTree = "<group>"; };
 		3F922EC21B4B6FBB004CC85D /* CLFArticleCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CLFArticleCell.m; sourceTree = "<group>"; };
 		3F922EC31B4B6FBB004CC85D /* CLFArticleNoImageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CLFArticleNoImageCell.h; sourceTree = "<group>"; };
@@ -545,7 +551,6 @@
 			children = (
 				3F922EB31B4B6FBB004CC85D /* Controller */,
 				3F922EB61B4B6FBB004CC85D /* Model */,
-				3F922EBB1B4B6FBB004CC85D /* Tool */,
 				3F922EC01B4B6FBB004CC85D /* View */,
 			);
 			path = Home;
@@ -569,17 +574,6 @@
 				3F922EBA1B4B6FBB004CC85D /* CLFArticleFrame.m */,
 			);
 			path = Model;
-			sourceTree = "<group>";
-		};
-		3F922EBB1B4B6FBB004CC85D /* Tool */ = {
-			isa = PBXGroup;
-			children = (
-				3F922EBC1B4B6FBB004CC85D /* CLFArticleCacheTool.h */,
-				3F922EBD1B4B6FBB004CC85D /* CLFArticleCacheTool.m */,
-				3F922EBE1B4B6FBB004CC85D /* CLFArticleTool.h */,
-				3F922EBF1B4B6FBB004CC85D /* CLFArticleTool.m */,
-			);
-			path = Tool;
 			sourceTree = "<group>";
 		};
 		3F922EC01B4B6FBB004CC85D /* View */ = {
@@ -868,6 +862,10 @@
 				3F922FE31B4B6FED004CC85D /* NSString+CLF.m */,
 				3F922FE41B4B6FED004CC85D /* UIImage+CLF.h */,
 				3F922FE51B4B6FED004CC85D /* UIImage+CLF.m */,
+				3F88FAE71B6091E2009F1B8E /* UILabel+CLF.h */,
+				3F88FAE81B6091E2009F1B8E /* UILabel+CLF.m */,
+				3F59BC4C1B60EDB600DCAA64 /* UIWebView+CLF.h */,
+				3F59BC4D1B60EDB600DCAA64 /* UIWebView+CLF.m */,
 			);
 			path = Category;
 			sourceTree = "<group>";
@@ -875,6 +873,10 @@
 		3F922FEB1B4B6FED004CC85D /* Tool */ = {
 			isa = PBXGroup;
 			children = (
+				3F88FAEA1B609423009F1B8E /* CLFArticleCacheTool.h */,
+				3F88FAEB1B609423009F1B8E /* CLFArticleCacheTool.m */,
+				3F88FAEC1B609423009F1B8E /* CLFArticleTool.h */,
+				3F88FAED1B609423009F1B8E /* CLFArticleTool.m */,
 				3F922FEC1B4B6FED004CC85D /* CLFHttpTool.h */,
 				3F922FED1B4B6FED004CC85D /* CLFHttpTool.m */,
 			);
@@ -1166,6 +1168,7 @@
 				TargetAttributes = {
 					3F922E7C1B4B6960004CC85D = {
 						CreatedOnToolsVersion = 6.3.1;
+						DevelopmentTeam = Y2VDUB37Q5;
 					};
 					3F922E951B4B6960004CC85D = {
 						CreatedOnToolsVersion = 6.3.1;
@@ -1260,7 +1263,6 @@
 				3F922FBD1B4B6FD4004CC85D /* NSData+ImageContentType.m in Sources */,
 				3F922FC41B4B6FD4004CC85D /* SDWebImagePrefetcher.m in Sources */,
 				3F922FA51B4B6FD4004CC85D /* JVFloatingDrawerViewController.m in Sources */,
-				3F922EC91B4B6FBB004CC85D /* CLFArticleTool.m in Sources */,
 				3FA665B31B4E882900F8A0EA /* DKNightVersionManager.m in Sources */,
 				3F922F9C1B4B6FD4004CC85D /* FMResultSet.m in Sources */,
 				3FA665C01B4E882900F8A0EA /* UITabBar+BarTintColor.m in Sources */,
@@ -1269,23 +1271,26 @@
 				3F922FCB1B4B6FD4004CC85D /* UIView+WebCacheOperation.m in Sources */,
 				3F494F811B58E3780034E6E4 /* CLFShareView.m in Sources */,
 				3FA665B71B4E882900F8A0EA /* UIBarButtonItem+NightVersion.m in Sources */,
+				3F88FAEF1B609423009F1B8E /* CLFArticleTool.m in Sources */,
 				3F922ECB1B4B6FBB004CC85D /* CLFArticleNoImageCell.m in Sources */,
 				3F922EC71B4B6FBB004CC85D /* CLFArticleFrame.m in Sources */,
+				3F88FAEE1B609423009F1B8E /* CLFArticleCacheTool.m in Sources */,
 				3F922FB41B4B6FD4004CC85D /* MJRefreshGifHeader.m in Sources */,
 				3F922ECA1B4B6FBB004CC85D /* CLFArticleCell.m in Sources */,
 				3F922FB01B4B6FD4004CC85D /* MJRefreshAutoStateFooter.m in Sources */,
 				3F1A2C751B59F23000EBA485 /* RNCachingURLProtocol.m in Sources */,
 				3FA665BB1B4E882900F8A0EA /* UILabel+NightVersion.m in Sources */,
 				3F9230031B4B6FED004CC85D /* CLFSettingViewController.m in Sources */,
+				3F88FAE91B6091E2009F1B8E /* UILabel+CLF.m in Sources */,
 				3F922F981B4B6FD4004CC85D /* FMDatabase.m in Sources */,
 				3F922FCA1B4B6FD4004CC85D /* UIImageView+WebCache.m in Sources */,
 				3F922F9B1B4B6FD4004CC85D /* FMDatabaseQueue.m in Sources */,
 				3F7472D41B5C9DD100AA6381 /* MBProgressHUD.m in Sources */,
+				3F59BC4E1B60EDB600DCAA64 /* UIWebView+CLF.m in Sources */,
 				3F922F991B4B6FD4004CC85D /* FMDatabaseAdditions.m in Sources */,
 				3F922FBF1B4B6FD4004CC85D /* SDWebImageCompat.m in Sources */,
 				3F922FBC1B4B6FD4004CC85D /* MKAnnotationView+WebCache.m in Sources */,
 				3F922FAC1B4B6FD4004CC85D /* MJRefreshFooter.m in Sources */,
-				3F922EC81B4B6FBB004CC85D /* CLFArticleCacheTool.m in Sources */,
 				3F922FAE1B4B6FD4004CC85D /* MJRefreshAutoGifFooter.m in Sources */,
 				3F922FBB1B4B6FD4004CC85D /* UIView+MJExtension.m in Sources */,
 				3F922FBA1B4B6FD4004CC85D /* UIScrollView+MJRefresh.m in Sources */,
@@ -1398,7 +1403,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/TechToday/Libs/ShareSDK/Connection",
@@ -1420,6 +1426,7 @@
 					"$(PROJECT_DIR)/TechToday/Libs/ShareSDK/Extend/WeChatSDK",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = "ad hoc distribution";
 		};
@@ -1523,6 +1530,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/TechToday/Libs/ShareSDK/Connection",
@@ -1544,6 +1553,7 @@
 					"$(PROJECT_DIR)/TechToday/Libs/ShareSDK/Extend/WeChatSDK",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
 		};
@@ -1552,6 +1562,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/TechToday/Libs/ShareSDK/Connection",
@@ -1573,6 +1585,7 @@
 					"$(PROJECT_DIR)/TechToday/Libs/ShareSDK/Extend/WeChatSDK",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
 		};

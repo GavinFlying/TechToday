@@ -76,7 +76,7 @@
         CGFloat remindButtonX = 0;
         CGFloat remindButtonW = CGRectGetWidth(self.view.frame);
         remindButton.frame = CGRectMake(remindButtonX, remindButtonY, remindButtonW, remindButtonH);
-//
+
         _theNewArticleRemindButton = remindButton;
     }
     return _theNewArticleRemindButton;
@@ -177,11 +177,10 @@
         }
         
         self.articleFrames = articleFrameArray;
-        
+
         [self.tableView reloadData];
-        
+            
         [self.tableView.header endRefreshing];
-        
     } failure:^(NSError *error) {
         [MBProgressHUD showError:@"网络连接异常" toView:self.navigationController.view];
         [self.tableView.header endRefreshing];
@@ -272,31 +271,22 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    CLFArticleNoImageCell *cell = nil;
     if ([CLFAppDelegate globalDelegate].isNoImageModeOn) {
-        CLFArticleNoImageCell *cell = [CLFArticleNoImageCell cellWithTableView:tableView];
-        CLFArticleFrame *articleFrame = self.articleFrames[indexPath.row];
-        cell.articleFrame = articleFrame;
-        cell.backgroundColor = [UIColor whiteColor];
-        cell.nightBackgroundColor = CLFNightCellColor;
-        if ([DKNightVersionManager currentThemeVersion] == DKThemeVersionNight) {
-            cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        } else {
-            cell.selectionStyle = UITableViewCellSelectionStyleDefault;
-        }
-        return cell;
+        cell = [CLFArticleNoImageCell cellWithTableView:tableView];
     } else {
-        CLFArticleCell *cell = [CLFArticleCell cellWithTableView:tableView];
-        CLFArticleFrame *articleFrame = self.articleFrames[indexPath.row];
-        cell.articleFrame = articleFrame;
-        cell.backgroundColor = [UIColor whiteColor];
-        cell.nightBackgroundColor = CLFNightCellColor;
-        if ([DKNightVersionManager currentThemeVersion] == DKThemeVersionNight) {
-            cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        } else {
-            cell.selectionStyle = UITableViewCellSelectionStyleDefault;
-        }
-        return cell;
+        cell = [CLFArticleCell cellWithTableView:tableView];
     }
+    CLFArticleFrame *articleFrame = self.articleFrames[indexPath.row];
+    cell.articleFrame = articleFrame;
+    cell.backgroundColor = [UIColor whiteColor];
+    cell.nightBackgroundColor = CLFNightCellColor;
+    if ([DKNightVersionManager currentThemeVersion] == DKThemeVersionNight) {
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    } else {
+        cell.selectionStyle = UITableViewCellSelectionStyleDefault;
+    }
+    return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -307,6 +297,7 @@
     articleDetailController.articleFrame = articleFrame;
     articleDetailController.delegate = self;
     self.articleDetailController = articleDetailController;
+    NSLog(@"didSelect");
     [self.navigationController pushViewController:articleDetailController animated:YES];
 }
 

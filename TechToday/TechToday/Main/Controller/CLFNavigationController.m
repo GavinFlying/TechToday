@@ -96,6 +96,7 @@
     [self.view.layer renderInContext:UIGraphicsGetCurrentContext()];
     UIImage *screenshot = UIGraphicsGetImageFromCurrentImageContext();
     [self.viewControllerScreenshots addObject:screenshot];
+    UIGraphicsEndImageContext();
 }
 
 /**
