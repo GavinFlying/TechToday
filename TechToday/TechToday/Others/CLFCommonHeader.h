@@ -16,12 +16,11 @@
 
 #define CLFArticleCellBorder (16)
 #define CLFArticleCellInnerBorder (7)
-#define CLFImageWidthToHeightRatio (0.5)
 
 #define CLFRemindButtonBackgroundColor [UIColor colorWithRed:240 / 255.0 green:240 / 255.0 blue:255 / 255.0 alpha:1.0]
 #define CLFHomeViewBackgroundColor [UIColor colorWithRed:226 / 255.0 green:226 / 255.0 blue:236 / 255.0 alpha:1.0]
 
-#define CLFArticleTitleViewHeight (120)
+//#define CLFArticleTitleViewHeight (120)
 
 #define CLFArticleDetailButtomViewHeight (120)
 
@@ -34,8 +33,6 @@
 #define CLFArticleCellToBorderMargin (7)
 
 #define CLFNightBarColor [UIColor colorWithRed:40 / 255.0 green:40 / 255.0 blue:40 / 255.0 alpha:100]
-//#define CLFNightCellColor [UIColor colorWithRed:65 / 255.0 green:65 / 255.0 blue:65 / 255.0 alpha:100]
-//#define CLFNightViewColor [UIColor colorWithRed:50 / 255.0 green:50 / 255.0 blue:50 / 255.0 alpha:100]
 #define CLFNightCellColor [UIColor colorWithRed:40 / 255.0 green:40 / 255.0 blue:40 / 255.0 alpha:100]
 #define CLFNightViewColor [UIColor colorWithRed:40 / 255.0 green:40 / 255.0 blue:40 / 255.0 alpha:100]
 
@@ -48,11 +45,5 @@
 #define CLFScreenW [UIScreen mainScreen].bounds.size.width
 #define CLFScreenH [UIScreen mainScreen].bounds.size.height
 #define CLFScreenWScale ([UIScreen mainScreen].bounds.size.width / (375.0f))
-
-#define CLFMoreOptionListNumberOfSections (1)
-#define CLFMoreOptionListNumberOfRowsInSection (2)
-
-#define CLFFontListNumberOfSections (1)
-#define CLFFontListNumberOfRowsInSection (5)
 
 #endif

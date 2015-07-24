@@ -31,6 +31,7 @@
 
 @implementation CLFWebView
 
+
 - (instancetype)init {
     if (self = [super init]) {
         self.scrollView.bounces = NO;
@@ -41,8 +42,13 @@
 /**
  *  每次传入一个新的 titleHeight 及 buttomHeight 时代表以及切换到新的文章,重置 titleView 及 buttomView
  */
-- (void)setTitleHeight:(CGFloat)titleHeight {
-    _titleHeight = titleHeight;
+//- (void)setTitleHeight:(CGFloat)titleHeight {
+//    _titleHeight = titleHeight;
+//
+//}
+
+- (void)setArticle:(CLFArticle *)article {
+    _article = article;
     self.titleStyle = arc4random() % 2;
     [self setupTitleViewSubviewsFrame];
     self.separatorView.hidden = self.titleStyle;
@@ -105,34 +111,33 @@
     CGFloat titleViewW = CGRectGetWidth(self.scrollView.frame);
     CGFloat titleViewContentW = titleViewW - 2 * (CLFArticleCellInnerBorder + CLFArticleCellToBorderMargin);
     
-    self.titleView.frame = CGRectMake(0, -self.titleHeight, titleViewW, self.titleHeight);
+    self.titleView.frame = CGRectMake(0, - 135, titleViewW, 135);
     self.titleView.backgroundColor = self.titleStyle ? CLFUIMainColor : [UIColor whiteColor];
     self.titleView.nightBackgroundColor = self.titleStyle ? CLFNightBarColor : CLFNightViewColor;
     
-    // titleLabel
+    // titleLabel && SourceLabel
     self.titleLabel.textColor = self.titleStyle ? [UIColor whiteColor] : [UIColor blackColor];
     self.titleLabel.nightTextColor = CLFNightTextColor;
-
-    self.titleLabel.attributedText = [NSString NSAttributedStringFromNSString:self.article.title];
     
-    CGSize titleLabelSize = [NSString sizeOfText:self.article.title maxSize:CGSizeMake(titleViewContentW, MAXFLOAT) font:CLFArticleTitleFont];
-    CGFloat titleLabelX = CLFArticleCellToBorderMargin + CLFArticleCellInnerBorder;
-    CGFloat titleLabelY = CLFArticleCellInnerBorder;
-    self.titleLabel.frame = (CGRect){{titleLabelX, titleLabelY}, titleLabelSize};
-    
-    // sourceLabel
     self.sourceLabel.textColor = self.titleStyle ? [UIColor whiteColor] : [UIColor lightGrayColor];
     self.sourceLabel.nightTextColor = CLFNightTextColor;
     self.sourceLabel.text = self.article.source;
+    self.titleLabel.attributedText = [NSString NSAttributedStringFromNSString:self.article.title];
+    
+    CGSize titleLabelSize = [NSString sizeOfText:self.article.title maxSize:CGSizeMake(titleViewContentW, MAXFLOAT) font:CLFArticleTitleFont];
+    CGSize sourceLabelSize = [NSString sizeOfText:self.sourceLabel.text maxSize:CGSizeMake(titleViewContentW, 30) font:CLFArticleDetailSourceFont];
+    
+    CGFloat titleLabelX = CLFArticleCellToBorderMargin + CLFArticleCellInnerBorder;
+    CGFloat titleLabelY = ((135 - 4) - (titleLabelSize.height + sourceLabelSize.height + CLFArticleCellInnerBorder)) * 0.5;
+    self.titleLabel.frame = (CGRect){{titleLabelX, titleLabelY}, titleLabelSize};
     
     CGFloat sourceLabelX = titleLabelX;
     CGFloat sourceLabelY = CGRectGetMaxY(self.titleLabel.frame) + CLFArticleCellInnerBorder;
-    CGSize sourceLabelSize = [NSString sizeOfText:self.sourceLabel.text maxSize:CGSizeMake(titleViewContentW, 30) font:CLFArticleDetailSourceFont];
     self.sourceLabel.frame = (CGRect){{sourceLabelX, sourceLabelY}, sourceLabelSize};
     
     // separatorView
     CGFloat separatorViewX = titleLabelX;
-    CGFloat separatorViewY = CGRectGetMaxY(self.sourceLabel.frame) + CLFArticleCellInnerBorder;
+    CGFloat separatorViewY = CGRectGetHeight(self.titleView.frame) - 4;
     CGFloat separatorViewW = titleViewContentW;
     CGFloat separatorViewH = 4;
     

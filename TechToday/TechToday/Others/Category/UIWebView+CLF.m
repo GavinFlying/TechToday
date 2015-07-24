@@ -15,15 +15,20 @@
     CGRect initialFrame = self.frame;
     CGPoint initialOffset = self.scrollView.contentOffset;
     CGSize initialSize = self.scrollView.contentSize;
-    CGSize fullpageSize = [self sizeThatFits:CGSizeZero];
-    fullpageSize.height += 190;
-    self.frame = CGRectMake(0, -120, fullpageSize.width, fullpageSize.height);
-
+    self.frame = CGRectMake(0, 0, 1, 1);
+    
+    CGFloat width = [[self stringByEvaluatingJavaScriptFromString:@"document.documentElement.scrollWidth"] floatValue];
+    CGFloat height = [[self stringByEvaluatingJavaScriptFromString:@"document.documentElement.scrollHeight"] floatValue];
+    CGSize fullpageSize = CGSizeMake(width, height);
+    
+    fullpageSize.height += 225;
+    self.frame = CGRectMake(0, -155, fullpageSize.width, fullpageSize.height);
+    
     UIGraphicsBeginImageContextWithOptions(fullpageSize, NO, 0);
     
     CGContextRef context = UIGraphicsGetCurrentContext();
     [self.layer renderInContext:context];
-    
+
     // 填充原来状态栏的位置的颜色
     CGContextSetRGBFillColor(context, 0 / 255.0, 151 / 255.0, 255 / 255.0, 1);
     CGContextSetRGBStrokeColor(context, 0 / 255.0, 151 / 255.0, 255 / 255.0, 1);

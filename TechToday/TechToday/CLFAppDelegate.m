@@ -20,6 +20,7 @@
 #import <SinaWeiboConnection/SinaWeiboConnection.h>
 #import "WXApi.h"
 #import "RNCachingURLProtocol.h"
+#import <FIR/FIR.h>
 
 @interface CLFAppDelegate () <UIAlertViewDelegate>
 
@@ -34,6 +35,10 @@
 }
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    
+    // 设置崩溃监控
+    [FIR handleCrashWithKey:@"e4ed57a6451cffd0e54817acc25efb30"];
+    
     // 设置 shareSDK 分享模块
     [ShareSDK registerApp:@"8b803b4051a6"];
     
@@ -58,7 +63,7 @@
     [self appLaunchTimes];
     
     // 删除过期数据 --> 契合 TechToday
-//    [CLFArticleCacheTool deleteExpiredData];
+    [CLFArticleCacheTool deleteExpiredData];
     
     // 检查网络情况
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityChanged:) name:kReachabilityChangedNotification object:nil];
@@ -167,7 +172,7 @@
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"喜欢TechToday吗?"
                                                         message:@"亲~赏个好评吧~O(∩_∩)O~~"
                                                        delegate:self
-                                              cancelButtonTitle:@"取消"
+                                              cancelButtonTitle:@"再看看"
                                               otherButtonTitles:@"准了!", nil];
         [alert show];
         launchTime = 0;

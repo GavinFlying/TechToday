@@ -81,10 +81,17 @@
 - (void)setupAppIconView {
     self.appIconView.backgroundColor = [UIColor whiteColor];
     
+    UILabel *sloganLabel = [[UILabel alloc] init];
+    sloganLabel.text = @"聚焦今日最新科技资讯";
+    sloganLabel.font = [UIFont fontWithName:@"SourceHanSansCN-Normal" size:17];
+    sloganLabel.textColor = [UIColor blackColor];
+    sloganLabel.nightTextColor = CLFNightTextColor;
+    CGSize sloganSize = [NSString sizeOfText:sloganLabel.text maxSize:CGSizeMake(400, MAXFLOAT) font:sloganLabel.font];
+    
     UIImageView *iconView = [[UIImageView alloc] init];
     CGFloat iconViewW = 108;
     CGFloat iconViewH = 108;
-    CGFloat iconViewX = CGRectGetWidth(self.view.frame) * 0.5 - iconViewW - 5;;
+    CGFloat iconViewX = (CGRectGetWidth(self.view.frame) - iconViewW - 10 - sloganSize.width) * 0.5;
     CGFloat iconViewY = 15;
     iconView.frame = CGRectMake(iconViewX, iconViewY, iconViewW, iconViewH);
     iconView.image = [UIImage imageNamed:@"TechToday"];
@@ -98,44 +105,25 @@
     
     CGSize titleSize = [NSString sizeOfText:titleLabel.text maxSize:CGSizeMake(200, MAXFLOAT) font:CLFArticleTitleFont];
     CGFloat titleX = CGRectGetMaxX(iconView.frame) + 10;
-    CGFloat titleY = iconView.frame.origin.y;
+    CGFloat titleY = iconView.frame.origin.y + 13;
     titleLabel.frame = (CGRect){{titleX, titleY}, titleSize};
     [self.appIconView addSubview:titleLabel];
     
-    UILabel *slogan1Label = [[UILabel alloc] init];
-    slogan1Label.text = @"聚焦今日";
-    slogan1Label.font = CLFArticleTitleFont;
-    slogan1Label.textColor = [UIColor blackColor];
-    slogan1Label.nightTextColor = CLFNightTextColor;
-    
-    CGSize slogan1Size = [NSString sizeOfText:titleLabel.text maxSize:CGSizeMake(200, MAXFLOAT) font:CLFArticleTitleFont];
-    CGFloat slogan1X = CGRectGetMaxX(iconView.frame) + 10;
-    CGFloat slogan1Y = CGRectGetMaxY(titleLabel.frame) + 4;
-    slogan1Label.frame = (CGRect){{slogan1X, slogan1Y}, slogan1Size};
-    [self.appIconView addSubview:slogan1Label];
-    
-    UILabel *slogan2Label = [[UILabel alloc] init];
-    slogan2Label.text = @"拒绝昨日";
-    slogan2Label.font = CLFArticleTitleFont;
-    slogan2Label.textColor = [UIColor blackColor];
-    slogan2Label.nightTextColor = CLFNightTextColor;
-    
-    CGSize slogan2Size = [NSString sizeOfText:titleLabel.text maxSize:CGSizeMake(200, MAXFLOAT) font:CLFArticleTitleFont];
-    CGFloat slogan2X = CGRectGetMaxX(iconView.frame) + 10;
-    CGFloat slogan2Y = CGRectGetMaxY(slogan1Label.frame) + 2;
-    slogan2Label.frame = (CGRect){{slogan2X, slogan2Y}, slogan2Size};
-    [self.appIconView addSubview:slogan2Label];
+    CGFloat sloganX = CGRectGetMaxX(iconView.frame) + 10;
+    CGFloat sloganY = CGRectGetMaxY(titleLabel.frame) + 4;
+    sloganLabel.frame = (CGRect){{sloganX, sloganY}, sloganSize};
+    [self.appIconView addSubview:sloganLabel];
     
     UILabel *versionLabel = [[UILabel alloc] init];
     versionLabel.text = @"版本号: v 1.0.0";
     versionLabel.textAlignment = NSTextAlignmentLeft;
-    versionLabel.font = CLFArticleOtherFont;
+    versionLabel.font = [UIFont fontWithName:@"SourceHanSansCN-Normal" size:15];
     versionLabel.textColor = [UIColor blackColor];
     versionLabel.nightTextColor = CLFNightTextColor;
     CGFloat versionLabelW = iconViewW;
     CGFloat versionLabelH = 15;
     CGFloat versionLabelX = CGRectGetMaxX(iconView.frame) + 10;
-    CGFloat versionLabelY = CGRectGetMaxY(slogan2Label.frame) + 4;
+    CGFloat versionLabelY = CGRectGetMaxY(sloganLabel.frame) + 4;
     versionLabel.frame = CGRectMake(versionLabelX, versionLabelY, versionLabelW, versionLabelH);
     [self.appIconView addSubview:versionLabel];
     

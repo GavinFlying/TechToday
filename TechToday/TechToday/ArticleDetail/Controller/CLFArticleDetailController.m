@@ -33,12 +33,16 @@
 
 @implementation CLFArticleDetailController
 
+static const NSInteger kfontListSectionNumber = 1;
+static const NSInteger kfontListNumbersOfRowsInSection = 5;
+static const NSInteger kmoreOptionListSectionNumber = 1;
+static const NSInteger kmoreOptionNumbersOfRowsInSecton = 2;
+
 - (instancetype)init {
     if (self = [super init]) {
         UITapGestureRecognizer *singleTapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(singleTap:)];
         singleTapRecognizer.delegate = self;
         [self.articleDetail addGestureRecognizer:singleTapRecognizer];
-        self.articleDetail.tag = 222;
         NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
         if ([defaults integerForKey:@"articleFontSize"]) {
             self.fontSize = [defaults integerForKey:@"articleFontSize"];
@@ -51,7 +55,6 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    NSLog(@"viewWillAppear");
     [self.navigationController setToolbarHidden:NO animated:NO];
     [self setupToolBarItem];
     [self.navigationController setNavigationBarHidden:YES animated:YES];
@@ -93,7 +96,7 @@
 
 - (void)setupWebView {
     // 传入要显示的文章模型,设置webView内容显示高度/标题
-    self.articleDetail.scrollView.contentInset = UIEdgeInsetsMake(self.articleFrame.noImageViewCellHeight + 20, 0, -self.articleFrame.noImageViewCellHeight - 64, 0);
+    self.articleDetail.scrollView.contentInset = UIEdgeInsetsMake(155, 0, -135 - 64, 0);
     self.articleDetail.article = self.articleFrame.article;
     self.articleDetail.titleHeight = self.articleFrame.noImageViewCellHeight;
     // 这篇文章设置为已读, 同时更新数据库中文章的状态
@@ -117,7 +120,6 @@
 }
 
 - (void)showArticleDetail:(NSString *)str {
-    
     NSString *urlStr = [NSString stringWithFormat:@"http://jinri.info/index.php/DaiAppApi/showArticle/%@", str];
     NSURL *url = [NSURL URLWithString:urlStr];
     NSString *HTMLSource = [NSString stringWithContentsOfURL:url encoding:NSUTF8StringEncoding error:nil];
@@ -167,55 +169,54 @@
 }
 
 - (void)webViewDidStartLoad:(UIWebView *)webView {
-    if (webView.tag == 222) {
-        [MBProgressHUD showMessage:@"加载中..." toView:self.view];
-    }
+    [MBProgressHUD showMessage:@"加载中..." toView:self.view];
+    UIBarButtonItem *shareItem = self.toolbarItems[6];
+    shareItem.enabled = NO;
+
 }
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
+    UIBarButtonItem *shareItem = self.toolbarItems[6];
+    shareItem.enabled = YES;
     
-    if (webView.tag == 222) {
-        // 设置普通模式及夜间模式的正文颜色
-        NSString *fontColor = nil;
-        if ([DKNightVersionManager currentThemeVersion] == DKThemeVersionNight) {
-            fontColor = @"#828282";
-        } else {
-            fontColor = @"#000000";
-        }
-        
-        // 为html添加css样式,修改字体大小/字体等
-        [webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:
-                                                         @"var tagHead =document.documentElement.firstChild;"
-                                                         "var tagStyle = document.createElement(\"style\");"
-                                                         "tagStyle.setAttribute(\"type\", \"text/css\");"
-                                                         "tagStyle.appendChild(document.createTextNode(\"BODY{padding: 10pt 15pt}\"));"
-                                                         "tagStyle.appendChild(document.createTextNode(\"BODY{text-align: justify}\"));"
-                                                         "tagStyle.appendChild(document.createTextNode(\"BODY{background-color: transparent}\"));"
-                                                         "tagStyle.appendChild(document.createTextNode(\"BODY{word-break: break-all}\"));"
-                                                         "tagStyle.appendChild(document.createTextNode(\"BODY{font-family: SourceHanSansCN-Light; font-size: %ldpt; color: %@}\"));"
-                                                         "var tagHeadAdd = tagHead.appendChild(tagStyle);", (long)self.fontSize, fontColor]];
-        
-        // 据说能减轻 webView 的内存泄露 =,=
-        [[NSUserDefaults standardUserDefaults] setInteger:0 forKey:@"WebKitCacheModelPreferenceKey"];
-        [[NSUserDefaults standardUserDefaults] synchronize];
-        
-        // 文章加载之后, 获得文章的高度,再次传入 webView 来设置 buttonView 的位置
-        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
-        self.articleDetail.scrollView.contentInset = UIEdgeInsetsMake(self.articleFrame.noImageViewCellHeight + 20, 0, CLFArticleDetailButtomViewHeight, 0);
-        self.articleDetail.buttomHeight = self.articleDetail.scrollView.contentSize.height;
-        self.articleDetail.scrollView.hidden = NO;
+    // 设置普通模式及夜间模式的正文颜色
+    NSString *fontColor = nil;
+    if ([DKNightVersionManager currentThemeVersion] == DKThemeVersionNight) {
+        fontColor = @"#828282";
+    } else {
+        fontColor = @"#000000";
     }
+    
+    // 为html添加css样式,修改字体大小/字体等
+    [webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:
+                                                     @"var tagHead =document.documentElement.firstChild;"
+                                                     "var tagStyle = document.createElement(\"style\");"
+                                                     "tagStyle.setAttribute(\"type\", \"text/css\");"
+                                                     "tagStyle.appendChild(document.createTextNode(\"BODY{padding: 10pt 15pt}\"));"
+                                                     "tagStyle.appendChild(document.createTextNode(\"BODY{text-align: justify}\"));"
+                                                     "tagStyle.appendChild(document.createTextNode(\"BODY{background-color: transparent}\"));"
+                                                     "tagStyle.appendChild(document.createTextNode(\"BODY{word-break: break-all}\"));"
+                                                     "tagStyle.appendChild(document.createTextNode(\"BODY{font-family: SourceHanSansCN-Light; font-size: %ldpt; color: %@}\"));"
+                                                     "var tagHeadAdd = tagHead.appendChild(tagStyle);", (long)self.fontSize, fontColor]];
+    
+    // 据说能减轻 webView 的内存泄露 =,=
+    [[NSUserDefaults standardUserDefaults] setInteger:0 forKey:@"WebKitCacheModelPreferenceKey"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    
+    // 文章加载之后, 获得文章的高度,再次传入 webView 来设置 buttonView 的位置
+    [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+    self.articleDetail.scrollView.contentInset = UIEdgeInsetsMake(155, 0, CLFArticleDetailButtomViewHeight, 0);
+    self.articleDetail.buttomHeight = self.articleDetail.scrollView.contentSize.height;
+    self.articleDetail.scrollView.hidden = NO;
 }
 
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
-    if (webView.tag == 222) {
-        [MBProgressHUD hideHUDForView:self.view];
-        if (-999 != error.code) {    // error.code = -999 是操作未能完成导致的error.
-            [MBProgressHUD showError:@"网络错误" toView:self.view];
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(10 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                [MBProgressHUD hideHUDForView:self.view];
-            });
-        }
+    [MBProgressHUD hideHUDForView:self.view];
+    if (-999 != error.code) {    // error.code = -999 是操作未能完成导致的error.
+        [MBProgressHUD showError:@"网络错误" toView:self.view];
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(10 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [MBProgressHUD hideHUDForView:self.view];
+        });
     }
 }
 
@@ -289,11 +290,13 @@
 - (void)showShareView {
     UIImage *webpage = [self.articleDetail fullWebpageScreenshot];
     CLFArticle *article = self.articleFrame.article;
+    UIImageWriteToSavedPhotosAlbum(webpage, nil, nil, nil);
     
     NSString *wechatImagePath = [[NSBundle mainBundle] pathForResource:@"TechToday.png" ofType:nil];
 
     //构造分享内容
-    id<ISSContent> publishContent = [ShareSDK content:[NSString stringWithFormat:@"%@ http://jinri.info/index.php/DaiArticle/index/%@ 更多精彩请访问 jinri.info: http://jinri.info或前往App Store下载TechToday", article.title, article.articleID]
+    NSString *appid = @"1021176188";
+    id<ISSContent> publishContent = [ShareSDK content:[NSString stringWithFormat:@"%@ http://jinri.info/index.php/DaiArticle/index/%@ (更多精彩请访问 jinri.info: http://jinri.info或前往App Store下载TechToday:http://itunes.apple.com/cn/app/id%@?mt=8 )", article.title, article.articleID, appid]
                                        defaultContent:nil
                                                 image:[ShareSDK jpegImageWithImage:webpage quality:1.0]
                                                 title:@"TechToday"
@@ -310,7 +313,16 @@
                                          extInfo:nil
                                         fileData:nil
                                     emoticonData:nil];
-    NSLog(@"%@", [NSString stringWithFormat:@"http://jinri.info/index.php/DaiArticle/index/%@", article.articleID]);
+    
+    [publishContent addWeixinTimelineUnitWithType:INHERIT_VALUE
+                                          content:INHERIT_VALUE
+                                            title:article.title
+                                              url:[NSString stringWithFormat:@"http://jinri.info/index.php/DaiArticle/index/%@", article.articleID]
+                                            image:[ShareSDK imageWithPath:wechatImagePath]
+                                     musicFileUrl:nil
+                                          extInfo:nil
+                                         fileData:nil
+                                     emoticonData:nil];
     
     id<ISSAuthOptions> authOptions = [ShareSDK authOptionsWithAutoAuth:YES
                                                          allowCallback:NO
@@ -450,16 +462,16 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     if (1 == tableView.tag) {
-        return CLFMoreOptionListNumberOfSections;
+        return kmoreOptionListSectionNumber;
     }
-    return CLFFontListNumberOfSections;
+    return kfontListSectionNumber;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (1 == tableView.tag) {
-        return CLFMoreOptionListNumberOfRowsInSection;
+        return kmoreOptionNumbersOfRowsInSecton;
     }
-    return CLFFontListNumberOfRowsInSection;
+    return kfontListNumbersOfRowsInSection;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -522,9 +534,9 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (1 == tableView.tag) {
-        return CGRectGetHeight(self.moreOptionList.frame) / CLFMoreOptionListNumberOfRowsInSection;
+        return CGRectGetHeight(self.moreOptionList.frame) / kmoreOptionNumbersOfRowsInSecton;
     }
-    return CGRectGetHeight(self.fontList.frame) / CLFFontListNumberOfRowsInSection;
+    return CGRectGetHeight(self.fontList.frame) / kfontListNumbersOfRowsInSection;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {

@@ -84,7 +84,6 @@
 
 - (void)showNewArticleCount:(long)count {
     // set color in here to fix a bug of DKNightVersion: launch the app in Night Mode && noImage Mode, then turn to normal mode, the remindButton would get something wrong.
-    self.theNewArticleRemindButton.hidden = NO;
     self.theNewArticleRemindButton.backgroundColor = CLFRemindButtonBackgroundColor;
     self.theNewArticleRemindButton.nightBackgroundColor = CLFNightTextColor;
     [self.theNewArticleRemindButton setTitleColor:CLFUIMainColor forState:UIControlStateNormal];
@@ -160,7 +159,7 @@
     } else {
         URLAppendage = @"getArticle";
     }
-    
+    self.theNewArticleRemindButton.hidden = NO;
     [CLFArticleTool articleWithURLAppendage:URLAppendage params:params success:^(NSMutableArray *articleFrameArray) {
         if (self.articleFrames.count) {
             CLFArticleFrame *latestArticleFrame = articleFrameArray[0];
@@ -172,7 +171,7 @@
             NSString *currentLatestArticleID = currentLatestArticle.articleID;
             
             NSInteger newArticleCount = ([latestArticleID integerValue] - [currentLatestArticleID integerValue]);
-            
+
             [self showNewArticleCount:newArticleCount];
         }
         
@@ -195,7 +194,7 @@
     
     [CLFArticleTool articleWithURLAppendage:URLAppendage params:params success:^(NSMutableArray *articleFrameArray) {
         if (!articleFrameArray.count) {
-            [MBProgressHUD showError:@"没有更多文章了"];
+            [MBProgressHUD showText:@"已经看完今日所有文章" toView:nil];
         }
         [self.articleFrames addObjectsFromArray:articleFrameArray];
         
@@ -245,7 +244,7 @@
             self.articleDetailController.articleFrame = articleFrame;
         });
     } else if (self.articleFrames.count == self.firstDetailPage) {
-        [MBProgressHUD showError:@"已经看完所有文章"];
+        [MBProgressHUD showText:@"已经看完今日所有文章" toView:nil];
         self.firstDetailPage -= 1;
     } else {
         CLFArticleFrame *articleFrame = self.articleFrames[nextIndexPath.row];
@@ -297,7 +296,6 @@
     articleDetailController.articleFrame = articleFrame;
     articleDetailController.delegate = self;
     self.articleDetailController = articleDetailController;
-    NSLog(@"didSelect");
     [self.navigationController pushViewController:articleDetailController animated:YES];
 }
 

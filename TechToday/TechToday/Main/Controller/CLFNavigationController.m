@@ -226,13 +226,6 @@
     }
 }
 
-// TODO : 切换到登录页面
-//- (void)goToLoginController {
-//    CLFLoginController *login = [[CLFLoginController alloc] init];
-//    CLFNavigationController *nav = [[CLFNavigationController alloc] initWithRootViewController:login];
-//    [self presentViewController:nav animated:YES completion:nil];
-//}
-
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
 }

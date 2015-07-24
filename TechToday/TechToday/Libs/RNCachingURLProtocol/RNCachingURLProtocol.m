@@ -112,7 +112,7 @@ static NSSet *RNCachingSupportedSchemes;
 
 // customized by Gavin Cai
 - (void)startLoading {
-    // 不处理以下三种request
+    // 不处理以下三种 request
     BOOL getArticleRequest = [self.request.URL.absoluteString containsString:@"getArticle"];
     BOOL getMoreArticleRequest = [self.request.URL.absoluteString containsString:@"getMoreArticle"];
     BOOL shareSDKRequest = [self.request.URL.absoluteString containsString:@"mob.com"];

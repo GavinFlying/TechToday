@@ -143,7 +143,7 @@
             break;
         }
         case 4: {
-            NSString *appid = @"725296055";
+            NSString *appid = @"1021176188";
             NSString *str = [NSString stringWithFormat:@"itms-apps://itunes.apple.com/cn/app/id%@?mt=8", appid];
             NSURL *url = [NSURL URLWithString:str];
             [[UIApplication sharedApplication] openURL:url];
@@ -246,7 +246,7 @@
     dispatch_async(dispatch_get_main_queue(), ^{
         [mailPicker setSubject:@"TechToday意见反馈"];
         
-        NSArray *toRecipients = [NSArray arrayWithObject:@"gavinflying@126.com"];
+        NSArray *toRecipients = [NSArray arrayWithObject:@"TechToday_jinri@163.com"];
         [mailPicker setToRecipients:toRecipients];
         
         NSString *emailBody =@"请留下您的宝贵建议和意见：\n\n\n";
@@ -259,7 +259,7 @@
 }
 
 - (void)launchMailAppOnDevice {
-    NSString *recipients = @"mailto:gavinflying@126.com&subject=TechToday意见反馈";
+    NSString *recipients = @"mailto:TechToday_jinri@163.com&subject=TechToday意见反馈";
     NSString *body = @"&body=请留下您的宝贵建议和意见：\n\n\n";
     
     NSString *email = [NSString stringWithFormat:@"%@%@", recipients, body];

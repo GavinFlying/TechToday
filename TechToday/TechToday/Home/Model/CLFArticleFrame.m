@@ -17,6 +17,8 @@
  *  根据传入的 Article 计算两种cell中各个要素的frame
  */
 
+static const float kImageWidthToHeightRatio = 0.5;
+
 - (void)setArticle:(CLFArticle *)article {
     _article = article;
     
@@ -24,7 +26,7 @@
     
     // imageViewFrame
     CGFloat imageViewW = cellW;
-    CGFloat imageViewH = CLFImageWidthToHeightRatio * cellW;
+    CGFloat imageViewH = kImageWidthToHeightRatio * cellW;
     CGFloat imageViewX = CLFArticleCellInnerBorder;
     CGFloat imageViewY = CLFArticleCellInnerBorder;
     _imageViewFrame = CGRectMake(imageViewX, imageViewY, imageViewW, imageViewH);
