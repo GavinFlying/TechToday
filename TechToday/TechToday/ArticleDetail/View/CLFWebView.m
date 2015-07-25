@@ -54,10 +54,6 @@ static const CGFloat kSeperatorViewHeight = 4;
 - (void)setButtomHeight:(CGFloat)buttomHeight {
     _buttomHeight = buttomHeight;
     [self setupButtomViewSubviewsFrame:buttomHeight];
-    
-    NSLog(@"webView scrollViewFrame %@", NSStringFromCGRect(self.scrollView.frame));
-    NSLog(@"webView webViewFrame %@", NSStringFromCGRect(self.frame));
-    
 }
 
 #pragma mark - about titleView
@@ -166,13 +162,14 @@ static const CGFloat kSeperatorViewHeight = 4;
         [sourceSiteButton addTarget:self action:@selector(jumpToSourceSite) forControlEvents:UIControlEventTouchUpInside];
         [sourceSiteButton setTitle:@"查看原文" forState:UIControlStateNormal];
         [sourceSiteButton setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+        [sourceSiteButton setNightTitleColor:CLFNightTextColor];
         sourceSiteButton.titleLabel.font = [UIFont systemFontOfSize:14];
         
         CALayer *sourceSiteButtonLayer = [sourceSiteButton layer];
         [sourceSiteButtonLayer setMasksToBounds:YES];
         [sourceSiteButtonLayer setCornerRadius:5.0];
         [sourceSiteButtonLayer setBorderWidth:1.0];
-        [sourceSiteButtonLayer setBorderColor:[[UIColor grayColor] CGColor]];
+        [sourceSiteButtonLayer setBorderColor:[CLFNightTextColor CGColor]];
         
         [self.buttomView addSubview:sourceSiteButton];
         _sourceSiteButton = sourceSiteButton;

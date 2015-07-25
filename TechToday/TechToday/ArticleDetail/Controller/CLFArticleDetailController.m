@@ -63,7 +63,7 @@ static const NSInteger kmoreOptionNumbersOfRowsInSecton = 2;
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    [self setupWebView];
+    [self setupWebViewWithMark:1];
 }
 
 - (void)viewDidLoad {
@@ -98,11 +98,11 @@ static const NSInteger kmoreOptionNumbersOfRowsInSecton = 2;
     return _articleDetail;
 }
 
-- (void)setupWebView {
+- (void)setupWebViewWithMark:(NSInteger)mark {
     // 传入要显示的文章模型,设置webView的内容
     
-    // 避免重复加载
-    if (self.articleDetail.article == self.articleFrame.article) {
+    // 点击 next 的话， 会从外面传入一个新的 frame 进来，如果这个 frame 和已经有的 article 一样，就返回，避免重复加载
+    if (self.articleDetail.article == self.articleFrame.article && !mark) {
         return;
     }
     
@@ -195,7 +195,7 @@ static const NSInteger kmoreOptionNumbersOfRowsInSecton = 2;
     // 设置普通模式及夜间模式的正文颜色
     NSString *fontColor = nil;
     if ([DKNightVersionManager currentThemeVersion] == DKThemeVersionNight) {
-        fontColor = @"#828282";
+        fontColor = @"#414141";
     } else {
         fontColor = @"#000000";
     }
@@ -221,9 +221,6 @@ static const NSInteger kmoreOptionNumbersOfRowsInSecton = 2;
     self.articleDetail.scrollView.contentInset = UIEdgeInsetsMake(155, 0, CLFArticleDetailButtomViewHeight, 0);
     self.articleDetail.buttomHeight = self.articleDetail.scrollView.contentSize.height;
     
-    NSLog(@"articleDetail scrollViewContentSize %@", NSStringFromCGSize(self.articleDetail.scrollView.contentSize));
-    NSLog(@"articleDetail scrollViewContentOffset %@", NSStringFromCGPoint(self.articleDetail.scrollView.contentOffset));
-    NSLog(@"articleDetail scrollViewCOntentInset %@", NSStringFromUIEdgeInsets(self.articleDetail.scrollView.contentInset));
     self.articleDetail.scrollView.hidden = NO;
 }
 
@@ -299,7 +296,7 @@ static const NSInteger kmoreOptionNumbersOfRowsInSecton = 2;
     [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
     if ([self.delegate respondsToSelector:@selector(articleDetailSwitchToNextArticleFromCurrentArticle)]) {
         [self.delegate articleDetailSwitchToNextArticleFromCurrentArticle];
-        [self setupWebView];
+        [self setupWebViewWithMark:0];
     }
 
 }
@@ -311,7 +308,6 @@ static const NSInteger kmoreOptionNumbersOfRowsInSecton = 2;
 - (void)showShareView {
     UIImage *webpage = [self.articleDetail fullWebpageScreenshot];
     CLFArticle *article = self.articleFrame.article;
-    
     NSString *wechatImagePath = [[NSBundle mainBundle] pathForResource:@"TechToday.png" ofType:nil];
 
     //构造分享内容
@@ -594,7 +590,7 @@ static const NSInteger kmoreOptionNumbersOfRowsInSecton = 2;
                 break;
             }
         }
-        self.articleFrame = self.articleFrame; // 重新传入 articleFrame 达到刷新的目的
+        [self setupWebViewWithMark:1]; // 刷新
         
         // 将选择的字号归档
         NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];

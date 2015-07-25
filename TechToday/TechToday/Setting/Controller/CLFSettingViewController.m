@@ -246,7 +246,7 @@
     dispatch_async(dispatch_get_main_queue(), ^{
         [mailPicker setSubject:@"TechToday意见反馈"];
         
-        NSArray *toRecipients = [NSArray arrayWithObject:@"TechToday_jinri@163.com"];
+        NSArray *toRecipients = [NSArray arrayWithObject:@"techtoday@yeah.net"];
         [mailPicker setToRecipients:toRecipients];
         
         NSString *emailBody =@"请留下您的宝贵建议和意见：\n\n\n";
@@ -259,8 +259,8 @@
 }
 
 - (void)launchMailAppOnDevice {
-    NSString *recipients = @"mailto:TechToday_jinri@163.com&subject=TechToday意见反馈";
-    NSString *body = @"&body=请留下您的宝贵建议和意见：\n\n\n";
+    NSString *recipients = @"mailto:techtoday@yeah.net?&Subject=TechToday意见反馈";
+    NSString *body = @"&Body=请留下您的宝贵建议和意见：\n\n\n";
     
     NSString *email = [NSString stringWithFormat:@"%@%@", recipients, body];
     email = [email stringByAddingPercentEscapesUsingEncoding: NSUTF8StringEncoding];
