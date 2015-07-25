@@ -312,8 +312,6 @@ static const NSInteger kmoreOptionNumbersOfRowsInSecton = 2;
     UIImage *webpage = [self.articleDetail fullWebpageScreenshot];
     CLFArticle *article = self.articleFrame.article;
     
-    UIImageWriteToSavedPhotosAlbum(webpage, nil, nil, nil);
-    
     NSString *wechatImagePath = [[NSBundle mainBundle] pathForResource:@"TechToday.png" ofType:nil];
 
     //构造分享内容
