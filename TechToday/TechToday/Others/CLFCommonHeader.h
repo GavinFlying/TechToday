@@ -20,8 +20,7 @@
 #define CLFRemindButtonBackgroundColor [UIColor colorWithRed:240 / 255.0 green:240 / 255.0 blue:255 / 255.0 alpha:1.0]
 #define CLFHomeViewBackgroundColor [UIColor colorWithRed:226 / 255.0 green:226 / 255.0 blue:236 / 255.0 alpha:1.0]
 
-//#define CLFArticleTitleViewHeight (120)
-
+#define CLFArticleTitleViewHeight (135)
 #define CLFArticleDetailButtomViewHeight (120)
 
 #define CLFArticleTitleFont [UIFont fontWithName:@"SourceHanSansCN-Normal" size:21]

@@ -28,6 +28,7 @@
 #import "RNCachingURLProtocol.h"
 #import "CLFReachability.h"
 #import <CommonCrypto/CommonDigest.h>
+#import "MBProgressHUD+MJ.h"
 
 #define WORKAROUND_MUTABLE_COPY_LEAK 1
 
@@ -127,6 +128,7 @@ static NSSet *RNCachingSupportedSchemes;
 #endif
     // we need to mark this request with our header so we know not to handle it in +[NSURLProtocol canInitWithRequest:].
         [connectionRequest setValue:@"" forHTTPHeaderField:RNCachingURLHeader];
+
         NSURLConnection *connection = [NSURLConnection connectionWithRequest:connectionRequest
                                                                 delegate:self];
         [self setConnection:connection];
@@ -164,8 +166,8 @@ static NSSet *RNCachingSupportedSchemes;
     // which we marked with our header, and the redirectableRequest, which we're modifying here.
     // The redirectable request will cause a new outside request from the NSURLProtocolClient, which 
     // must not be marked with our header.
+    
     [redirectableRequest setValue:nil forHTTPHeaderField:RNCachingURLHeader];
-
     NSString *cachePath = [self cachePathForRequest:[self request]];
     RNCachedData *cache = [RNCachedData new];
     [cache setResponse:response];
@@ -284,7 +286,7 @@ static NSString *const kRedirectRequestKey = @"redirectRequest";
 - (id) mutableCopyWorkaround {
     NSMutableURLRequest *mutableURLRequest = [[NSMutableURLRequest alloc] initWithURL:[self URL]
                                                                           cachePolicy:[self cachePolicy]
-                                                                      timeoutInterval:[self timeoutInterval]];
+                                                                      timeoutInterval:20.0f];
     [mutableURLRequest setAllHTTPHeaderFields:[self allHTTPHeaderFields]];
     if ([self HTTPBodyStream]) {
         [mutableURLRequest setHTTPBodyStream:[self HTTPBodyStream]];

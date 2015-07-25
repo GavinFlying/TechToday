@@ -17,7 +17,7 @@
  *  根据传入的 Article 计算两种cell中各个要素的frame
  */
 
-static const float kImageWidthToHeightRatio = 0.5;
+static const float kImageWidthToHeightRatio = 0.5f;
 
 - (void)setArticle:(CLFArticle *)article {
     _article = article;

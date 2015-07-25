@@ -11,5 +11,6 @@
 @interface UIWebView (CLF)
 
 - (UIImage *)fullWebpageScreenshot;
+- (UIImage *)mergeImage1:(UIImage *)image1 withImage2:(UIImage *)image2;
 
 @end

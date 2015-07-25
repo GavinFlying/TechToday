@@ -31,7 +31,7 @@
 // 新文章数提示栏
 @property (weak, nonatomic)             UIButton                       *theNewArticleRemindButton;
 // 从哪篇文章进入详情页的 用于详情页内部切换文章功能的实现
-@property (assign, nonatomic)           NSInteger                      firstDetailPage;
+@property (assign, nonatomic)           NSInteger                      currentDetailPage;
 // 文章详情页控制器
 @property (weak, nonatomic)             CLFArticleDetailController     *articleDetailController;
 
@@ -181,7 +181,7 @@
             
         [self.tableView.header endRefreshing];
     } failure:^(NSError *error) {
-        [MBProgressHUD showError:@"网络连接异常" toView:self.navigationController.view];
+        [MBProgressHUD showError:@"网络错误" toView:self.navigationController.view];
         [self.tableView.header endRefreshing];
 
     }];
@@ -194,7 +194,7 @@
     
     [CLFArticleTool articleWithURLAppendage:URLAppendage params:params success:^(NSMutableArray *articleFrameArray) {
         if (!articleFrameArray.count) {
-            [MBProgressHUD showText:@"已经看完今日所有文章" toView:nil];
+            [MBProgressHUD showText:@"已经看完当前所有文章" toView:nil];
         }
         [self.articleFrames addObjectsFromArray:articleFrameArray];
         
@@ -202,7 +202,7 @@
         
         [self.tableView.footer endRefreshing];
     } failure:^(NSError *error) {
-        [MBProgressHUD showError:@"网络连接异常" toView:self.navigationController.view];
+        [MBProgressHUD showError:@"网络错误" toView:self.navigationController.view];
         [self.tableView.footer endRefreshing];
     }];
 }
@@ -230,11 +230,11 @@
 }
 
 - (void)articleDetailSwitchToNextArticleFromCurrentArticle {
-    self.firstDetailPage += 1;
+    self.currentDetailPage += 1;
     
-    NSIndexPath *nextIndexPath = [NSIndexPath indexPathForRow:self.firstDetailPage inSection:0];
-    
-    if (self.articleFrames.count - 1 == self.firstDetailPage) {
+    NSIndexPath *nextIndexPath = [NSIndexPath indexPathForRow:self.currentDetailPage inSection:0];
+    // 在当前 articleFrames 队列中文章快要被看完时，在后台加载新文章
+    if (self.articleFrames.count - 1 == self.currentDetailPage) {
         dispatch_queue_t queue = dispatch_queue_create("loadThread", DISPATCH_QUEUE_CONCURRENT);
         dispatch_sync(queue, ^{
             [self loadMoreData];
@@ -243,9 +243,9 @@
             CLFArticleFrame *articleFrame = self.articleFrames[nextIndexPath.row];
             self.articleDetailController.articleFrame = articleFrame;
         });
-    } else if (self.articleFrames.count == self.firstDetailPage) {
-        [MBProgressHUD showText:@"已经看完今日所有文章" toView:nil];
-        self.firstDetailPage -= 1;
+    } else if (self.articleFrames.count == self.currentDetailPage) {
+        [MBProgressHUD showText:@"已经看完当前所有文章" toView:nil];
+        self.currentDetailPage -= 1;
     } else {
         CLFArticleFrame *articleFrame = self.articleFrames[nextIndexPath.row];
         self.articleDetailController.articleFrame = articleFrame;
@@ -289,7 +289,7 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    self.firstDetailPage = indexPath.row;
+    self.currentDetailPage = indexPath.row;
     self.theNewArticleRemindButton.hidden = YES;
     CLFArticleFrame *articleFrame = self.articleFrames[indexPath.row];
     CLFArticleDetailController *articleDetailController = [[CLFArticleDetailController alloc] init];

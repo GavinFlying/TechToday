@@ -66,6 +66,7 @@
 }
 
 + (MBProgressHUD *)showMessage:(NSString *)message {
+    NSLog(@"showMessage");
     return [self showMessage:message toView:nil];
 }
 

@@ -115,7 +115,7 @@ static id _authOptions;
     [cancelBtn addTarget:self action:@selector(shareBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
     [shareView addSubview:cancelBtn];
     
-    shareView.transform = CGAffineTransformMakeScale(1/300.0f, 1/270.0f);
+    shareView.transform = CGAffineTransformMakeScale(1 / 300.0f, 1 / 270.0f);
     shadowView.alpha = 0;
     [UIView animateWithDuration:0.2f animations:^{
         shareView.transform = CGAffineTransformMakeScale(1, 1);

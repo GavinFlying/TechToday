@@ -31,6 +31,7 @@
 
 @implementation CLFWebView
 
+static const CGFloat kSeperatorViewHeight = 4;
 
 - (instancetype)init {
     if (self = [super init]) {
@@ -40,12 +41,8 @@
 }
 
 /**
- *  每次传入一个新的 titleHeight 及 buttomHeight 时代表以及切换到新的文章,重置 titleView 及 buttomView
+ *  每次传入一个新的 article 及 buttomHeight 时代表以及切换到新的文章,重置 titleView 及 buttomView
  */
-//- (void)setTitleHeight:(CGFloat)titleHeight {
-//    _titleHeight = titleHeight;
-//
-//}
 
 - (void)setArticle:(CLFArticle *)article {
     _article = article;
@@ -57,6 +54,10 @@
 - (void)setButtomHeight:(CGFloat)buttomHeight {
     _buttomHeight = buttomHeight;
     [self setupButtomViewSubviewsFrame:buttomHeight];
+    
+    NSLog(@"webView scrollViewFrame %@", NSStringFromCGRect(self.scrollView.frame));
+    NSLog(@"webView webViewFrame %@", NSStringFromCGRect(self.frame));
+    
 }
 
 #pragma mark - about titleView
@@ -111,7 +112,7 @@
     CGFloat titleViewW = CGRectGetWidth(self.scrollView.frame);
     CGFloat titleViewContentW = titleViewW - 2 * (CLFArticleCellInnerBorder + CLFArticleCellToBorderMargin);
     
-    self.titleView.frame = CGRectMake(0, - 135, titleViewW, 135);
+    self.titleView.frame = CGRectMake(0, - CLFArticleTitleViewHeight, titleViewW, CLFArticleTitleViewHeight);
     self.titleView.backgroundColor = self.titleStyle ? CLFUIMainColor : [UIColor whiteColor];
     self.titleView.nightBackgroundColor = self.titleStyle ? CLFNightBarColor : CLFNightViewColor;
     
@@ -128,7 +129,7 @@
     CGSize sourceLabelSize = [NSString sizeOfText:self.sourceLabel.text maxSize:CGSizeMake(titleViewContentW, 30) font:CLFArticleDetailSourceFont];
     
     CGFloat titleLabelX = CLFArticleCellToBorderMargin + CLFArticleCellInnerBorder;
-    CGFloat titleLabelY = ((135 - 4) - (titleLabelSize.height + sourceLabelSize.height + CLFArticleCellInnerBorder)) * 0.5;
+    CGFloat titleLabelY = ((CLFArticleTitleViewHeight - kSeperatorViewHeight) - (titleLabelSize.height + sourceLabelSize.height + CLFArticleCellInnerBorder)) * 0.5;
     self.titleLabel.frame = (CGRect){{titleLabelX, titleLabelY}, titleLabelSize};
     
     CGFloat sourceLabelX = titleLabelX;
@@ -137,9 +138,9 @@
     
     // separatorView
     CGFloat separatorViewX = titleLabelX;
-    CGFloat separatorViewY = CGRectGetHeight(self.titleView.frame) - 4;
+    CGFloat separatorViewY = CGRectGetHeight(self.titleView.frame) - kSeperatorViewHeight;
     CGFloat separatorViewW = titleViewContentW;
-    CGFloat separatorViewH = 4;
+    CGFloat separatorViewH = kSeperatorViewHeight;
     
     self.separatorView.frame = CGRectMake(separatorViewX, separatorViewY, separatorViewW, separatorViewH);
 }

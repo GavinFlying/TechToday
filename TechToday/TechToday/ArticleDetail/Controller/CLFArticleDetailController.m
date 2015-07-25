@@ -61,6 +61,11 @@ static const NSInteger kmoreOptionNumbersOfRowsInSecton = 2;
     self.view.backgroundColor = [UIColor whiteColor];
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    [self setupWebView];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
 }
@@ -73,7 +78,6 @@ static const NSInteger kmoreOptionNumbersOfRowsInSecton = 2;
 - (void)setArticleFrame:(CLFArticleFrame *)articleFrame {
     _articleFrame = articleFrame;
     self.articleDetail.scrollView.hidden = YES;
-    [self setupWebView];
 }
 
 - (CLFWebView *)articleDetail {
@@ -95,17 +99,28 @@ static const NSInteger kmoreOptionNumbersOfRowsInSecton = 2;
 }
 
 - (void)setupWebView {
-    // 传入要显示的文章模型,设置webView内容显示高度/标题
-    self.articleDetail.scrollView.contentInset = UIEdgeInsetsMake(155, 0, -135 - 64, 0);
-    self.articleDetail.article = self.articleFrame.article;
-    self.articleDetail.titleHeight = self.articleFrame.noImageViewCellHeight;
-    // 这篇文章设置为已读, 同时更新数据库中文章的状态
-    CLFArticle *article = self.articleFrame.article;
-    article.read = YES;
-    [CLFArticleCacheTool addArticle:article];
+    // 传入要显示的文章模型,设置webView的内容
     
+    // 避免重复加载
+    if (self.articleDetail.article == self.articleFrame.article) {
+        return;
+    }
+    
+    self.articleDetail.scrollView.contentInset = UIEdgeInsetsMake(20 + CLFArticleTitleViewHeight, 0, -CLFArticleTitleViewHeight - 64, 0);
+    self.articleDetail.article = self.articleFrame.article;
+    // 这篇文章设置为已读, 同时更新数据库中文章的状态
+    
+    CLFArticle *article = self.articleFrame.article;
     // 根据文章ID来显示文章正文
-    [self showArticleDetail:article.articleID];
+    self.preloadWebView.alpha = 0.5;
+    [MBProgressHUD showMessage:@"加载中..." toView:self.view];
+    UIBarButtonItem *shareItem = self.toolbarItems[6];
+    shareItem.enabled = NO;
+    
+    dispatch_queue_t q = dispatch_queue_create("loadPage", DISPATCH_QUEUE_SERIAL);
+    dispatch_async(q, ^{
+        [self showArticleDetail:article.articleID]; // stringWithContentOfURL:encoding:error: is a blocking call
+    });
 }
 
 
@@ -123,7 +138,6 @@ static const NSInteger kmoreOptionNumbersOfRowsInSecton = 2;
     NSString *urlStr = [NSString stringWithFormat:@"http://jinri.info/index.php/DaiAppApi/showArticle/%@", str];
     NSURL *url = [NSURL URLWithString:urlStr];
     NSString *HTMLSource = [NSString stringWithContentsOfURL:url encoding:NSUTF8StringEncoding error:nil];
-    
     // 如果是无图模式且已经有页面数据,则获取 html 源码,通过正则表达式去除p/br之外的标签,再通过 webView 显示; 否则去除img/p/br之外的标签显示
     if (HTMLSource) {
         if ([CLFAppDelegate globalDelegate].isNoImageModeOn) {
@@ -143,7 +157,6 @@ static const NSInteger kmoreOptionNumbersOfRowsInSecton = 2;
             [preloadRequest setURL:preloadURL];
             [preloadRequest setTimeoutInterval:15.0f];
             
-            self.preloadWebView.alpha = 0.5;
             dispatch_queue_t q = dispatch_queue_create("preload", DISPATCH_QUEUE_SERIAL);
             dispatch_async(q, ^{
                 [self.preloadWebView loadRequest:preloadRequest];
@@ -169,15 +182,15 @@ static const NSInteger kmoreOptionNumbersOfRowsInSecton = 2;
 }
 
 - (void)webViewDidStartLoad:(UIWebView *)webView {
-    [MBProgressHUD showMessage:@"加载中..." toView:self.view];
-    UIBarButtonItem *shareItem = self.toolbarItems[6];
-    shareItem.enabled = NO;
-
 }
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
     UIBarButtonItem *shareItem = self.toolbarItems[6];
     shareItem.enabled = YES;
+    
+    CLFArticle *article = self.articleFrame.article;
+    article.read = YES;
+    [CLFArticleCacheTool addArticle:article];
     
     // 设置普通模式及夜间模式的正文颜色
     NSString *fontColor = nil;
@@ -207,15 +220,19 @@ static const NSInteger kmoreOptionNumbersOfRowsInSecton = 2;
     [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
     self.articleDetail.scrollView.contentInset = UIEdgeInsetsMake(155, 0, CLFArticleDetailButtomViewHeight, 0);
     self.articleDetail.buttomHeight = self.articleDetail.scrollView.contentSize.height;
+    
+    NSLog(@"articleDetail scrollViewContentSize %@", NSStringFromCGSize(self.articleDetail.scrollView.contentSize));
+    NSLog(@"articleDetail scrollViewContentOffset %@", NSStringFromCGPoint(self.articleDetail.scrollView.contentOffset));
+    NSLog(@"articleDetail scrollViewCOntentInset %@", NSStringFromUIEdgeInsets(self.articleDetail.scrollView.contentInset));
     self.articleDetail.scrollView.hidden = NO;
 }
 
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
-    [MBProgressHUD hideHUDForView:self.view];
+    [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
     if (-999 != error.code) {    // error.code = -999 是操作未能完成导致的error.
         [MBProgressHUD showError:@"网络错误" toView:self.view];
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(10 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            [MBProgressHUD hideHUDForView:self.view];
+            [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
         });
     }
 }
@@ -278,9 +295,13 @@ static const NSInteger kmoreOptionNumbersOfRowsInSecton = 2;
 }
 
 - (void)switchToNextArticle {
+    [self.articleDetail stopLoading];
+    [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
     if ([self.delegate respondsToSelector:@selector(articleDetailSwitchToNextArticleFromCurrentArticle)]) {
         [self.delegate articleDetailSwitchToNextArticleFromCurrentArticle];
+        [self setupWebView];
     }
+
 }
 
 - (void)showMoreOptions {
@@ -290,6 +311,7 @@ static const NSInteger kmoreOptionNumbersOfRowsInSecton = 2;
 - (void)showShareView {
     UIImage *webpage = [self.articleDetail fullWebpageScreenshot];
     CLFArticle *article = self.articleFrame.article;
+    
     UIImageWriteToSavedPhotosAlbum(webpage, nil, nil, nil);
     
     NSString *wechatImagePath = [[NSBundle mainBundle] pathForResource:@"TechToday.png" ofType:nil];
@@ -423,7 +445,7 @@ static const NSInteger kmoreOptionNumbersOfRowsInSecton = 2;
 }
 
 - (void)scrollToTop {
-    [self.articleDetail.scrollView setContentOffset:CGPointMake(0, - self.articleFrame.noImageViewCellHeight - 20) animated:NO];
+    [self.articleDetail.scrollView setContentOffset:CGPointMake(0, -CLFArticleTitleViewHeight - 20) animated:NO];
 }
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
