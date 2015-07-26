@@ -274,7 +274,7 @@
     JVFloatingDrawerViewController *draw = [CLFAppDelegate globalDelegate].drawerViewController;
     switch (result) {
         case MFMailComposeResultCancelled: {
-            [MBProgressHUD showError:@"邮件发送取消" toView:draw.view];
+            [MBProgressHUD showText:@"邮件发送取消" toView:draw.view];
             break;
         }
         case MFMailComposeResultSaved: {

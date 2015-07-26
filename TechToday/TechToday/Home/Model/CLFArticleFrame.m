@@ -42,7 +42,7 @@ static const float kImageWidthToHeightRatio = 0.5f;
     // sourceLabelFrame
     CGFloat sourceLabelX = titleLabelX;
     CGFloat sourceLabelY = CGRectGetMaxY(_titleLabelFrame) + CLFArticleCellInnerBorder;
-//    CGFloat noImageSourceLabelY = CGRectGetMaxY(_noImageViewTitleLabelFrame) + CLFArticleCellInnerBorder;
+    // 68.6是两行文字的高度
     CGFloat noImageSourceLabelY = CGRectGetMaxY(_noImageViewTitleLabelFrame) < 68.6 ?  (68.6 + CLFArticleCellInnerBorder) : (CGRectGetMaxY(_noImageViewTitleLabelFrame) + CLFArticleCellInnerBorder);
     CGSize sourceLabelSize = [NSString sizeOfText:article.source maxSize:CGSizeMake(0.3 * cellW, 20) font:CLFArticleOtherFont];
     

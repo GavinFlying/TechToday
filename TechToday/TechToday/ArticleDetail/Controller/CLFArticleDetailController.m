@@ -102,6 +102,7 @@ static const NSInteger kmoreOptionNumbersOfRowsInSecton = 2;
     // 传入要显示的文章模型,设置webView的内容
     
     // 点击 next 的话， 会从外面传入一个新的 frame 进来，如果这个 frame 和已经有的 article 一样，就返回，避免重复加载
+    // mark 用于区分是来自 next 的调用还是其他地方的调用
     if (self.articleDetail.article == self.articleFrame.article && !mark) {
         return;
     }
@@ -227,10 +228,11 @@ static const NSInteger kmoreOptionNumbersOfRowsInSecton = 2;
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
     [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
     if (-999 != error.code) {    // error.code = -999 是操作未能完成导致的error.
-        [MBProgressHUD showError:@"网络错误" toView:self.view];
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(10 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
-        });
+        if (101 == error.code) {
+            [MBProgressHUD showError:@"请求超时" toView:self.view];
+        } else {
+            [MBProgressHUD showError:@"网络错误" toView:self.view];
+        }
     }
 }
 

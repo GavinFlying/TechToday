@@ -78,7 +78,7 @@
     return _appIconView;
 }
 
-- (void)setupAppIconView {
+- (void)setupAppIconView{
     self.appIconView.backgroundColor = [UIColor whiteColor];
     
     UILabel *sloganLabel = [[UILabel alloc] init];
