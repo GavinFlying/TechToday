@@ -310,6 +310,7 @@ static const NSInteger kmoreOptionNumbersOfRowsInSecton = 2;
 - (void)showShareView {
     UIImage *webpage = [self.articleDetail fullWebpageScreenshot];
     CLFArticle *article = self.articleFrame.article;
+    
     NSString *wechatImagePath = [[NSBundle mainBundle] pathForResource:@"TechToday.png" ofType:nil];
 
     //构造分享内容

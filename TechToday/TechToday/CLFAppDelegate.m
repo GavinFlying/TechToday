@@ -57,7 +57,7 @@
     [self configureDrawerViewController];
     [self.window makeKeyAndVisible];
     
-    [NSURLProtocol registerClass:[RNCachingURLProtocol class]];
+//    [NSURLProtocol registerClass:[RNCachingURLProtocol class]];
     
     // 统计应用打开次数
     [self appLaunchTimes];

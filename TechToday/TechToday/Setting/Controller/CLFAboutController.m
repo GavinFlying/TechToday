@@ -195,7 +195,7 @@
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
     NSString *fontColor = nil;
     if ([DKNightVersionManager currentThemeVersion] == DKThemeVersionNight) {
-        fontColor = @"#828282";
+        fontColor = @"#414141";
     } else {
         fontColor = @"#000000";
     }

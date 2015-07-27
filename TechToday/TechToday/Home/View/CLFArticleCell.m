@@ -34,8 +34,6 @@
     CLFArticleCell *cell = [tableView dequeueReusableCellWithIdentifier:ID];
     if (nil == cell) {
         cell = [[CLFArticleCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:ID];
-        cell.selectedBackgroundView = [[UIView alloc] initWithFrame:cell.frame];
-        cell.selectedBackgroundView.backgroundColor = CLFRemindButtonBackgroundColor;
     }
     return cell;
 }

@@ -33,8 +33,6 @@
     CLFArticleNoImageCell *cell = [tableView dequeueReusableCellWithIdentifier:ID];
     if (nil == cell) {
         cell = [[CLFArticleNoImageCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:ID];
-        cell.selectedBackgroundView = [[UIView alloc] initWithFrame:cell.frame];
-        cell.selectedBackgroundView.backgroundColor = CLFRemindButtonBackgroundColor;
     }
     return cell;
 }
@@ -45,6 +43,9 @@
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
+        self.selectedBackgroundView = [[UIView alloc] initWithFrame:self.frame];
+        self.selectedBackgroundView.backgroundColor = CLFRemindButtonBackgroundColor;
+        
         UILabel *titleLabel = [[UILabel alloc] init];
         [self.contentView addSubview:titleLabel];
         self.titleLabel = titleLabel;
