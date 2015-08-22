@@ -168,7 +168,7 @@ static CGAffineTransform sideViewInitialTransform;
                 completion();
             }];
         } else {
-            [UIView animateWithDuration:0.25f animations:^{
+            [UIView animateWithDuration:0.25 animations:^{
                 centerView.transform = centerViewInitialTransform;
                 sideView.transform = sideViewInitialTransform;
             }];

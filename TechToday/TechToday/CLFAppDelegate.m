@@ -201,7 +201,7 @@
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {
-    [self appLaunchTimes];
+    [self appLaunchTimes]; // 从后台进入前台
 }
 
 #pragma mark - others
